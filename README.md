@@ -1,36 +1,143 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Overview
+
+BloomBear is a sophisticated online flower delivery service based in Berlin, Germany. The platform offers a wide selection of beautiful bouquets and floral arrangements for all occasions with fast and reliable delivery.
+
+![BloomBear Logo](/public/logo.svg)
+
+## Showcase
+
+### Hero section
+![Screenshot_20250322_233142](https://github.com/user-attachments/assets/6db9da16-737f-4abf-8ac9-a3d51af36dd0)
+
+### Popular bouquets section
+![Screenshot_20250322_233157](https://github.com/user-attachments/assets/d41c2fc1-5e16-446d-be31-727513de66eb)
+
+### Catalog page
+![Screenshot_20250322_233214](https://github.com/user-attachments/assets/eb576ba0-dc0a-4404-8fac-66d526b71f43)
+
+### Cart Sheet
+![Screenshot_20250322_233221](https://github.com/user-attachments/assets/fb04982f-a0ba-47cc-a10c-7c87aa001830)
+
+### About us Page
+![Screenshot_20250322_233254](https://github.com/user-attachments/assets/b02e2538-ddb1-4f17-ac06-efc576a0b000)
+
+### Checkout page
+![Screenshot_20250322_233317](https://github.com/user-attachments/assets/f73a10a7-203c-48db-b4dd-3b624e37adb6)
+
+## Features
+
+- **Comprehensive Catalog**: Browse through a diverse range of bouquets categorized by type and occasion
+- **Smart Filtering**: Filter products by category, occasion, price range, and more
+- **User-Friendly Cart System**: Easily add products to cart, manage quantities, and checkout
+- **Favorites**: Save your favorite products for future reference
+- **Responsive Design**: Optimized for all devices, from desktop to mobile
+- **Dark/Light Theme**: Choose your preferred theme for a comfortable browsing experience
+- **Detailed Product Information**: Each product includes high-quality images, descriptions, and pricing
+- **Search Functionality**: Quickly find specific products with our powerful search feature
+- **Secure Checkout Process**: Simple, intuitive checkout with multiple payment options
+
+## Tech Stack
+
+- **Frontend**: 
+  - Next.js 15
+  - React 19
+  - TypeScript
+  - Tailwind 4
+  - Radix UI
+  - Zustand for state management
+  - Zod for form validation
+  - shadcn components
+
+- **Backend**:
+  - Prisma ORM
+  - PostgreSQL database
+  - Next.js Server Actions
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Node Or Bun
+- PostgreSQL database
+- npm or yarn or pnpm or bun
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Installation
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Leytox/bloombear.git
+   cd bloombear
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. Install dependencies:
+   ```bash
+   npm install
+   # or
+   yarn install
+   # or
+   pnpm install
+   # or
+   bun install
+   ```
 
-## Learn More
+3. Set up environment variables:
+   Create a `.env` file in the root directory with the following variables:
+   ```
+   DATABASE_URL="postgresql://username:password@localhost:5432/bloombear"
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+4. Set up the database:
+   ```bash
+   npx prisma migrate dev
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+5. Seed the database (if available):
+   ```bash
+   npx prisma db seed
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+6. Start the development server:
+   ```bash
+   npm run dev
+   ```
 
-## Deploy on Vercel
+7. Open [http://localhost:3000](http://localhost:3000) in your browser to see the application.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Project Structure
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **`/app`**: Next.js application routes and page components
+- **`/components`**: Reusable React components
+- **`/constants`**: Application constants and static data
+- **`/lib`**: Utility functions and shared code
+- **`/prisma`**: Database schema and migrations
+- **`/public`**: Static assets (images, icons, etc.)
+- **`/store`**: Zustand stores for global state management
+- **`/types`**: TypeScript type definitions
+- **`/actions`**: Server actions for database operations
+
+## Key Pages
+
+- **Home**: Showcases featured bouquets, popular categories, and special offers
+- **Catalog**: Browse the full product range with filtering options
+- **Product Detail**: View detailed product information and add to cart
+- **Checkout**: Complete your purchase with address and payment information
+- **Help Section**: Access information about delivery, payment methods, contacts, and more
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgments
+
+- Flower images from [Unsplash](https://unsplash.com)
+- Icons from [Lucide Icons](https://lucide.dev)
