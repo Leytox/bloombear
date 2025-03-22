@@ -1,31 +1,32 @@
 import { Card } from "./ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function FlowerCardSkeleton() {
   return (
-    <Card className="relative flex flex-col h-full pt-0 animate-pulse">
+    <Card className="relative flex flex-col h-full pt-0">
       {/* Image placeholder */}
-      <div className="relative w-full pt-[100%] mb-4 bg-muted rounded-t-lg" />
+      <Skeleton className="relative w-full pt-[100%] mb-4 rounded-t-lg" />
 
       <div className="px-4 flex-grow">
         {/* Rating placeholder */}
         <div className="flex items-center mb-2 mt-6">
           <div className="flex gap-1">
             {[...Array(5)].map((_, i) => (
-              <div key={i} className="w-4 h-4 rounded-full bg-muted" />
+              <Skeleton key={i} className="w-4 h-4 rounded-full" />
             ))}
           </div>
-          <div className="w-10 h-3 bg-muted rounded ml-2" />
+          <Skeleton className="w-10 h-3 rounded ml-2" />
         </div>
 
         {/* Title placeholder */}
-        <div className="h-5 bg-muted rounded w-3/4 mb-2"></div>
-        <div className="h-5 bg-muted rounded w-1/2 mb-4"></div>
+        <Skeleton className="h-5 rounded w-3/4 mb-2" />
+        <Skeleton className="h-5 rounded w-1/2 mb-4" />
 
         {/* Description placeholder */}
         <div className="space-y-2 mt-1 mb-4">
-          <div className="h-3 bg-muted rounded w-full"></div>
-          <div className="h-3 bg-muted rounded w-5/6"></div>
-          <div className="h-3 bg-muted rounded w-4/6"></div>
+          <Skeleton className="h-3 rounded w-full" />
+          <Skeleton className="h-3 rounded w-5/6" />
+          <Skeleton className="h-3 rounded w-4/6" />
         </div>
       </div>
 
@@ -34,13 +35,13 @@ export default function FlowerCardSkeleton() {
           {/* Price placeholder */}
           <div className="flex justify-between items-center">
             <div>
-              <div className="h-6 bg-muted rounded w-20 mb-2"></div>
-              <div className="h-5 bg-muted rounded w-24"></div>
+              <Skeleton className="h-6 rounded w-20 mb-2" />
+              <Skeleton className="h-5 rounded w-24" />
             </div>
           </div>
 
           {/* Button placeholder */}
-          <div className="h-10 bg-muted rounded w-full"></div>
+          <Skeleton className="h-10 rounded w-full" />
         </div>
       </div>
     </Card>
