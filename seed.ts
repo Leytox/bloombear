@@ -4,44 +4,44 @@ const prisma = new PrismaClient();
 async function main() {
   const categories = [
     {
-      name: "Свежие Букеты",
-      description: "Букеты ручной работы из сезонных свежих цветов",
+      name: "Fresh Bouquets",
+      description: "Handmade bouquets of seasonal fresh flowers",
       image:
         "https://images.unsplash.com/photo-1596438459194-f275f413d6ff?w=600",
       slug: "fresh-bouquets",
     },
     {
-      name: "Розы",
+      name: "Roses",
       description:
-        "Классические и элегантные розы различных цветов и композиций",
+        "Classic and elegant roses in various colors and compositions",
       image:
         "https://images.unsplash.com/photo-1519378058457-4c29a0a2efac?w=600",
       slug: "roses",
     },
     {
-      name: "Лилии",
-      description: "Ароматные и красивые лилии для любого случая",
+      name: "Lilies",
+      description: "Fragrant and beautiful lilies for any occasion",
       image:
         "https://images.unsplash.com/photo-1468327768560-75b778cbb551?w=600",
       slug: "lilies",
     },
     {
-      name: "Растения",
-      description: "Комнатные и уличные растения, которые прослужат годами",
-      image:
-        "https://images.unsplash.com/photo-1463320898484-cdee8141c787?w=600",
-      slug: "plants",
-    },
-    {
-      name: "Орхидеи",
-      description: "Экзотические и долговечные композиции из орхидей",
+      name: "Orchids",
+      description: "Exotic and durable orchid arrangements",
       image:
         "https://images.unsplash.com/photo-1624819107184-0c4fe02da00c?w=600",
       slug: "orchids",
     },
     {
-      name: "Подарочные Корзины",
-      description: "Подарочные корзины с цветами и угощениями",
+      name: "Plants",
+      description: "Indoor and outdoor plants that will last for years to come",
+      image:
+        "https://images.unsplash.com/photo-1463320898484-cdee8141c787?w=600",
+      slug: "plants",
+    },
+    {
+      name: "Gift Baskets",
+      description: "Gift baskets with flowers and treats",
       image: "https://images.unsplash.com/photo-1503652601-557d07733ddc?w=600",
       slug: "gift-baskets",
     },
@@ -56,46 +56,44 @@ async function main() {
   // Create Occasions
   const occasions = [
     {
-      name: "День Рождения",
-      description:
-        "Отпразднуйте дни рождения с красивыми цветочными композициями",
-      image: "https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=600",
+      name: "Birthday",
+      description: "Celebrate birthdays with beautiful floral arrangements",
+      image: "https://images.unsplash.com/photo-1557166357-b2838299bbff?w=600",
     },
     {
-      name: "Годовщина",
-      description:
-        "Романтические цветочные композиции для празднования особых дат",
+      name: "Anniversary",
+      description: "Romantic floral arrangements to celebrate special dates",
       image:
         "https://images.unsplash.com/photo-1518895949257-7621c3c786d7?w=600",
     },
     {
-      name: "Свадьба",
-      description: "Элегантные цветы для идеального свадебного дня",
-      image:
-        "https://images.unsplash.com/photo-1509610973147-232dfea52a97?w=600",
+      name: "Wedding",
+      description: "Elegant flowers for the perfect wedding day",
+      image: "https://images.unsplash.com/photo-1561410020-f484d7db6b3e?w=600",
     },
     {
-      name: "Соболезнования",
-      description: "Выразите свои соболезнования с помощью композиций",
+      name: "Condolences",
+      description: "Express your condolences with the help of compositions",
       image:
-        "https://images.unsplash.com/photo-1526726538690-5cbf956ae2fd?w=600",
+        "https://images.unsplash.com/photo-1659902374294-0a97f40b8877?w=600",
     },
     {
-      name: "Выздоровление",
-      description: "Порадуйте кого-то яркими цветами",
+      name: "Recovery",
+      description: "Make someone happy with bright colors",
       image:
         "https://images.unsplash.com/photo-1501004318641-b39e6451bec6?w=600",
     },
     {
-      name: "День Святого Валентина",
-      description: "Покажите свою любовь с помощью потрясающих композиций",
-      image: "https://images.unsplash.com/photo-1542385151-efd9000785a0?w=600",
+      name: "St. Valentine's",
+      description: "Show your love with stunning compositions",
+      image:
+        "https://images.unsplash.com/photo-1581938165093-050aeb5ef218?w=600",
     },
     {
-      name: "День Матери",
-      description: "Выразите благодарность красивыми цветами",
+      name: "Mother's Day",
+      description: "Express your gratitude with beautiful flowers",
       image:
-        "https://images.unsplash.com/photo-1594906838472-8e2c33f85851?w=600",
+        "https://images.unsplash.com/photo-1526277015674-026cb84653ec?w=600",
     },
   ];
 
@@ -109,10 +107,10 @@ async function main() {
   const products = [
     // Fresh Bouquets (categoryId: 1)
     {
-      name: "Весеннее Наслаждение",
+      name: "Spring Delight",
       description:
-        "Красочная смесь весенних цветов, включая тюльпаны, нарциссы и гиацинты",
-      price: 4999,
+        "A colorful mix of spring flowers including tulips, daffodils and hyacinths",
+      price: 50,
       image:
         "https://images.unsplash.com/photo-1457089328109-e5d9bd499191?w=600",
       categoryId: 1,
@@ -121,67 +119,10 @@ async function main() {
       discount: 0,
     },
     {
-      name: "Букет Красных Роз",
+      name: "Summer Breeze",
       description:
-        "Классическая дюжина красных роз, символизирующих любовь и страсть",
-      price: 6999,
-      image:
-        "https://images.unsplash.com/photo-1494972308805-463bc619d34e?w=600",
-      categoryId: 2,
-      inStock: true,
-      rating: 4.9,
-      discount: 0,
-    },
-    {
-      name: "Коллекция Розовых Роз",
-      description:
-        "Элегантный букет розовых роз, олицетворяющих изящество и восхищение",
-      price: 5999,
-      image:
-        "https://images.unsplash.com/photo-1582794543139-8ac9cb0f7b11?w=600",
-      categoryId: 2,
-      inStock: true,
-      rating: 4.6,
-      discount: 5,
-    },
-    {
-      name: "Радужная Композиция из Роз",
-      description: "Потрясающие разноцветные розы в премиальной вазе",
-      price: 7999,
-      image:
-        "https://images.unsplash.com/photo-1495231916356-a86217efff12?w=600",
-      categoryId: 2,
-      inStock: false,
-      rating: 4.8,
-      discount: 0,
-    },
-    {
-      name: "Фикус Лировидный",
-      description: "Популярный фикус лировидный в плетеной корзине",
-      price: 9999,
-      image:
-        "https://images.unsplash.com/photo-1614594975525-e45190c55d0b?w=600",
-      categoryId: 5,
-      inStock: true,
-      rating: 4.7,
-      discount: 8,
-    },
-    {
-      name: "Набор Спа и Цветы",
-      description: "Расслабляющие спа-продукты в сочетании со свежими цветами",
-      price: 9999,
-      image:
-        "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=600",
-      categoryId: 6,
-      inStock: true,
-      rating: 4.8,
-      discount: 12,
-    },
-    {
-      name: "Летний Бриз",
-      description:
-        "Яркие подсолнухи, ромашки и полевые цветы в деревенской композиции",
-      price: 5499,
+        "Bright sunflowers, daisies and wildflowers in a rustic arrangement",
+      price: 54,
       image:
         "https://images.unsplash.com/photo-1527678590842-1b347e1c6ada?w=600",
       categoryId: 1,
@@ -190,9 +131,53 @@ async function main() {
       discount: 10,
     },
     {
-      name: "Букет из Лилий Звездочет",
-      description: "Ароматные лилии звездочет с зеленью и акцентными цветами",
-      price: 5599,
+      name: "Wildflowers",
+      description: "Natural wildflower arrangement with seasonal flowers",
+      price: 49,
+      image:
+        "https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?w=600",
+      categoryId: 1,
+      inStock: true,
+      rating: 4.0,
+      discount: 0,
+    },
+    {
+      name: "Bouquet of Red Roses",
+      description: "A classic dozen red roses symbolizing love and passion",
+      price: 69,
+      image:
+        "https://images.unsplash.com/photo-1494972308805-463bc619d34e?w=600",
+      categoryId: 2,
+      inStock: true,
+      rating: 4.9,
+      discount: 0,
+    },
+    {
+      name: "The Pink Rose Collection",
+      description: "Gentle collection of pink roses for your loved one",
+      price: 59,
+      image:
+        "https://images.unsplash.com/photo-1582794543139-8ac9cb0f7b11?w=600",
+      categoryId: 2,
+      inStock: true,
+      rating: 4.6,
+      discount: 5,
+    },
+    {
+      name: "Rainbow Rose Composition",
+      description: "Stunning multi-colored roses in a premium vase",
+      price: 79,
+      image:
+        "https://images.unsplash.com/photo-1495231916356-a86217efff12?w=600",
+      categoryId: 2,
+      inStock: false,
+      rating: 4.8,
+      discount: 0,
+    },
+    {
+      name: "Stargazer Lily Bouquet",
+      description: "Fragrant stargazer lilies with greenery and accent flowers",
+      price: 55,
       image:
         "https://images.unsplash.com/photo-1502977249166-824b3a8a4d6d?w=600",
       categoryId: 3,
@@ -201,9 +186,9 @@ async function main() {
       discount: 0,
     },
     {
-      name: "Композиция из Белых Лилий",
-      description: "Чисто белые лилии, символизирующие мир и безмятежность",
-      price: 6299,
+      name: "White Lilies",
+      description: "Pure white lilies symbolizing peace and serenity",
+      price: 62,
       image:
         "https://images.unsplash.com/photo-1567428051128-5f09a0200655?w=600",
       categoryId: 3,
@@ -212,9 +197,9 @@ async function main() {
       discount: 15,
     },
     {
-      name: "Микс Азиатских Лилий",
-      description: "Красочная смесь азиатских лилий в ярких оттенках",
-      price: 5899,
+      name: "Asian Lily Mix",
+      description: "A colorful mix of Asiatic lilies in vibrant hues",
+      price: 58,
       image:
         "https://images.unsplash.com/photo-1679434834423-0506e02748c6?w=600",
       categoryId: 3,
@@ -223,56 +208,9 @@ async function main() {
       discount: 0,
     },
     {
-      name: "Пурпурные Орхидеи Дендробиум",
-      description:
-        "Экзотические пурпурные орхидеи дендробиум в современной композиции",
-      price: 8499,
-      image:
-        "https://images.unsplash.com/photo-1531217182035-78d279dcdb7f?w=600",
-      categoryId: 4,
-      inStock: false,
-      rating: 4.7,
-      discount: 10,
-    },
-    {
-      name: "Спатифиллум",
-      description: "Очищающий воздух спатифиллум в керамическом горшке",
-      price: 4999,
-      image:
-        "https://images.unsplash.com/photo-1593691509543-c55fb32d8de5?w=600",
-      categoryId: 5,
-      inStock: true,
-      rating: 4.6,
-      discount: 0,
-    },
-    {
-      name: "Корзина Вино и Цветы",
-      description:
-        "Премиальная бутылка вина с соответствующей цветочной композицией",
-      price: 12999,
-      image:
-        "https://images.unsplash.com/photo-1627922206324-e9ab1667bd23?w=600",
-      categoryId: 6,
-      inStock: true,
-      rating: 4.9,
-      discount: 5,
-    },
-    {
-      name: "Корзина Цветов и Шоколада",
-      description:
-        "Премиальные цветы с изысканным шоколадом в подарочной корзине",
-      price: 8999,
-      image:
-        "https://images.unsplash.com/photo-1473366379653-65061f9c3b40?w=600",
-      categoryId: 6,
-      inStock: true,
-      rating: 4.9,
-      discount: 0,
-    },
-    {
-      name: "Орхидея Фаленопсис",
-      description: "Элегантная белая орхидея фаленопсис в декоративном горшке",
-      price: 7999,
+      name: "Phalaenopsis orchid",
+      description: "Elegant white phalaenopsis orchid in a decorative pot",
+      price: 79,
       image:
         "https://images.unsplash.com/photo-1618080578815-335456280012?w=600",
       categoryId: 4,
@@ -281,10 +219,41 @@ async function main() {
       discount: 0,
     },
     {
-      name: "Коллекция Суккулентов",
-      description:
-        "Ассортимент небольших суккулентов в декоративных контейнерах",
-      price: 5999,
+      name: "Purple Dendrobium Orchids.",
+      description: "Exotic purple dendrobium orchids in modern composition",
+      price: 84,
+      image:
+        "https://images.unsplash.com/photo-1531217182035-78d279dcdb7f?w=600",
+      categoryId: 4,
+      inStock: false,
+      rating: 4.7,
+      discount: 10,
+    },
+    {
+      name: "Orchid Garden",
+      description: "Mixed varieties of orchids in a premium garden basket",
+      price: 129,
+      image: "https://images.unsplash.com/photo-1546842931-886c185b4c8c?w=600",
+      categoryId: 4,
+      inStock: true,
+      rating: 2.3,
+      discount: 5,
+    },
+    {
+      name: "Spathiphyllum",
+      description: "Air purifying spathiphyllum in a ceramic pot",
+      price: 49,
+      image:
+        "https://images.unsplash.com/photo-1593691509543-c55fb32d8de5?w=600",
+      categoryId: 5,
+      inStock: true,
+      rating: 4.6,
+      discount: 0,
+    },
+    {
+      name: "Succulent Collection",
+      description: "An assortment of small succulents in decorative containers",
+      price: 59,
       image:
         "https://images.unsplash.com/photo-1508022713622-df2d8fb7b4cd?w=600",
       categoryId: 5,
@@ -293,26 +262,48 @@ async function main() {
       discount: 0,
     },
     {
-      name: "Сад Орхидей",
-      description: "Смешанные сорта орхидей в премиальной садовой корзине",
-      price: 12999,
-      image: "https://images.unsplash.com/photo-1546842931-886c185b4c8c?w=600",
-      categoryId: 4,
+      name: "Ficus lyreus",
+      description: "Popular lyre ficus in a wicker basket",
+      price: 99,
+      image:
+        "https://images.unsplash.com/photo-1614594975525-e45190c55d0b?w=600",
+      categoryId: 5,
       inStock: true,
-      rating: 2.3,
-      discount: 5,
+      rating: 4.7,
+      discount: 8,
     },
     {
-      name: "Полевые Цветы",
-      description:
-        "Естественная композиция из полевых цветов с сезонными цветами",
-      price: 4899,
+      name: "Basket of Flowers and Chocolate",
+      description: "Premium flowers with gourmet chocolate in a gift basket",
+      price: 89,
       image:
-        "https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?w=600",
-      categoryId: 1,
+        "https://images.unsplash.com/photo-1473366379653-65061f9c3b40?w=600",
+      categoryId: 6,
       inStock: true,
-      rating: 4.0,
+      rating: 4.9,
       discount: 0,
+    },
+    {
+      name: "The Spa and Flowers set",
+      description: "Relaxing spa products combined with fresh flowers",
+      price: 99,
+      image:
+        "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=600",
+      categoryId: 6,
+      inStock: true,
+      rating: 4.8,
+      discount: 12,
+    },
+    {
+      name: "Wine and Flowers Basket",
+      description: "Premium bottle of wine with matching floral arrangement",
+      price: 129,
+      image:
+        "https://images.unsplash.com/photo-1627922206324-e9ab1667bd23?w=600",
+      categoryId: 6,
+      inStock: true,
+      rating: 4.9,
+      discount: 5,
     },
   ];
 
@@ -324,7 +315,7 @@ async function main() {
 
   // Create Product-Occasion relationships
   const productOccasions = [
-    // День Рождения
+    // Birthday
     { productId: 1, occasionId: 1 },
     { productId: 2, occasionId: 1 },
     { productId: 5, occasionId: 1 },
@@ -332,39 +323,39 @@ async function main() {
     { productId: 16, occasionId: 1 },
     { productId: 17, occasionId: 1 },
 
-    // Годовщина
+    // Anniversary
     { productId: 4, occasionId: 2 },
     { productId: 5, occasionId: 2 },
     { productId: 6, occasionId: 2 },
     { productId: 10, occasionId: 2 },
     { productId: 18, occasionId: 2 },
 
-    // Свадьба
+    // Wedding
     { productId: 4, occasionId: 3 },
     { productId: 8, occasionId: 3 },
     { productId: 10, occasionId: 3 },
     { productId: 12, occasionId: 3 },
 
-    // Соболезнования
+    // Condolences
     { productId: 8, occasionId: 4 },
     { productId: 9, occasionId: 4 },
     { productId: 13, occasionId: 4 },
 
-    // Выздоровление
+    // Recovery
     { productId: 1, occasionId: 5 },
     { productId: 2, occasionId: 5 },
     { productId: 13, occasionId: 5 },
     { productId: 14, occasionId: 5 },
     { productId: 17, occasionId: 5 },
 
-    // День Святого Валентина
+    // St. Valentine
     { productId: 4, occasionId: 6 },
     { productId: 5, occasionId: 6 },
     { productId: 6, occasionId: 6 },
     { productId: 17, occasionId: 6 },
     { productId: 18, occasionId: 6 },
 
-    // День Матери
+    // Mother's Day
     { productId: 1, occasionId: 7 },
     { productId: 2, occasionId: 7 },
     { productId: 5, occasionId: 7 },
@@ -379,7 +370,7 @@ async function main() {
     });
   }
 
-  console.log("База данных заполнена!");
+  console.log("Database seeded!");
 }
 
 main()
