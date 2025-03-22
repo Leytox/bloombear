@@ -17,6 +17,13 @@ import CopyLinkButton from "@/components/CopyLinkButton";
 import { SiFacebook, SiInstagram, SiX } from "@icons-pack/react-simple-icons";
 import AddProduct from "@/components/AddProduct";
 import FavoriteButton from "@/components/FavoriteButton";
+import {
+  Breadcrumb,
+  BreadcrumbList,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 
 export default async function ProductPage({
   params,
@@ -41,34 +48,27 @@ export default async function ProductPage({
   return (
     <main className="container min-h-[calc(100vh-68px)] mx-auto py-6 md:py-10 px-4 md:px-8">
       {/* Breadcrumbs */}
-      <nav
-        aria-label="Breadcrumb"
-        className="text-sm text-muted-foreground mb-6 md:mb-8"
-      >
-        <ol className="flex flex-wrap items-center">
-          <li className="flex items-center">
-            <Link href="/" className="hover:text-foreground transition-colors">
-              Home
-            </Link>
-            <span className="mx-2">/</span>
-          </li>
-          <li className="flex items-center">
-            <Link
-              href="/catalog"
-              className="hover:text-foreground transition-colors"
-            >
-              Catalog
-            </Link>
-            <span className="mx-2">/</span>
-          </li>
-          <li
-            className="text-foreground font-medium truncate max-w-[200px] sm:max-w-md"
-            aria-current="page"
-          >
-            {product.name}
-          </li>
-        </ol>
-      </nav>
+      <Breadcrumb className="mb-8">
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink asChild>
+              <Link href="/">Home</Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink asChild>
+              <Link href="/about">About Us</Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink asChild>
+              <Link href={`/product/${product.id}`}>{product.name}</Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
         <div className="relative aspect-square overflow-hidden rounded-lg bg-muted">

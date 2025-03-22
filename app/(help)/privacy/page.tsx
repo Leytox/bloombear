@@ -7,16 +7,32 @@ import {
 } from "@/components/ui/card";
 import Link from "next/link";
 import { ShieldIcon } from "lucide-react";
+import {
+  Breadcrumb,
+  BreadcrumbList,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 
 export default function PrivacyPage() {
   return (
     <div className="container mx-auto py-4 sm:py-6 md:py-8 px-4 sm:px-6 md:px-8">
-      <div className="text-sm text-muted-foreground mb-4 sm:mb-6 md:mb-8">
-        <Link href="/" className="hover:text-foreground">
-          Home
-        </Link>{" "}
-        / Privacy Policy
-      </div>
+      <Breadcrumb className="mb-8">
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink asChild>
+              <Link href="/">Home</Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink asChild>
+              <Link href="/privacy">Privacy Policy</Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
 
       <div className="max-w-3xl mx-auto">
         <div className="flex items-center gap-3 mb-4 sm:mb-6 md:mb-8">

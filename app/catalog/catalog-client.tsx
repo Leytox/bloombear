@@ -52,6 +52,13 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import FlowerCardSkeleton from "@/components/FlowerCardSceleton";
+import {
+  Breadcrumb,
+  BreadcrumbList,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 
 interface CatalogClientProps {
   initialProducts: Product[];
@@ -172,13 +179,21 @@ export default function CatalogClient({
 
   return (
     <div className="container mx-auto py-4 sm:py-6 md:py-8 px-4 sm:px-6 md:px-8">
-      {/* Breadcrumbs */}
-      <div className="text-sm text-muted-foreground mb-4 sm:mb-6 md:mb-8">
-        <Link href="/" className="hover:text-foreground">
-          Home
-        </Link>{" "}
-        / Catalog
-      </div>
+      <Breadcrumb className="mb-8">
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink asChild>
+              <Link href="/">Home</Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink asChild>
+              <Link href="/catalog">Catalog</Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
 
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4 sm:mb-6 md:mb-8">

@@ -7,6 +7,13 @@ import CheckoutForm from "./checkout-form";
 import OrderSummary from "./order-summary";
 import { useCartStore } from "@/store/useCartStore";
 import { Button } from "@/components/ui/button";
+import {
+  Breadcrumb,
+  BreadcrumbList,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 
 export default function CheckoutPage() {
   const { cart } = useCartStore();
@@ -31,16 +38,21 @@ export default function CheckoutPage() {
 
   return (
     <div className="container mx-auto py-4 sm:py-6 md:py-8 px-4 sm:px-6 md:px-8">
-      <div className="text-sm text-muted-foreground mb-4 sm:mb-6 md:mb-8">
-        <Link href="/" className="hover:text-foreground">
-          Home
-        </Link>{" "}
-        /{" "}
-        <Link href="/catalog" className="hover:text-foreground">
-          Catalog
-        </Link>{" "}
-        / Checkout
-      </div>
+      <Breadcrumb className="mb-8">
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink asChild>
+              <Link href="/">Home</Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink asChild>
+              <Link href="/checkout">Checkout</Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
 
       <div className="flex justify-between items-center mb-6 sm:mb-8">
         <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold">Checkout</h1>
