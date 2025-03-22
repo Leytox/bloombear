@@ -113,7 +113,7 @@ export default function CatalogClient({
     sortBy: "popular",
   });
 
-  const [debouncedPriceRange] = useDebounceValue(filterState.priceRange, 300);
+  const [debouncedPriceRange] = useDebounceValue(filterState.priceRange, 500);
 
   const createPageURL = useCallback(
     (pageNumber: number | string) => {
@@ -157,8 +157,12 @@ export default function CatalogClient({
   const handleFilterChange = useCallback(
     (updates: Partial<FilterState>, resetPage = true) => {
       setFilterState((prev) => ({ ...prev, ...updates }));
-      if (updates.priceRange) return; // Price updates are debounced
-      fetchFilteredProducts(resetPage);
+
+      // Only fetch immediately if it's not a price range update
+      // Price range updates will be handled by the useEffect with debounced value
+      if (!updates.priceRange) {
+        fetchFilteredProducts(resetPage);
+      }
     },
     [fetchFilteredProducts],
   );
@@ -174,7 +178,9 @@ export default function CatalogClient({
   }, [minPrice, maxPrice, fetchFilteredProducts]);
 
   useEffect(() => {
-    fetchFilteredProducts(false);
+    if (debouncedPriceRange) {
+      fetchFilteredProducts(false);
+    }
   }, [debouncedPriceRange, fetchFilteredProducts]);
 
   return (
@@ -242,6 +248,7 @@ export default function CatalogClient({
                   maxPrice={maxPrice}
                   onFilterChange={handleFilterChange}
                   onReset={resetFilters}
+                  isPending={isPending}
                 />
               </div>
             </SheetContent>
@@ -271,6 +278,7 @@ export default function CatalogClient({
                   maxPrice={maxPrice}
                   onFilterChange={handleFilterChange}
                   onReset={resetFilters}
+                  isPending={isPending}
                 />
               </CardContent>
             </Card>
@@ -353,6 +361,7 @@ function FilterPanel({
   maxPrice,
   onFilterChange,
   onReset,
+  isPending,
 }: {
   filterState: FilterState;
   categories: Category[];
@@ -361,6 +370,7 @@ function FilterPanel({
   maxPrice: number;
   onFilterChange: (updates: Partial<FilterState>, resetPage?: boolean) => void;
   onReset: () => void;
+  isPending: boolean;
 }) {
   const { categoryIds, occasionIds, priceRange } = filterState;
 
@@ -394,8 +404,9 @@ function FilterPanel({
           variant="outline"
           className="w-full flex items-center justify-center"
           onClick={onReset}
+          disabled={isPending}
         >
-          <Redo2Icon /> Reset All Filters
+          <Redo2Icon className="mr-2" /> Reset All Filters
         </Button>
       )}
 
@@ -409,6 +420,7 @@ function FilterPanel({
               label={category.name}
               checked={categoryIds.includes(category.id)}
               onChange={(checked) => handleCategoryToggle(category.id, checked)}
+              disabled={isPending}
             />
           ))}
         </FilterSection>
@@ -421,6 +433,7 @@ function FilterPanel({
               label={occasion.name}
               checked={occasionIds.includes(occasion.id)}
               onChange={(checked) => handleOccasionToggle(occasion.id, checked)}
+              disabled={isPending}
             />
           ))}
         </FilterSection>
@@ -431,10 +444,12 @@ function FilterPanel({
               value={priceRange}
               min={minPrice}
               max={maxPrice}
-              step={100}
+              step={1}
               onValueChange={(value) =>
                 onFilterChange({ priceRange: value as [number, number] })
               }
+              className={isPending ? "opacity-70" : ""}
+              disabled={isPending}
             />
             <div className="flex items-center justify-between gap-3">
               <PriceInput
@@ -444,6 +459,7 @@ function FilterPanel({
                 onChange={(value) =>
                   onFilterChange({ priceRange: [value, priceRange[1]] })
                 }
+                disabled={isPending}
               />
               <span className="text-sm text-muted-foreground">—</span>
               <PriceInput
@@ -453,8 +469,14 @@ function FilterPanel({
                 onChange={(value) =>
                   onFilterChange({ priceRange: [priceRange[0], value] })
                 }
+                disabled={isPending}
               />
             </div>
+            {isPending && (
+              <p className="text-xs text-muted-foreground animate-pulse">
+                Updating results...
+              </p>
+            )}
           </div>
         </FilterSection>
       </div>
@@ -497,11 +519,13 @@ function FilterCheckbox({
   label,
   checked,
   onChange,
+  disabled = false,
 }: {
   id: string;
   label: string;
   checked: boolean;
   onChange: (checked: boolean) => void;
+  disabled?: boolean;
 }) {
   return (
     <div className="flex items-center space-x-2">
@@ -509,10 +533,13 @@ function FilterCheckbox({
         id={id}
         checked={checked}
         onCheckedChange={(value) => onChange(value === true)}
+        disabled={disabled}
       />
       <label
         htmlFor={id}
-        className="text-sm font-medium leading-none cursor-pointer"
+        className={`text-sm font-medium leading-none cursor-pointer ${
+          disabled ? "opacity-70" : ""
+        }`}
       >
         {label}
       </label>
@@ -525,11 +552,13 @@ function PriceInput({
   min,
   max,
   onChange,
+  disabled = false,
 }: {
   value: number;
   min: number;
   max: number;
   onChange: (value: number) => void;
+  disabled?: boolean;
 }) {
   const [inputValue, setInputValue] = useState(value.toString());
 
@@ -574,6 +603,7 @@ function PriceInput({
         onChange={handleChange}
         onBlur={handleBlur}
         className="text-right"
+        disabled={disabled}
       />
     </div>
   );
