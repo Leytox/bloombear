@@ -11,3 +11,12 @@ export type Cart = {
   totalItems: number;
   totalPrice: number;
 };
+
+export type SortOption = "popular" | "price_asc" | "price_desc" | "new";
+
+export type FilterState = {
+  categoryIds: number[];
+  occasionIds: number[];
+  priceRange: [number, number];
+  sortBy: SortOption;
+};

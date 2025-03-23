@@ -16,11 +16,9 @@ import Image from "next/image";
 const Header = () => {
   return (
     <header className="bg-background border-b sticky top-0 z-50">
-      {/* Main header */}
       <div className="container mx-auto py-4 max-sm:pl-2">
         <div className="flex items-center justify-between">
           <div className="flex gap-2">
-            {/* Logo */}
             <Link
               href="/"
               className="flex items-center gap-2 max-md:mx-auto md:mx-0"
@@ -42,9 +40,7 @@ const Header = () => {
             <Search />
           </div>
 
-          {/* Actions */}
           <div className="flex items-center gap-4">
-            {/* Desktop Navigation */}
             <nav className="max-lg:hidden">
               <ul className="flex items-center justify-center gap-6 max-xl:gap-4 font-onest text-md font-semibold text-sm max-xl:text-xs">
                 <li title="Catalog">
@@ -52,7 +48,7 @@ const Header = () => {
                     href="/catalog"
                     className="flex gap-1 items-center text-muted-foreground hover:text-foreground duration-150"
                   >
-                    <FlowerIcon size={20} />{" "}
+                    <FlowerIcon size={20} />
                     <h3 className="font-bold">Catalog</h3>
                   </Link>
                 </li>
@@ -61,7 +57,7 @@ const Header = () => {
                     href="/promotions"
                     className="flex gap-1 items-center text-muted-foreground hover:text-foreground duration-150"
                   >
-                    <PercentIcon size={20} />{" "}
+                    <PercentIcon size={20} />
                     <h3 className="font-bold">Promotions</h3>
                   </Link>
                 </li>
@@ -70,7 +66,7 @@ const Header = () => {
                     href="/payment"
                     className="flex gap-1 items-center text-muted-foreground hover:text-foreground duration-150"
                   >
-                    <CreditCardIcon size={20} />{" "}
+                    <CreditCardIcon size={20} />
                     <h3 className="font-bold">Payment</h3>
                   </Link>
                 </li>
@@ -79,7 +75,7 @@ const Header = () => {
                     href="/delivery"
                     className="flex gap-1 items-center text-muted-foreground hover:text-foreground duration-150"
                   >
-                    <PackageIcon size={20} />{" "}
+                    <PackageIcon size={20} />
                     <h3 className="font-bold">Delivery</h3>
                   </Link>
                 </li>

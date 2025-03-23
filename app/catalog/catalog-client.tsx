@@ -3,22 +3,11 @@
 import { useCallback, useEffect, useState, useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
 import {
   SlidersHorizontalIcon,
-  FrownIcon,
-  FilterIcon,
-  SortDescIcon,
-  SortAscIcon,
   ChevronUpIcon,
   ChevronDownIcon,
   Redo2Icon,
@@ -43,16 +32,6 @@ import {
 } from "@/components/ui/collapsible";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
-import FlowerCardSkeleton from "@/components/FlowerCardSceleton";
-import {
   Breadcrumb,
   BreadcrumbList,
   BreadcrumbItem,
@@ -60,6 +39,11 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { FilterState } from "@/types";
+import SortSelector from "@/components/SortSelector";
+import LoadingIndicator from "@/components/LoadingIndicator";
+import PaginationControl from "@/components/PaginationControl";
+import EmptyState from "@/components/EmptyState";
 
 interface CatalogClientProps {
   initialProducts: Product[];
@@ -70,15 +54,6 @@ interface CatalogClientProps {
   minPrice: number;
   maxPrice: number;
 }
-
-type SortOption = "popular" | "price_asc" | "price_desc" | "new";
-
-type FilterState = {
-  categoryIds: number[];
-  occasionIds: number[];
-  priceRange: [number, number];
-  sortBy: SortOption;
-};
 
 const PRODUCTS_PER_PAGE = 9;
 
@@ -313,44 +288,6 @@ export default function CatalogClient({
         </div>
       </div>
     </div>
-  );
-}
-
-function SortSelector({
-  value,
-  onChange,
-}: {
-  value: SortOption;
-  onChange: (value: SortOption) => void;
-}) {
-  return (
-    <Select value={value} onValueChange={onChange}>
-      <SelectTrigger className="w-full sm:w-[200px]">
-        <SelectValue placeholder="Sort" />
-      </SelectTrigger>
-      <SelectContent>
-        <SelectItem value="popular">
-          <div className="flex items-center gap-2">
-            <SortDescIcon className="h-4 w-4" /> By Popularity
-          </div>
-        </SelectItem>
-        <SelectItem value="price_asc">
-          <div className="flex items-center gap-2">
-            <SortAscIcon className="h-4 w-4" /> Cheapest First
-          </div>
-        </SelectItem>
-        <SelectItem value="price_desc">
-          <div className="flex items-center gap-2">
-            <SortDescIcon className="h-4 w-4" /> Most Expensive First
-          </div>
-        </SelectItem>
-        <SelectItem value="new">
-          <div className="flex items-center gap-2">
-            <SortDescIcon className="h-4 w-4" /> Newest First
-          </div>
-        </SelectItem>
-      </SelectContent>
-    </Select>
   );
 }
 
@@ -606,99 +543,6 @@ function PriceInput({
         className="text-right"
         disabled={disabled}
       />
-    </div>
-  );
-}
-
-function PaginationControl({
-  currentPage,
-  totalPages,
-  createPageURL,
-}: {
-  currentPage: number;
-  totalPages: number;
-  createPageURL: (page: number | string) => string;
-}) {
-  const getVisiblePages = () => {
-    const delta = 1;
-    const pages: (number | string)[] = [1];
-    const rangeStart = Math.max(2, currentPage - delta);
-    const rangeEnd = Math.min(totalPages - 1, currentPage + delta);
-
-    if (rangeStart > 2) pages.push("ellipsis-1");
-    for (let i = rangeStart; i <= rangeEnd; i++) pages.push(i);
-    if (rangeEnd < totalPages - 1) pages.push("ellipsis-2");
-    if (totalPages > 1) pages.push(totalPages);
-
-    return pages;
-  };
-
-  return (
-    <Pagination className="mt-8">
-      <PaginationContent>
-        <PaginationItem>
-          <PaginationPrevious
-            href={createPageURL(Math.max(1, currentPage - 1))}
-            aria-disabled={currentPage === 1}
-            tabIndex={currentPage === 1 ? -1 : undefined}
-            className={
-              currentPage === 1 ? "pointer-events-none opacity-50" : ""
-            }
-          />
-        </PaginationItem>
-
-        {getVisiblePages().map((page) =>
-          typeof page === "string" ? (
-            <PaginationItem key={page}>
-              <PaginationEllipsis />
-            </PaginationItem>
-          ) : (
-            <PaginationItem key={page}>
-              <PaginationLink
-                href={createPageURL(page)}
-                isActive={page === currentPage}
-              >
-                {page}
-              </PaginationLink>
-            </PaginationItem>
-          ),
-        )}
-
-        <PaginationItem>
-          <PaginationNext
-            href={createPageURL(Math.min(totalPages, currentPage + 1))}
-            aria-disabled={currentPage === totalPages}
-            tabIndex={currentPage === totalPages ? -1 : undefined}
-            className={
-              currentPage === totalPages ? "pointer-events-none opacity-50" : ""
-            }
-          />
-        </PaginationItem>
-      </PaginationContent>
-    </Pagination>
-  );
-}
-
-function LoadingIndicator() {
-  return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
-      {[...Array(9)].map((_, index) => (
-        <FlowerCardSkeleton key={index} />
-      ))}
-    </div>
-  );
-}
-
-function EmptyState() {
-  return (
-    <div className="text-center py-12">
-      <h3 className="text-lg font-medium mb-2 flex items-center justify-center gap-2">
-        We couldn&apos;t find any results <FrownIcon />
-      </h3>
-      <p className="text-muted-foreground flex items-center justify-center gap-2">
-        Try changing the filter parameters <FilterIcon /> or change the price
-        range <SlidersHorizontalIcon />
-      </p>
     </div>
   );
 }
