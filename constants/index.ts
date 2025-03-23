@@ -234,7 +234,7 @@ export const deliveryZones = [
     id: 3,
     name: "Outside Berlin from 10 to 25 km",
     description: "Distant Berlin suburbs",
-    price: "800",
+    price: "20 €",
     time: "4-5 hours",
     icon: MountainIcon,
   },
