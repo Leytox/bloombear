@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import Footer from "@/components/Footer";
 import { Toaster } from "@/components/ui/sonner";
 import GoTop from "@/components/GoTop";
+import { Analytics } from "@vercel/analytics/react";
 
 const onest = Onest({
   variable: "--font-onest",
@@ -32,6 +33,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${onest.variable} ${raleway.variable} antialiased`}>
+        <Analytics />
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
           <div className="flex flex-col min-h-screen">
             <Header />
