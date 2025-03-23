@@ -7,11 +7,21 @@ import { Separator } from "@/components/ui/separator";
 import { useCartStore } from "@/store/useCartStore";
 import { ArrowRightIcon, ShoppingCartIcon } from "lucide-react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export default function OrderSummary() {
   const { cart } = useCartStore();
-  const deliveryCost = cart.totalPrice >= 5000 ? 0 : 300;
-  const totalWithDelivery = cart.totalPrice + deliveryCost;
+  const [deliveryCost, setDeliveryCost] = useState(0);
+  const [totalWithDelivery, setTotalWithDelivery] = useState(
+    cart.totalPrice + deliveryCost,
+  );
+
+  useEffect(() => {
+    setDeliveryCost(
+      cart.totalPrice >= 250 ? 0 : Math.floor(cart.totalPrice / 4),
+    );
+    setTotalWithDelivery(cart.totalPrice + deliveryCost);
+  }, [cart, deliveryCost]);
 
   return (
     <Card>
