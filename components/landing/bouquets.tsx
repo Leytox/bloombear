@@ -40,7 +40,7 @@ export default function Bouquets({ products }: { products: Product[] }) {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <div className="hidden sm:block">
+          <div className="max-[1650px]:hidden block">
             <CarouselPrevious />
             <CarouselNext />
           </div>
