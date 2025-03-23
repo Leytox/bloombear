@@ -6,7 +6,10 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prisma":{
+      "seed": "bun prisma/seed.ts"
+    }
   },
   "dependencies": {
     "@hookform/resolvers": "^4.1.3",
