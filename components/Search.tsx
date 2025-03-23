@@ -60,10 +60,11 @@ export default function Search() {
     <div className="flex-1 max-w-xl relative" ref={searchRef}>
       <div className="relative">
         <Input
-          type="text"
+          type="search"
           placeholder="Search..."
           value={searchTerm}
           onChange={handleChange}
+          autoFocus={false}
           onFocus={() => debouncedSearchTerm && setIsOpen(true)}
           className="w-full"
         />
@@ -76,7 +77,6 @@ export default function Search() {
         )}
       </div>
 
-      {/* Search results dropdown */}
       {isOpen && results.length > 0 && (
         <div className="absolute z-50 mt-2 w-full bg-background rounded-md shadow-lg border overflow-hidden">
           <ul className="max-h-[calc(100vh-220px)] overflow-auto">
@@ -143,7 +143,6 @@ export default function Search() {
         </div>
       )}
 
-      {/* No results message */}
       {isOpen && debouncedSearchTerm && results.length === 0 && !isLoading && (
         <div className="absolute z-50 mt-2 w-full bg-background rounded-md shadow-lg border p-4 text-center">
           <p className="text-muted-foreground">

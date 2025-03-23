@@ -17,10 +17,9 @@ const Header = () => {
   return (
     <header className="bg-background border-b sticky top-0 z-50">
       {/* Main header */}
-      <div className="container mx-auto py-4 px-4">
+      <div className="container mx-auto py-4 max-sm:pl-2">
         <div className="flex items-center justify-between">
           <div className="flex gap-2">
-            <MobileMenu />
             {/* Logo */}
             <Link
               href="/"
@@ -89,6 +88,7 @@ const Header = () => {
             <ThemeSwitcher />
             <HeaderFavoriteButton />
             <HeaderCartButton />
+            <MobileMenu />
           </div>
         </div>
       </div>

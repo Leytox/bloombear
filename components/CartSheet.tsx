@@ -40,7 +40,10 @@ export function CartSheet() {
 
   return (
     <Sheet open={isOpen} onOpenChange={closeCart}>
-      <SheetContent className="px-4 flex flex-col h-full w-full sm:max-w-md">
+      <SheetContent
+        className="px-4 flex flex-col h-full w-full sm:max-w-md"
+        onOpenAutoFocus={(e) => e.preventDefault()}
+      >
         <SheetHeader className="px-1 -mb-4">
           <SheetTitle className="flex text-xl items-center gap-2">
             <ShoppingCartIcon size={24} />
@@ -53,7 +56,6 @@ export function CartSheet() {
           </SheetDescription>
         </SheetHeader>
         <Separator className="-mb-4" />
-
         {cart.items.length === 0 ? (
           <div className="flex flex-col items-center justify-center flex-grow text-center">
             <ShoppingCartIcon className="h-16 w-16 text-muted-foreground mb-4" />
@@ -137,7 +139,10 @@ export function CartSheet() {
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger asChild>
-                        <div>
+                        <Link
+                          href="/checkout"
+                          className="flex items-center gap-1"
+                        >
                           <Button
                             size="lg"
                             className="sm:w-auto w-full"
@@ -146,14 +151,9 @@ export function CartSheet() {
                             )}
                             onClick={closeCart}
                           >
-                            <Link
-                              href="/checkout"
-                              className="flex items-center gap-1"
-                            >
-                              <BanknoteIcon /> Checkout
-                            </Link>
+                            <BanknoteIcon /> Checkout
                           </Button>
-                        </div>
+                        </Link>
                       </TooltipTrigger>
                       {cart.items.some((item) => !item.product.inStock) && (
                         <TooltipContent>
