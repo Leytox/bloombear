@@ -7,9 +7,12 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "postinstall": "prisma generate",
+    "seed": "prisma db seed",
+    "vercel-build": "prisma db push && prisma db seed && next build",
     "prisma":{
       "seed": "bun prisma/seed.ts"
-    }
+    },
   },
   "dependencies": {
     "@hookform/resolvers": "^4.1.3",
