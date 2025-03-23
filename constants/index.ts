@@ -131,7 +131,7 @@ export const paymentMethods = [
   {
     id: 1,
     name: "Card",
-    description: "Visa, MasterCard, PayPal",
+    description: "Visa, MasterCard, American Express, PayPal",
     icon: CreditCardIcon,
   },
   {
@@ -218,7 +218,7 @@ export const deliveryZones = [
     id: 1,
     name: "Berlin within city",
     description: "Standard city delivery",
-    price: "Free from 5000",
+    price: "Free from 25 €",
     time: "2-3 hours",
     icon: Building2Icon,
   },
@@ -226,7 +226,7 @@ export const deliveryZones = [
     id: 2,
     name: "Outside Berlin up to 10 km",
     description: "Near Berlin suburbs",
-    price: "500",
+    price: "10 €",
     time: "3-4 hours",
     icon: HouseIcon,
   },
@@ -267,12 +267,11 @@ export const promotions = [
   {
     id: 2,
     title: "Free Delivery",
-    description:
-      "Free delivery for orders from 5000 rubles within Berlin Berlin.",
+    description: "Free delivery for orders from 25 € within Berlin Berlin.",
     period: "Permanent promotion",
     image: "/promo2.jpg",
     conditions: [
-      "Order amount from 5000",
+      "Order amount from 25 €",
       "Delivery within Berlin",
       "On the day of order",
     ],
