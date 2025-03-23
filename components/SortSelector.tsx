@@ -6,7 +6,7 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import { SortOption } from "@/types";
-import { SortDescIcon, SortAscIcon } from "lucide-react";
+import { SortDescIcon, ArrowUpWideNarrowIcon } from "lucide-react";
 
 export default function SortSelector({
   value,
@@ -28,7 +28,7 @@ export default function SortSelector({
         </SelectItem>
         <SelectItem value="price_asc">
           <div className="flex items-center gap-2">
-            <SortAscIcon className="h-4 w-4" /> Cheapest First
+            <ArrowUpWideNarrowIcon className="h-4 w-4" /> Cheapest First
           </div>
         </SelectItem>
         <SelectItem value="price_desc">

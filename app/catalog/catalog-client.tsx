@@ -2,7 +2,13 @@
 
 import { useCallback, useEffect, useState, useTransition } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
 import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
@@ -11,10 +17,12 @@ import {
   ChevronUpIcon,
   ChevronDownIcon,
   Redo2Icon,
+  SearchCheckIcon,
 } from "lucide-react";
 import {
   Sheet,
   SheetContent,
+  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -61,7 +69,7 @@ export default function CatalogClient({
   initialProducts,
   categories,
   occasions,
-  title = "Bouquets Catalog",
+  title = "Catalog",
   currentCategory,
   minPrice,
   maxPrice,
@@ -209,10 +217,13 @@ export default function CatalogClient({
 
             <SheetContent side="left" className="px-4 w-full">
               <SheetHeader>
-                <SheetTitle>
-                  Found: {totalProducts}{" "}
+                <SheetTitle className="flex gap-1 items-center">
+                  <SearchCheckIcon /> Found: {totalProducts}{" "}
                   {totalProducts === 1 ? "product" : "products"}
                 </SheetTitle>
+                <SheetDescription>
+                  Search by category, occasion, price range.
+                </SheetDescription>
               </SheetHeader>
               <Separator />
               <ScrollArea>
@@ -239,10 +250,13 @@ export default function CatalogClient({
           <div className="hidden lg:block">
             <Card>
               <CardHeader>
-                <CardTitle>
-                  Found: {totalProducts}{" "}
+                <CardTitle className="flex gap-1 items-center font-raleway">
+                  <SearchCheckIcon /> Found: {totalProducts}{" "}
                   {totalProducts === 1 ? "product" : "products"}
                 </CardTitle>
+                <CardDescription>
+                  Search by category, occasion, price range.
+                </CardDescription>
               </CardHeader>
               <Separator />
               <CardContent>
@@ -498,50 +512,51 @@ function PriceInput({
   onChange: (value: number) => void;
   disabled?: boolean;
 }) {
-  const [inputValue, setInputValue] = useState(value.toString());
+  const [localValue, setLocalValue] = useState(value.toString());
 
   useEffect(() => {
-    setInputValue(value.toString());
+    setLocalValue(value.toString());
   }, [value]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
-    if (newValue === "" || /^\d+$/.test(newValue)) {
-      setInputValue(newValue);
-      const parsedValue = parseInt(newValue, 10);
-      if (!isNaN(parsedValue)) {
-        const validValue = Math.max(min, Math.min(max, parsedValue));
-        onChange(validValue);
-      }
-    }
+    if (newValue === "" || /^\d+$/.test(newValue)) setLocalValue(newValue);
   };
 
   const handleBlur = () => {
-    if (inputValue === "") {
-      setInputValue(min.toString());
+    if (localValue === "") {
+      setLocalValue(min.toString());
       onChange(min);
     } else {
-      const parsedValue = parseInt(inputValue, 10);
-      if (isNaN(parsedValue)) {
-        setInputValue(value.toString());
-      } else {
+      const parsedValue = parseInt(localValue, 10);
+      if (isNaN(parsedValue)) setLocalValue(value.toString());
+      else {
         const clampedValue = Math.max(min, Math.min(max, parsedValue));
-        setInputValue(clampedValue.toString());
-        onChange(clampedValue);
+        setLocalValue(clampedValue.toString());
+        if (clampedValue !== value) onChange(clampedValue);
       }
     }
   };
 
   return (
     <div className="flex-1 relative">
+      <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
+        €
+      </span>
       <Input
         type="text"
         inputMode="numeric"
-        value={inputValue}
+        value={localValue}
         onChange={handleChange}
         onBlur={handleBlur}
-        className="text-right"
+        onKeyDown={(e) => {
+          if (e.key === "Enter") e.currentTarget.blur();
+        }}
+        className="pl-7 text-right"
         disabled={disabled}
+        min={min}
+        max={max}
+        aria-label="Price input in Euro"
       />
     </div>
   );
