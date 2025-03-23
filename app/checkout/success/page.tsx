@@ -10,7 +10,7 @@ export default function SuccessPage() {
           <CheckCircle2Icon className="size-10 text-primary" />
         </div>
 
-        <h1 className="text-3xl font-bold mb-3">Order received!</h1>
+        <h1 className="text-3xl font-bold mb-3">Payment successful!</h1>
 
         <p className="text-muted-foreground mb-8">
           Thank you for your order! We will contact you shortly to confirm

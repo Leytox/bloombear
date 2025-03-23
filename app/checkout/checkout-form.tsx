@@ -28,7 +28,7 @@ import { useRouter } from "next/navigation";
 import { useCartStore } from "@/store/useCartStore";
 import { toast } from "sonner";
 import { useState } from "react";
-import { CalendarIcon, Loader2Icon } from "lucide-react";
+import { BanknoteIcon, CalendarIcon, Loader2Icon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
@@ -43,6 +43,10 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import Link from "next/link";
+import { createPaymentIntent, CheckoutFormData } from "@/actions/payment";
+import StripeProvider from "@/components/StripeProvider";
+import StripeCheckoutForm from "@/components/CheckoutForm";
+import { format } from "date-fns/format";
 const formSchema = z.object({
   fullName: z.string().min(2, {
     message: "Name is required",
@@ -74,6 +78,8 @@ const formSchema = z.object({
 
 export default function CheckoutForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [clientSecret, setClientSecret] = useState<string | null>(null);
+  const [showStripeForm, setShowStripeForm] = useState(false);
   const router = useRouter();
   const { cart, clearItems } = useCartStore();
 
@@ -92,7 +98,7 @@ export default function CheckoutForm() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     if (cart.items.length === 0) {
       toast.error("Your cart is empty", {
         description: "Add items to your cart before placing an order",
@@ -102,26 +108,53 @@ export default function CheckoutForm() {
 
     setIsSubmitting(true);
 
-    // Simulate API call
-    setTimeout(() => {
-      // Process order
-      console.log("Form values:", values);
-      console.log("Cart items:", cart);
+    try {
+      // Format the date as ISO string if it's a Date object
+      const formattedValues: CheckoutFormData = {
+        ...values,
+        deliveryDate:
+          values.deliveryDate instanceof Date
+            ? values.deliveryDate.toISOString()
+            : String(values.deliveryDate),
+      };
 
-      // Clear the cart
-      clearItems();
+      // Use the server action to create a payment intent
+      const result = await createPaymentIntent(
+        cart.items,
+        cart.totalPrice + (cart.totalPrice >= 250 ? 0 : cart.totalPrice / 4),
+        formattedValues,
+      );
 
-      // Show success message
-      toast.success("Order successfully placed!", {
-        description: "We will contact you shortly to confirm your order",
+      if (!result.success) {
+        throw new Error(result.error || "Error creating payment intent");
+      }
+
+      // Set the client secret and show Stripe form
+      setClientSecret(result.clientSecret!);
+      setShowStripeForm(true);
+    } catch (error) {
+      console.error("Payment setup error:", error);
+      toast.error("Payment processing failed", {
+        description: "Please try again or contact support",
       });
-
-      // Redirect to success page
-      router.push("/checkout/success");
-
+    } finally {
       setIsSubmitting(false);
-    }, 1500);
+    }
   }
+
+  // Handle successful payment
+  const handlePaymentSuccess = () => {
+    // Clear the cart
+    clearItems();
+
+    // Show success message
+    toast.success("Order successfully placed!", {
+      description: "We will contact you shortly to confirm your order",
+    });
+
+    // Redirect to success page
+    router.push("/checkout/success");
+  };
 
   // Get today's date for the min date of the date picker
   const today = new Date();
@@ -130,36 +163,259 @@ export default function CheckoutForm() {
   twoWeeksLater.setDate(twoWeeksLater.getDate() + 14);
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <div className="space-y-4">
-          <h3 className="font-medium text-lg">Contact Information</h3>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <FormField
-              control={form.control}
-              name="fullName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Full Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="John Doe" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+    <>
+      {showStripeForm && clientSecret ? (
+        <div className="space-y-6">
+          <h3 className="text-xl font-medium">Payment Details</h3>
+          <StripeProvider>
+            <StripeCheckoutForm
+              clientSecret={clientSecret}
+              onSuccessAction={handlePaymentSuccess}
+              amount={
+                cart.totalPrice +
+                (cart.totalPrice >= 250 ? 0 : cart.totalPrice / 4)
+              }
+              currency="EUR"
             />
+          </StripeProvider>
+        </div>
+      ) : (
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <div className="space-y-4">
+              <h3 className="font-medium text-lg">Contact Information</h3>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="fullName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Full Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="John Doe" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="phone"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Phone</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="tel"
+                          placeholder="+49 (___) ___-__-__"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="email"
+                        placeholder="example@email.de"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <div className="space-y-4">
+              <h3 className="font-medium text-lg">Address</h3>
+
+              <FormField
+                control={form.control}
+                name="city"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>City</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a city" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="Berlin">Berlin</SelectItem>
+                        <SelectItem value="Berlin state">
+                          Berlin state
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="address"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Address</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Street, house, apartment"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <div className="space-y-4">
+              <h3 className="font-medium text-lg">Delivery Date and Time</h3>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="deliveryDate"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col">
+                      <FormLabel>Date</FormLabel>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant={"outline"}
+                              className={cn(
+                                "w-full pl-3 text-left font-normal",
+                                !field.value && "text-muted-foreground",
+                              )}
+                            >
+                              {field.value ? (
+                                format(field.value, "PPP")
+                              ) : (
+                                <span>Pick a date</span>
+                              )}
+                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={field.value}
+                            onSelect={field.onChange}
+                            disabled={(date) =>
+                              date < today || date > twoWeeksLater
+                            }
+                            initialFocus
+                          />
+                        </PopoverContent>
+                      </Popover>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="deliveryTime"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Time</FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select Time" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="10:00-14:00">
+                            10:00-14:00
+                          </SelectItem>
+                          <SelectItem value="12:00-16:00">
+                            12:00-16:00
+                          </SelectItem>
+                          <SelectItem value="14:00-18:00">
+                            14:00-18:00
+                          </SelectItem>
+                          <SelectItem value="16:00-20:00">
+                            16:00-20:00
+                          </SelectItem>
+                          <SelectItem value="18:00-22:00">
+                            18:00-22:00
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <h3 className="font-medium text-lg">Payment Method</h3>
+
+              <FormField
+                control={form.control}
+                name="paymentMethod"
+                render={({ field }) => (
+                  <FormItem className="space-y-3">
+                    <FormControl>
+                      <RadioGroup
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                        className="flex flex-col space-y-2"
+                      >
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem value="online" id="online" />
+                          <Label htmlFor="online">Online Payment</Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem value="cash" id="cash" />
+                          <Label htmlFor="cash">Cash on Delivery</Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem value="card" id="card" />
+                          <Label htmlFor="card">Card on Delivery</Label>
+                        </div>
+                      </RadioGroup>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
 
             <FormField
               control={form.control}
-              name="phone"
+              name="comment"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Phone</FormLabel>
+                  <FormLabel>Comment</FormLabel>
                   <FormControl>
-                    <Input
-                      type="tel"
-                      placeholder="+49 (___) ___-__-__"
+                    <Textarea
+                      placeholder="Special instructions or information for the courier"
+                      className="resize-none"
                       {...field}
                     />
                   </FormControl>
@@ -167,252 +423,71 @@ export default function CheckoutForm() {
                 </FormItem>
               )}
             />
-          </div>
 
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input
-                    type="email"
-                    placeholder="example@email.de"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-
-        <div className="space-y-4">
-          <h3 className="font-medium text-lg">Address</h3>
-
-          <FormField
-            control={form.control}
-            name="city"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>City</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
+            <FormField
+              control={form.control}
+              name="agreeToTerms"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-start space-x-1 space-y-0 py-2">
                   <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select a city" />
-                    </SelectTrigger>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
                   </FormControl>
-                  <SelectContent>
-                    <SelectItem value="Berlin">Berlin</SelectItem>
-                    <SelectItem value="Berlin state">Berlin state</SelectItem>
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="address"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Address</FormLabel>
-                <FormControl>
-                  <Input placeholder="Street, house, apartment" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-
-        <div className="space-y-4">
-          <h3 className="font-medium text-lg">Delivery Date and Time</h3>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <FormField
-              control={form.control}
-              name="deliveryDate"
-              render={({ field }) => (
-                <FormItem className="flex flex-col">
-                  <FormLabel>Date</FormLabel>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button
-                          variant={"outline"}
-                          className={cn(
-                            "w-full pl-3 text-left font-normal",
-                            !field.value && "text-muted-foreground",
-                          )}
-                        >
-                          <span>Select Date</span>
-                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
-                        mode="single"
-                        selected={field.value}
-                        onSelect={field.onChange}
-                        disabled={(date) =>
-                          date < today || date > twoWeeksLater
-                        }
-                        initialFocus
-                      />
-                    </PopoverContent>
-                  </Popover>
-                  <FormMessage />
+                  <div className="space-y-1 leading-none">
+                    <FormLabel className="inline-flex flex-wrap gap-1 text-sm">
+                      I agree to the
+                      <Link href="/terms" className="hover:underline">
+                        terms of use
+                      </Link>
+                      and
+                      <Link href="/privacy" className="hover:underline">
+                        privacy policy
+                      </Link>
+                    </FormLabel>
+                    <FormMessage />
+                  </div>
                 </FormItem>
               )}
             />
-
-            <FormField
-              control={form.control}
-              name="deliveryTime"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Time</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    type="submit"
+                    className="w-full"
+                    disabled={
+                      isSubmitting ||
+                      cart.items.some((item) => item.product.inStock === false)
+                    }
+                    onSubmit={() =>
+                      window.scrollTo({ top: 0, behavior: "smooth" })
+                    }
                   >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select Time" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="10:00-14:00">10:00-14:00</SelectItem>
-                      <SelectItem value="12:00-16:00">12:00-16:00</SelectItem>
-                      <SelectItem value="14:00-18:00">14:00-18:00</SelectItem>
-                      <SelectItem value="16:00-20:00">16:00-20:00</SelectItem>
-                      <SelectItem value="18:00-22:00">18:00-22:00</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-        </div>
-
-        <div className="space-y-4">
-          <h3 className="font-medium text-lg">Payment Method</h3>
-
-          <FormField
-            control={form.control}
-            name="paymentMethod"
-            render={({ field }) => (
-              <FormItem className="space-y-3">
-                <FormControl>
-                  <RadioGroup
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                    className="flex flex-col space-y-2"
-                  >
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="online" id="online" />
-                      <Label htmlFor="online">Online Payment</Label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="cash" id="cash" />
-                      <Label htmlFor="cash">Cash on Delivery</Label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="card" id="card" />
-                      <Label htmlFor="card">Card on Delivery</Label>
-                    </div>
-                  </RadioGroup>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-
-        <FormField
-          control={form.control}
-          name="comment"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Comment</FormLabel>
-              <FormControl>
-                <Textarea
-                  placeholder="Special instructions or information for the courier"
-                  className="resize-none"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="agreeToTerms"
-          render={({ field }) => (
-            <FormItem className="flex flex-row items-start space-x-1 space-y-0 py-2">
-              <FormControl>
-                <Checkbox
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                />
-              </FormControl>
-              <div className="space-y-1 leading-none">
-                <FormLabel className="inline-flex flex-wrap gap-1 text-sm">
-                  I agree to the
-                  <Link href="/terms" className="hover:underline">
-                    terms of use
-                  </Link>
-                  and
-                  <Link href="/privacy" className="hover:underline">
-                    privacy policy
-                  </Link>
-                </FormLabel>
-                <FormMessage />
-              </div>
-            </FormItem>
-          )}
-        />
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <div>
-                <Button
-                  type="submit"
-                  className="w-full"
-                  disabled={
-                    isSubmitting ||
-                    cart.items.some((item) => item.product.inStock === false)
-                  }
-                >
-                  {isSubmitting ? (
-                    <>
-                      <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />
-                      Processing...
-                    </>
-                  ) : (
-                    "Order"
-                  )}
-                </Button>
-              </div>
-            </TooltipTrigger>
-            {cart.items.some((item) => !item.product.inStock) && (
-              <TooltipContent>
-                <p>Some items in your cart are out of stock</p>
-              </TooltipContent>
-            )}
-          </Tooltip>
-        </TooltipProvider>
-      </form>
-    </Form>
+                    {isSubmitting ? (
+                      <>
+                        <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />
+                        Processing...
+                      </>
+                    ) : (
+                      <div className="flex items-center gap-2">
+                        <BanknoteIcon />
+                        <p>Continue to Payment</p>
+                      </div>
+                    )}
+                  </Button>
+                </TooltipTrigger>
+                {cart.items.some((item) => !item.product.inStock) && (
+                  <TooltipContent>
+                    <p>Some items in your cart are out of stock</p>
+                  </TooltipContent>
+                )}
+              </Tooltip>
+            </TooltipProvider>
+          </form>
+        </Form>
+      )}
+    </>
   );
 }
