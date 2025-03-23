@@ -1,7 +1,7 @@
 {
   "name": "flowers",
   "version": "0.1.0",
-  "private": true,
+  "private": "true",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
@@ -10,7 +10,7 @@
     "postinstall": "prisma generate",
     "seed": "prisma db seed",
     "vercel-build": "prisma db push && prisma db seed && next build",
-    "prisma":{
+    "prisma": {
       "seed": "bun prisma/seed.ts"
     },
   },
