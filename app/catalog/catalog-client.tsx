@@ -59,6 +59,7 @@ import {
   BreadcrumbLink,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface CatalogClientProps {
   initialProducts: Product[];
@@ -239,7 +240,7 @@ export default function CatalogClient({
                 </SheetTitle>
               </SheetHeader>
               <Separator />
-              <div className="py-6">
+              <ScrollArea>
                 <FilterPanel
                   filterState={filterState}
                   categories={categories}
@@ -250,7 +251,7 @@ export default function CatalogClient({
                   onReset={resetFilters}
                   isPending={isPending}
                 />
-              </div>
+              </ScrollArea>
             </SheetContent>
           </Sheet>
         </div>
@@ -397,7 +398,7 @@ function FilterPanel({
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       {/* Reset button at the top */}
       {hasActiveFilters && (
         <Button
