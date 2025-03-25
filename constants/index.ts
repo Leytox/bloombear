@@ -277,4 +277,17 @@ export const promotions = [
     ],
     link: "/delivery",
   },
+  {
+    id: 3,
+    title: "PayPal Payment",
+    description: "PayPal payment option available for orders.",
+    period: "Until March 8, 2025",
+    image: "/promo3.jpg",
+    conditions: [
+      "PayPal account required",
+      "Order amount from 50 €",
+      "Delivery within Berlin",
+    ],
+    link: "/payment",
+  },
 ];
