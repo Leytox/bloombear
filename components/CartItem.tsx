@@ -26,7 +26,7 @@ export default function CartItem({
   const { removeItem } = useCartStore();
 
   return (
-    <div className="flex pb-4 pt-4 border-b">
+    <div className="flex pb-4 pt-4 border-b last:border-b-0">
       <Link
         href={`/product/${productId}`}
         onClick={onCartClose}

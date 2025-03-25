@@ -7,21 +7,9 @@ import { Separator } from "@/components/ui/separator";
 import { useCartStore } from "@/store/useCartStore";
 import { ArrowRightIcon, ShoppingCartIcon } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
 export default function OrderSummary() {
   const { cart } = useCartStore();
-  const [deliveryCost, setDeliveryCost] = useState(0);
-  const [totalWithDelivery, setTotalWithDelivery] = useState(
-    cart.totalPrice + deliveryCost,
-  );
-
-  useEffect(() => {
-    setDeliveryCost(
-      cart.totalPrice >= 250 ? 0 : Math.floor(cart.totalPrice / 4),
-    );
-    setTotalWithDelivery(cart.totalPrice + deliveryCost);
-  }, [cart, deliveryCost]);
 
   return (
     <Card>
@@ -66,24 +54,6 @@ export default function OrderSummary() {
                     compact={true}
                   />
                 ))}
-            </div>
-
-            <Separator />
-
-            <div className="space-y-2 pt-2">
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Total</span>
-                <span>{cart.totalPrice} €</span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Delivery</span>
-                <span>{deliveryCost === 0 ? "Free" : `${deliveryCost} €`}</span>
-              </div>
-              <Separator />
-              <div className="flex justify-between font-medium">
-                <span>Total</span>
-                <span>{totalWithDelivery} €</span>
-              </div>
             </div>
           </div>
         )}

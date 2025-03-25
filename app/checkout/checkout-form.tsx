@@ -27,7 +27,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useRouter } from "next/navigation";
 import { useCartStore } from "@/store/useCartStore";
 import { toast } from "sonner";
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { BanknoteIcon, CalendarIcon, Loader2Icon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -47,39 +47,61 @@ import { createPaymentIntent, CheckoutFormData } from "@/actions/payment";
 import StripeProvider from "@/components/StripeProvider";
 import StripeCheckoutForm from "@/components/CheckoutForm";
 import { format } from "date-fns/format";
-const formSchema = z.object({
-  fullName: z.string().min(2, {
-    message: "Name is required",
-  }),
-  phone: z.string().min(10, {
-    message: "Phone number is required",
-  }),
-  email: z.string().email({
-    message: "Input a valid email",
-  }),
-  city: z.string().min(1, {
-    message: "City is required",
-  }),
-  address: z.string().min(5, {
-    message: "Address is required",
-  }),
-  deliveryDate: z.date({
-    required_error: "Delivery date is required",
-  }),
-  deliveryTime: z.string().min(1, {
-    message: "Delivery time is required",
-  }),
-  paymentMethod: z.enum(["card", "cash", "online"]),
-  comment: z.string().optional(),
-  agreeToTerms: z.literal(true, {
-    errorMap: () => ({ message: "Agreement with terms is required" }),
-  }),
-});
+
+const phoneRegex = /^\+?[0-9]{10,15}$/;
+
+const formSchema = z
+  .object({
+    fullName: z.string().min(2, {
+      message: "Name is required",
+    }),
+    phone: z.string().regex(phoneRegex, {
+      message: "Please enter a valid phone number",
+    }),
+    email: z.string().email({
+      message: "Input a valid email",
+    }),
+    place: z.string().min(1, {
+      message: "Delivery location is required",
+    }),
+    locationDetails: z.string().optional(),
+    address: z.string().min(5, {
+      message: "Address is required",
+    }),
+    deliveryDate: z.date({
+      required_error: "Delivery date is required",
+    }),
+    deliveryTime: z.string().min(1, {
+      message: "Delivery time is required",
+    }),
+    paymentMethod: z.enum(["card", "cash", "online"]),
+    comment: z.string().optional(),
+    agreeToTerms: z.literal(true, {
+      errorMap: () => ({ message: "Agreement with terms is required" }),
+    }),
+  })
+  .refine(
+    (data) => {
+      if (
+        data.place === "Nearby Berlin" &&
+        (!data.locationDetails || data.locationDetails.trim() === "")
+      ) {
+        return false;
+      }
+      return true;
+    },
+    {
+      message: "Please provide details about your location",
+      path: ["locationDetails"],
+    },
+  );
 
 export default function CheckoutForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [showStripeForm, setShowStripeForm] = useState(false);
+  const [deliveryFee, setDeliveryFee] = useState(0);
+  const [totalPrice, setTotalPrice] = useState(0);
   const router = useRouter();
   const { cart, clearItems } = useCartStore();
 
@@ -89,7 +111,8 @@ export default function CheckoutForm() {
       fullName: "",
       phone: "",
       email: "",
-      city: "Berlin",
+      place: "Berlin",
+      locationDetails: "",
       address: "",
       deliveryTime: "10:00-14:00",
       paymentMethod: "online",
@@ -97,6 +120,28 @@ export default function CheckoutForm() {
       agreeToTerms: true,
     },
   });
+
+  const watchPlace = form.watch("place");
+  const watchPaymentMethod = form.watch("paymentMethod");
+
+  const getDeliveryPrice = useCallback(
+    (place: string): number => {
+      return cart.totalPrice >= 250 && place === "Berlin"
+        ? 0
+        : (place === "Berlin" ? 0 : place === "Berlin Outskirts" ? 10 : 20) +
+            cart.totalPrice / 4;
+    },
+    [cart.totalPrice],
+  );
+
+  useEffect(() => {
+    const fee = getDeliveryPrice(watchPlace);
+    setDeliveryFee(fee);
+
+    const calculatedTotal = fee + cart.totalPrice;
+
+    setTotalPrice(calculatedTotal);
+  }, [watchPlace, cart.totalPrice, getDeliveryPrice]);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     if (cart.items.length === 0) {
@@ -109,7 +154,6 @@ export default function CheckoutForm() {
     setIsSubmitting(true);
 
     try {
-      // Format the date as ISO string if it's a Date object
       const formattedValues: CheckoutFormData = {
         ...values,
         deliveryDate:
@@ -118,10 +162,22 @@ export default function CheckoutForm() {
             : String(values.deliveryDate),
       };
 
-      // Use the server action to create a payment intent
+      // If payment method is cash or card, skip Stripe and go straight to success
+      if (values.paymentMethod === "cash" || values.paymentMethod === "card") {
+        // Here you would typically save the order to your database
+        // without processing payment through Stripe
+        clearItems();
+        toast.success("Order successfully created!", {
+          description: "We will contact you shortly to confirm your order",
+        });
+        router.push("/checkout/success");
+        return;
+      }
+
+      // Only create payment intent for online payments
       const result = await createPaymentIntent(
         cart.items,
-        cart.totalPrice + (cart.totalPrice >= 250 ? 0 : cart.totalPrice / 4),
+        totalPrice, // Use calculated total with delivery fee
         formattedValues,
       );
 
@@ -142,17 +198,11 @@ export default function CheckoutForm() {
     }
   }
 
-  // Handle successful payment
   const handlePaymentSuccess = () => {
-    // Clear the cart
     clearItems();
-
-    // Show success message
     toast.success("Order successfully placed!", {
       description: "We will contact you shortly to confirm your order",
     });
-
-    // Redirect to success page
     router.push("/checkout/success");
   };
 
@@ -171,10 +221,7 @@ export default function CheckoutForm() {
             <StripeCheckoutForm
               clientSecret={clientSecret}
               onSuccessAction={handlePaymentSuccess}
-              amount={
-                cart.totalPrice +
-                (cart.totalPrice >= 250 ? 0 : cart.totalPrice / 4)
-              }
+              amount={totalPrice}
               currency="EUR"
             />
           </StripeProvider>
@@ -209,7 +256,7 @@ export default function CheckoutForm() {
                       <FormControl>
                         <Input
                           type="tel"
-                          placeholder="+49 (___) ___-__-__"
+                          placeholder="+49 123 456 7890"
                           {...field}
                         />
                       </FormControl>
@@ -239,27 +286,30 @@ export default function CheckoutForm() {
             </div>
 
             <div className="space-y-4">
-              <h3 className="font-medium text-lg">Address</h3>
+              <h3 className="font-medium text-lg">Delivery Location</h3>
 
               <FormField
                 control={form.control}
-                name="city"
+                name="place"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>City</FormLabel>
+                    <FormLabel>Delivery Area</FormLabel>
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select a city" />
+                          <SelectValue placeholder="Select delivery area" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
                         <SelectItem value="Berlin">Berlin</SelectItem>
-                        <SelectItem value="Berlin state">
-                          Berlin state
+                        <SelectItem value="Berlin Outskirts">
+                          Berlin Outskirts (+10€)
+                        </SelectItem>
+                        <SelectItem value="Nearby Berlin">
+                          Nearby Berlin (+20€)
                         </SelectItem>
                       </SelectContent>
                     </Select>
@@ -267,6 +317,25 @@ export default function CheckoutForm() {
                   </FormItem>
                 )}
               />
+
+              {watchPlace === "Nearby Berlin" && (
+                <FormField
+                  control={form.control}
+                  name="locationDetails"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Location Details</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="Please provide specific details about your location"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
 
               <FormField
                 control={form.control}
@@ -406,6 +475,30 @@ export default function CheckoutForm() {
               />
             </div>
 
+            {/* Order Summary Section */}
+            <div className="space-y-4 border p-4 rounded-lg">
+              <h3 className="font-medium text-lg">Order Summary</h3>
+              <div className="space-y-2">
+                <div className="flex justify-between">
+                  <span>Subtotal:</span>
+                  <span>{cart.totalPrice.toFixed(2)}€</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Delivery ({watchPlace}):</span>
+                  <span>{deliveryFee.toFixed(2)}€</span>
+                </div>
+                <div className="flex justify-between font-semibold">
+                  <span>Total:</span>
+                  <span>{totalPrice.toFixed(2)}€</span>
+                </div>
+                {watchPlace !== "Berlin" && (
+                  <p className="text-sm text-muted-foreground mt-2">
+                    Note: Delivery outside Berlin always incurs a delivery fee
+                  </p>
+                )}
+              </div>
+            </div>
+
             <FormField
               control={form.control}
               name="comment"
@@ -473,7 +566,11 @@ export default function CheckoutForm() {
                     ) : (
                       <div className="flex items-center gap-2">
                         <BanknoteIcon />
-                        <p>Continue to Payment</p>
+                        <p>
+                          {watchPaymentMethod === "online"
+                            ? "Continue to Payment"
+                            : "Place Order"}
+                        </p>
                       </div>
                     )}
                   </Button>
