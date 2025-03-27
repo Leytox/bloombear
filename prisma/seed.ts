@@ -2,6 +2,14 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
+  // Clear existing data to avoid conflicts
+  await prisma.orderItem.deleteMany({});
+  await prisma.order.deleteMany({});
+  await prisma.productOnOccasion.deleteMany({});
+  await prisma.product.deleteMany({});
+  await prisma.category.deleteMany({});
+  await prisma.occasion.deleteMany({});
+
   const categories = [
     {
       name: "Fresh Bouquets",

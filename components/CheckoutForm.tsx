@@ -13,6 +13,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { verifyPaymentIntent } from "@/actions/payment";
 
 type CheckoutFormProps = {
   clientSecret: string;
@@ -63,8 +64,10 @@ export default function StripeCheckoutForm({
       );
 
       if (error) setError(error.message || "Payment failed");
-      else if (paymentIntent.status === "succeeded") onSuccessAction();
-      else setError(`Payment status: ${paymentIntent.status}`);
+      else if (paymentIntent.status === "succeeded") {
+        await verifyPaymentIntent(paymentIntent.id);
+        onSuccessAction();
+      } else setError(`Payment status: ${paymentIntent.status}`);
     } catch (e) {
       const errorMessage =
         e instanceof Error ? e.message : "An unexpected error occurred";

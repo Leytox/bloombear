@@ -4,7 +4,8 @@ import Stripe from "stripe";
 import { z } from "zod";
 import { formatAmountForStripe } from "@/lib/stripe";
 import { CartItem } from "@/types";
-
+import { createOrder, updateOrderPaymentStatus } from "./order";
+import { PaymentStatus } from "@prisma/client";
 // Initialize Stripe
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2025-02-24.acacia",
@@ -31,9 +32,7 @@ export async function createPaymentIntent(
 ) {
   try {
     // Validate the items array
-    if (!items?.length) {
-      return { success: false, error: "No items in cart" };
-    }
+    if (!items?.length) return { success: false, error: "No items in cart" };
 
     // Validate customer details
     const validationResult = checkoutSchema.safeParse(customerDetails);
@@ -44,34 +43,45 @@ export async function createPaymentIntent(
         details: validationResult.error.format(),
       };
     }
+    const orderResult = await createOrder({
+      customerName: customerDetails.fullName,
+      customerEmail: customerDetails.email,
+      customerPhone: customerDetails.phone,
+      deliveryArea: customerDetails.place,
+      deliveryAddress: `${customerDetails.address}, ${customerDetails.place}`,
+      deliveryDate: customerDetails.deliveryDate,
+      deliveryTime: customerDetails.deliveryTime,
+      paymentMethod: customerDetails.paymentMethod,
+      comment: customerDetails.comment,
+      totalAmount: amount,
+      items: items,
+    });
 
-    // Create a PaymentIntent
+    if (!orderResult.success) {
+      return { success: false, error: "Failed to create order" };
+    }
+
+    // Then create payment intent with order reference
     const paymentIntent = await stripe.paymentIntents.create({
       amount: formatAmountForStripe(amount),
       currency: "eur",
-      // Save the order details in the metadata
       metadata: {
-        email: customerDetails.email,
-        name: customerDetails.fullName,
-        phone: customerDetails.phone,
-        address: `${customerDetails.address}, ${customerDetails.place}`,
-        deliveryDate: customerDetails.deliveryDate,
-        deliveryTime: customerDetails.deliveryTime,
-        comment: customerDetails.comment || "",
-        items: JSON.stringify(
-          items.map((item) => ({
-            id: item.product.id,
-            name: item.product.name,
-            quantity: item.quantity,
-            price: item.product.price,
-          })),
-        ),
+        orderId: String(orderResult.orderId),
+        // Other metadata as before...
       },
     });
+
+    // Update order with payment intent ID
+    await updateOrderPaymentStatus(
+      orderResult.orderId!,
+      PaymentStatus.PENDING,
+      paymentIntent.id,
+    );
 
     return {
       success: true,
       clientSecret: paymentIntent.client_secret,
+      orderId: orderResult.orderId,
     };
   } catch (error) {
     console.error("Stripe error:", error);
@@ -85,12 +95,22 @@ export async function createPaymentIntent(
   }
 }
 
-/**
- * Verifies a payment intent status
- */
+// Update the verifyPaymentIntent function to update order status
 export async function verifyPaymentIntent(paymentIntentId: string) {
   try {
     const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+
+    // If we have an order ID in the metadata, update its status
+    if (paymentIntent.metadata.orderId) {
+      const orderId = parseInt(paymentIntent.metadata.orderId);
+      await updateOrderPaymentStatus(
+        orderId,
+        paymentIntent.status === "succeeded"
+          ? PaymentStatus.PAID
+          : PaymentStatus.FAILED,
+        paymentIntentId,
+      );
+    }
 
     return {
       success: true,
