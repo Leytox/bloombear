@@ -11,6 +11,7 @@ import {
   BreadcrumbList,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { Metadata } from "next";
 
 export default function AboutPage() {
   return (
@@ -120,3 +121,8 @@ export default function AboutPage() {
     </div>
   );
 }
+
+export const metadata: Metadata = {
+  title: "About Us",
+  description: "Learn more about our company and our mission.",
+};

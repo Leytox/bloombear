@@ -15,6 +15,7 @@ import {
   BreadcrumbLink,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { Metadata } from "next";
 
 export default function DeliveryPage() {
   return (
@@ -137,3 +138,8 @@ export default function DeliveryPage() {
     </div>
   );
 }
+
+export const metadata: Metadata = {
+  title: "Delivery",
+  description: "Learn about our delivery options and policies.",
+};

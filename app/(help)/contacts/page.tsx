@@ -24,6 +24,7 @@ import {
   BreadcrumbList,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { Metadata } from "next";
 
 export default function ContactsPage() {
   return (
@@ -222,3 +223,8 @@ export default function ContactsPage() {
     </div>
   );
 }
+
+export const metadata: Metadata = {
+  title: "Contacts",
+  description: "Contact us for any inquiries or feedback.",
+};

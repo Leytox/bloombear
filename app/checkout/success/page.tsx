@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowLeftIcon, CheckCircle2Icon } from "lucide-react";
+import { Metadata } from "next";
 import Link from "next/link";
 
 export default function SuccessPage() {
@@ -40,3 +41,8 @@ export default function SuccessPage() {
     </div>
   );
 }
+
+export const metadata: Metadata = {
+  title: "Order Success",
+  description: "Thank you for your order!",
+};

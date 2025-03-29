@@ -14,6 +14,7 @@ import {
   BreadcrumbLink,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { Metadata } from "next";
 
 export default function PrivacyPage() {
   return (
@@ -169,3 +170,8 @@ export default function PrivacyPage() {
     </div>
   );
 }
+
+export const metadata: Metadata = {
+  title: "Privacy Policy",
+  description: "Learn about our privacy policy and data protection practices.",
+};

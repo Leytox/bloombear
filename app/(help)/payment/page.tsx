@@ -20,6 +20,7 @@ import {
   BreadcrumbLink,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { Metadata } from "next";
 
 export default function PaymentPage() {
   return (
@@ -97,3 +98,8 @@ export default function PaymentPage() {
     </div>
   );
 }
+
+export const metadata: Metadata = {
+  title: "Payment",
+  description: "Learn about our payment options and policies.",
+};

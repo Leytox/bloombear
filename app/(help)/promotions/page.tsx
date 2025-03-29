@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/card";
 import { promotions } from "@/constants";
 import { ArrowRightIcon, CheckIcon } from "lucide-react";
+import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -98,3 +99,8 @@ export default function PromotionsPage() {
     </div>
   );
 }
+
+export const metadata: Metadata = {
+  title: "Promotions",
+  description: "Explore our current promotions and discounts.",
+};

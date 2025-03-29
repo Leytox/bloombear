@@ -14,6 +14,7 @@ import {
   BreadcrumbLink,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { Metadata } from "next";
 
 export default function TermsPage() {
   return (
@@ -195,3 +196,9 @@ export default function TermsPage() {
     </div>
   );
 }
+
+export const metadata: Metadata = {
+  title: "Terms and Conditions",
+  description:
+    "Read our terms and conditions to understand our policies and procedures.",
+};

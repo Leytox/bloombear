@@ -44,3 +44,24 @@ export async function generateStaticParams() {
     slug: category.slug,
   }));
 }
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}) {
+  const category = await prisma.category.findFirst({
+    where: { slug: params.slug },
+  });
+
+  if (!category)
+    return {
+      title: "Category Not Found",
+      description: "The requested category was not found.",
+    };
+
+  return {
+    title: `${category.name} - Bouquets catalog`,
+    description: `Explore our ${category.name} collection and discover the perfect bouquet for any occasion.`,
+  };
+}
