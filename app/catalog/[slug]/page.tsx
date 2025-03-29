@@ -48,10 +48,11 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
+  const slug = (await params).slug;
   const category = await prisma.category.findFirst({
-    where: { slug: params.slug },
+    where: { slug },
   });
 
   if (!category)
