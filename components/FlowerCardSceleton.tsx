@@ -12,7 +12,7 @@ export default function FlowerCardSkeleton() {
         <div className="flex items-center mb-2 mt-6">
           <div className="flex gap-1">
             {[...Array(5)].map((_, i) => (
-              <Skeleton key={i} className="w-4 h-4 rounded-full" />
+              <Skeleton key={i} className="size-4 rounded-full" />
             ))}
           </div>
           <Skeleton className="w-10 h-3 rounded ml-2" />

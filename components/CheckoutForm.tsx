@@ -92,7 +92,7 @@ export default function StripeCheckoutForm({
         <CardHeader className="pb-3">
           <div className="flex items-center justify-between">
             <CardTitle className="text-lg flex items-center gap-2">
-              <CreditCardIcon className="h-5 w-5 text-primary" />
+              <CreditCardIcon className="text-primary" />
               Card Details
             </CardTitle>
           </div>
@@ -135,7 +135,7 @@ export default function StripeCheckoutForm({
         <CardFooter className="flex flex-col gap-4">
           {error && (
             <Alert variant="destructive" className="text-sm">
-              <AlertCircleIcon className="h-4 w-4" />
+              <AlertCircleIcon />
               <AlertTitle>Error</AlertTitle>
               <AlertDescription>{error}</AlertDescription>
             </Alert>
@@ -149,7 +149,7 @@ export default function StripeCheckoutForm({
           >
             {isLoading ? (
               <div className="flex items-center justify-center">
-                <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />
+                <Loader2Icon className="mr-2 animate-spin" />
                 Processing payment...
               </div>
             ) : (

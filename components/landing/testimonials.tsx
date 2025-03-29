@@ -24,7 +24,7 @@ export default function Testimonials() {
                         alt={testimonial.name}
                         width={60}
                         height={60}
-                        className="rounded-full h-[60px] w-[60px] object-cover"
+                        className="rounded-full size-[60px] object-cover"
                       />
                     </div>
                   )}

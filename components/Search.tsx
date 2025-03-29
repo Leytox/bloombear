@@ -70,7 +70,7 @@ export default function Search() {
         />
         {isLoading ? (
           <div className="absolute right-4 top-1/2 -translate-y-1/2">
-            <div className="animate-spin h-4 w-4 border-2 border-muted-foreground border-t-transparent rounded-full" />
+            <div className="animate-spin size-4 border-2 border-muted-foreground border-t-transparent rounded-full" />
           </div>
         ) : (
           <SearchIcon className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground" />

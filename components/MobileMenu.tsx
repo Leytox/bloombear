@@ -27,7 +27,7 @@ export default function MobileMenu() {
     <Sheet>
       <SheetTrigger asChild>
         <Button variant="ghost" size="icon" className="md:hidden">
-          <MenuIcon className="h-6 w-6" />
+          <MenuIcon />
         </Button>
       </SheetTrigger>
       <SheetContent side="right" className="w-full h-full px-4">
@@ -51,7 +51,7 @@ export default function MobileMenu() {
               <Link href="/catalog" className="block">
                 <Card className="transition-all hover:shadow-md hover:scale-105 h-full">
                   <CardContent className="flex flex-col items-center justify-center p-4 h-full">
-                    <FlowerIcon className="h-8 w-8 mb-2 text-primary" />
+                    <FlowerIcon className="mb-2 text-primary" />
                     <span className="text-center font-medium">Catalog</span>
                   </CardContent>
                 </Card>
@@ -61,7 +61,7 @@ export default function MobileMenu() {
               <Link href="/promotions" className="block">
                 <Card className="transition-all hover:shadow-md hover:scale-105 h-full">
                   <CardContent className="flex flex-col items-center justify-center p-4 h-full">
-                    <PercentIcon className="h-8 w-8 mb-2 text-primary" />
+                    <PercentIcon className="mb-2 text-primary" />
                     <span className="text-center font-medium">Promotions</span>
                   </CardContent>
                 </Card>
@@ -71,7 +71,7 @@ export default function MobileMenu() {
               <Link href="/payment" className="block">
                 <Card className="transition-all hover:shadow-md hover:scale-105 h-full">
                   <CardContent className="flex flex-col items-center justify-center p-4 h-full">
-                    <CreditCardIcon className="h-8 w-8 mb-2 text-primary" />
+                    <CreditCardIcon className="mb-2 text-primary" />
                     <span className="text-center font-medium">Payment</span>
                   </CardContent>
                 </Card>
@@ -81,7 +81,7 @@ export default function MobileMenu() {
               <Link href="/delivery" className="block">
                 <Card className="transition-all hover:shadow-md hover:scale-105 h-full">
                   <CardContent className="flex flex-col items-center justify-center p-4 h-full">
-                    <PackageIcon className="h-8 w-8 mb-2 text-primary" />
+                    <PackageIcon className="mb-2 text-primary" />
                     <span className="text-center font-medium">Delivery</span>
                   </CardContent>
                 </Card>
@@ -92,7 +92,7 @@ export default function MobileMenu() {
               <Link href="/contacts" className="block">
                 <Card className="transition-all hover:shadow-md hover:scale-105 h-full">
                   <CardContent className="flex flex-col items-center justify-center p-4 h-full">
-                    <PhoneIcon className="h-8 w-8 mb-2 text-primary" />
+                    <PhoneIcon className="mb-2 text-primary" />
                     <span className="text-center font-medium">Contacts</span>
                   </CardContent>
                 </Card>
@@ -103,7 +103,7 @@ export default function MobileMenu() {
               <Link href="/about" className="block">
                 <Card className="transition-all hover:shadow-md hover:scale-105 h-full">
                   <CardContent className="flex flex-col items-center justify-center p-4 h-full">
-                    <InfoIcon className="h-8 w-8 mb-2 text-primary" />
+                    <InfoIcon className="mb-2 text-primary" />
                     <span className="text-center font-medium">About Us</span>
                   </CardContent>
                 </Card>

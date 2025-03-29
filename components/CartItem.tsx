@@ -82,7 +82,7 @@ export default function CartItem({
               removeItem(productId);
             }}
           >
-            <Trash2Icon className="h-4 w-4 text-destructive" />
+            <Trash2Icon className="text-destructive" />
           </Button>
         </div>
       </div>

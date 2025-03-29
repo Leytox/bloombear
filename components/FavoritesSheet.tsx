@@ -52,7 +52,7 @@ export function FavoritesSheet({
         </SheetHeader>
         {favorites.items.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-[80vh]">
-            <HeartIcon className="h-12 w-12 text-muted-foreground mb-4" />
+            <HeartIcon className="text-muted-foreground mb-4" />
             <p className="text-lg font-medium mb-2">Favorites list is empty</p>
             <p className="text-muted-foreground mb-6 text-center">
               Add products to favorites to see them here

@@ -58,7 +58,7 @@ export function CartSheet() {
         <Separator className="-mb-4" />
         {cart.items.length === 0 ? (
           <div className="flex flex-col items-center justify-center flex-grow text-center">
-            <ShoppingCartIcon className="h-16 w-16 text-muted-foreground mb-4" />
+            <ShoppingCartIcon className="text-muted-foreground mb-4" />
             <h3 className="text-xl font-medium mb-2">Cart is empty</h3>
             <p className="text-muted-foreground mb-6">
               Add items from the catalog

@@ -41,7 +41,7 @@ export default function AddToCartButton({
       variant={isItemInCart(product.id) ? "outline" : "default"}
       title={isItemInCart(product.id) ? "Go to cart" : "Add to cart"}
     >
-      <ShoppingCartIcon className="mr-2 h-4 w-4" />
+      <ShoppingCartIcon className="mr-2 size-4" />
       {isItemInCart(product.id) ? "In cart" : "Add to cart"}
     </Button>
   );

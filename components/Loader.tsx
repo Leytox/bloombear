@@ -13,9 +13,9 @@ export function Loader({
   ...props
 }: LoaderProps) {
   const sizeClasses = {
-    sm: "w-4 h-4",
-    default: "w-8 h-8",
-    lg: "w-12 h-12",
+    sm: "size-4",
+    default: "size-8",
+    lg: "size-12",
   };
 
   const variantClasses = {

@@ -9,7 +9,7 @@ export default function Benefits() {
           {deliveryBenefits.map((benefit) => (
             <Card key={benefit.title} className="text-center">
               <CardHeader>
-                <div className="mx-auto w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                <div className="mx-auto size-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
                   <benefit.icon />
                 </div>
                 <CardTitle className="text-lg">{benefit.title}</CardTitle>

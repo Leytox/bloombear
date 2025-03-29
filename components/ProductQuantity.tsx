@@ -85,7 +85,7 @@ export default function ProductQuantity({
         onClick={() => handleQuantityChange(quantity + 1)}
         disabled={!product.inStock}
       >
-        <PlusIcon className={mode === "local" ? "h-4 w-4" : "h-3 w-3"} />
+        <PlusIcon className={mode === "local" ? "size-4" : "size-3"} />
       </Button>
     </div>
   );
