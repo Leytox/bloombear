@@ -18,6 +18,8 @@ const checkoutSchema = z.object({
   phone: z.string().min(10),
   place: z.string().min(1),
   address: z.string().min(5),
+  deliveryArea: z.string().min(1),
+  deliveryAddress: z.string().min(1),
   deliveryDate: z.string(),
   deliveryTime: z.string().min(1),
   paymentMethod: z.enum(["card", "cash", "online"]),

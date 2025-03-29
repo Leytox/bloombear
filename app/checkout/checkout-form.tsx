@@ -47,6 +47,7 @@ import { createPaymentIntent, CheckoutFormData } from "@/actions/payment";
 import StripeProvider from "@/components/StripeProvider";
 import StripeCheckoutForm from "@/components/CheckoutForm";
 import { format } from "date-fns/format";
+import { createOrder } from "@/actions/order";
 
 const phoneRegex = /^\+?[0-9]{10,15}$/;
 
@@ -160,12 +161,27 @@ export default function CheckoutForm() {
           values.deliveryDate instanceof Date
             ? values.deliveryDate.toISOString()
             : String(values.deliveryDate),
+        deliveryAddress: values.address,
+        deliveryArea: values.place,
       };
 
       // If payment method is cash or card, skip Stripe and go straight to success
       if (values.paymentMethod === "cash" || values.paymentMethod === "card") {
         // Here you would typically save the order to your database
         // without processing payment through Stripe
+        await createOrder({
+          customerName: formattedValues.fullName,
+          customerEmail: formattedValues.email,
+          customerPhone: formattedValues.phone,
+          deliveryArea: formattedValues.deliveryArea,
+          deliveryAddress: formattedValues.deliveryAddress,
+          deliveryDate: formattedValues.deliveryDate,
+          deliveryTime: formattedValues.deliveryTime,
+          paymentMethod: formattedValues.paymentMethod,
+          comment: formattedValues.comment,
+          totalAmount: totalPrice,
+          items: cart.items,
+        });
         clearItems();
         toast.success("Order successfully created!", {
           description: "We will contact you shortly to confirm your order",
