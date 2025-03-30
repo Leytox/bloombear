@@ -12,7 +12,7 @@ model Product {
   name        String
   description String
   price       Int
-  image       String
+  image       String              @default("https://images.unsplash.com/photo-1606041008023-472dfb5e530f?w=120")
   category    Category            @relation(fields: [categoryId], references: [id])
   categoryId  Int
   occasions   ProductOnOccasion[]
@@ -85,14 +85,58 @@ model Order {
   updatedAt       DateTime      @updatedAt
 }
 
-model Operator {
-  id        Int      @id @default(autoincrement())
+model User {
+  id        String    @id @default(cuid())
   firstName String
   lastName  String
-  role      Role     @default(STAFF)
+  role      Role      @default(STAFF)
   password  String
+  login     String    @unique
+  image     String?
+  accounts  Account[]
+  sessions  Session[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([provider, providerAccountId])
+}
+
+model Session {
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@id([identifier, token])
 }
 
 enum OrderStatus {
