@@ -11,6 +11,9 @@ import {
 import { SidebarTrigger } from "../ui/sidebar";
 import { usePathname } from "next/navigation";
 import { ThemeSwitcher } from "../ThemeSwitcher";
+import Link from "next/link";
+import { Button } from "../ui/button";
+import { SquareArrowLeftIcon } from "lucide-react";
 
 export default function CrmHeader() {
   const pathname = usePathname();
@@ -37,7 +40,14 @@ export default function CrmHeader() {
           </BreadcrumbList>
         </Breadcrumb>
       </div>
-      <ThemeSwitcher />
+      <div className="flex items-center gap-4">
+        <ThemeSwitcher />
+        <Link href="/logout">
+          <Button variant={"ghost"} size={"icon"}>
+            <SquareArrowLeftIcon />
+          </Button>
+        </Link>
+      </div>
     </header>
   );
 }

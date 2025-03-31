@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import "../globals.css";
 import React from "react";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { CrmSidebar } from "@/components/crm/CrmSidebar";
