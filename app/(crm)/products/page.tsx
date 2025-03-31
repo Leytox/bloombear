@@ -1,7 +1,7 @@
-export default async function Products() {
+export default function Page() {
   return (
     <div>
-      <h1>Products</h1>
+      <h1>Orders</h1>
     </div>
   );
 }
