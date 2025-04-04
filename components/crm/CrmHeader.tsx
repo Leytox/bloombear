@@ -25,7 +25,9 @@ export default function CrmHeader() {
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem className="hidden md:block">
-              <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
+              <BreadcrumbLink asChild>
+                <Link href="/dashboard">Dashboard</Link>
+              </BreadcrumbLink>
             </BreadcrumbItem>
             {!pathname.startsWith("/dashboard") && (
               <>

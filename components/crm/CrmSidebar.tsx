@@ -10,6 +10,7 @@ import {
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -74,17 +75,14 @@ export async function CrmSidebar() {
           </h1>
         </div>
         <div className="flex flex-row gap-2 mt-4 items-center">
-          <Link
-            href="/profile"
-            className="relative size-18 rounded-full overflow-hidden"
-          >
+          <div className="relative size-18 rounded-full overflow-hidden">
             <Image
               className="object-cover"
               src={session?.user?.image || ""}
               alt="User Image"
               fill
             />
-          </Link>
+          </div>
           <div className="flex flex-col gap-1">
             <p className="text-base font-medium">{session?.user?.name}</p>
             <p className="text-xs text-muted-foreground font-medium">
@@ -129,6 +127,11 @@ export async function CrmSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter>
+        <SidebarHeader className="text-center text-muted-foreground">
+          If anything goes wrong, contact support
+        </SidebarHeader>
+      </SidebarFooter>
     </Sidebar>
   );
 }
