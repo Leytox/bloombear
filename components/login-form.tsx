@@ -19,6 +19,7 @@ import {
 import { ArrowRightIcon, Loader2Icon } from "lucide-react";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   login: z.string().min(1),
@@ -32,6 +33,8 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -43,6 +46,8 @@ export function LoginForm({
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       await signInCredentials(values.login, values.password);
+      router.push("/dashboard");
+      toast.success("Logged in successfully");
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : "An unexpected error occurred";

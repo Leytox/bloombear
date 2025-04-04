@@ -28,11 +28,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const { login, password } = parsedCredentials.data;
         const user = await getUserByLogin(login);
 
-        if (!user) throw new CredentialsSignin();
-        if (!user.password) throw new Error("User has no password");
-        const passwordsMatch = bcrypt.compare(password, user.password);
-
-        if (!passwordsMatch) return null;
+        if (!user) throw new CredentialsSignin("No user found");
+        const passwordsMatch = bcrypt.compareSync(password, user.password);
+        console.log(passwordsMatch, user.password, password);
+        if (!passwordsMatch)
+          throw new CredentialsSignin("Password is incorrect");
 
         return {
           id: user.id,

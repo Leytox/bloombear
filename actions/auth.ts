@@ -23,11 +23,11 @@ export async function signInCredentials(login: string, password: string) {
     await signIn("credentials", {
       login,
       password,
-      redirectTo: "/dashboard",
-      redirect: true,
+      redirect: false,
     });
     return { success: true };
   } catch (error) {
+    console.log(error);
     throw error;
   }
 }
