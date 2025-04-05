@@ -38,7 +38,7 @@ BloomBear is a sophisticated online flower delivery service based in Berlin, Ger
 
 ## Tech Stack
 
-- **Frontend**: 
+- **Frontend**:
   - Next.js 15
   - React 19
   - TypeScript
@@ -84,6 +84,9 @@ BloomBear is a sophisticated online flower delivery service based in Berlin, Ger
    Create a `.env` file in the root directory with the following variables:
    ```
    DATABASE_URL="postgresql://username:password@localhost:5432/bloombear"
+   NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY="your_stripe_publishable_key"
+   STRIPE_SECRET_KEY="your_stripe_secret_key"
+   AUTH_SECRET="generate_a_secret_key_using_authjs"
    ```
 
 4. Set up the database:
