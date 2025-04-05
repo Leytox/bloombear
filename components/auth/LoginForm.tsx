@@ -15,17 +15,17 @@ import {
   FormControl,
   FormDescription,
   FormMessage,
-} from "./ui/form";
+} from "@/components/ui/form";
 import { ArrowRightIcon, Loader2Icon } from "lucide-react";
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   login: z.string().min(1),
   password: z
     .string()
-    .min(8, { message: "Password must be at least 8 characters" })
+    .min(6, { message: "Password must be at least 6 characters" })
     .max(50, { message: "Password must be at most 50 characters" }),
 });
 

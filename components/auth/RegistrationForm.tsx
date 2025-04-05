@@ -14,7 +14,7 @@ import {
   FormDescription,
   FormField,
   FormMessage,
-} from "./ui/form";
+} from "@/components/ui/form";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -27,7 +27,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "./ui/select";
+} from "@/components/ui/select";
 
 const formSchema = z.object({
   login: z.string().min(1),
@@ -42,7 +42,7 @@ const formSchema = z.object({
   role: z.nativeEnum(Role),
   password: z
     .string()
-    .min(8, { message: "Password must be at least 8 characters" })
+    .min(6, { message: "Password must be at least 6 characters" })
     .max(50, { message: "Password must be at most 50 characters" }),
 });
 
