@@ -1,7 +1,13 @@
 "use server";
 
 import prisma from "@/lib/prisma";
-import { Prisma, Product } from "@prisma/client";
+import { Category, Occasion, Prisma, Product } from "@prisma/client";
+import { revalidatePath } from "next/cache";
+
+export type ProductWithOccasions = Product & {
+  category: Category | null;
+  occasions: Occasion[];
+};
 
 export type ProductFilterParams = {
   categoryIds?: number[];
@@ -154,4 +160,148 @@ export async function getMinMaxPrices(): Promise<{ min: number; max: number }> {
     min: products[0].price,
     max: products[products.length - 1].price,
   };
+}
+
+export async function createProduct({
+  name,
+  description = "",
+  price,
+  discount = 0,
+  image = "",
+  inStock = true,
+  categoryId,
+  occasionIds = [],
+}: {
+  name: string;
+  description?: string;
+  price: number;
+  discount?: number;
+  image?: string;
+  inStock?: boolean;
+  categoryId: number;
+  occasionIds?: number[];
+}) {
+  try {
+    const product = await prisma.product.create({
+      data: {
+        name,
+        description,
+        price,
+        discount,
+        image,
+        inStock,
+        categoryId,
+        rating: 0,
+      },
+    });
+
+    if (occasionIds.length > 0) {
+      await prisma.productOnOccasion.createMany({
+        data: occasionIds.map((occasionId) => ({
+          productId: product.id,
+          occasionId,
+        })),
+      });
+    }
+
+    revalidatePath("/admin/products");
+    revalidatePath("/catalog");
+    return product;
+  } catch (error) {
+    console.error("Failed to create product:", error);
+    throw new Error("Failed to create product");
+  }
+}
+
+export async function getProductDetails(
+  id: number,
+): Promise<ProductWithOccasions | null> {
+  try {
+    const product = await prisma.product.findUnique({
+      where: { id },
+      include: {
+        category: true,
+        occasions: {
+          include: {
+            occasion: true,
+          },
+        },
+      },
+    });
+
+    if (!product) return null;
+
+    return {
+      ...product,
+      occasions: product.occasions.map((po) => po.occasion),
+    };
+  } catch (error) {
+    console.error("Failed to get product details:", error);
+    return null;
+  }
+}
+
+export async function updateProduct({
+  id,
+  name,
+  description,
+  price,
+  discount = 0,
+  image,
+  inStock,
+  categoryId,
+  rating,
+  occasionIds = [],
+}: {
+  id: number;
+  name: string;
+  description?: string;
+  price: number;
+  discount?: number;
+  image?: string;
+  inStock?: boolean;
+  categoryId: number;
+  rating: number;
+  occasionIds?: number[];
+}) {
+  try {
+    // First, delete existing occasion relationships
+    await prisma.productOnOccasion.deleteMany({
+      where: { productId: id },
+    });
+
+    // Then update the product with new data
+    const product = await prisma.product.update({
+      where: { id },
+      data: {
+        name,
+        description,
+        price,
+        discount,
+        image,
+        inStock,
+        categoryId,
+        rating,
+      },
+    });
+
+    // Create new occasion relationships
+    if (occasionIds.length > 0) {
+      await prisma.productOnOccasion.createMany({
+        data: occasionIds.map((occasionId) => ({
+          productId: id,
+          occasionId,
+        })),
+      });
+    }
+
+    revalidatePath("/admin/products");
+    revalidatePath("/catalog");
+    revalidatePath(`/product/${id}`);
+
+    return product;
+  } catch (error) {
+    console.error("Failed to update product:", error);
+    throw new Error("Failed to update product");
+  }
 }
