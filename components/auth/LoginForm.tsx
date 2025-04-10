@@ -1,7 +1,6 @@
 "use client";
 import { cn } from "@/lib/utils";
 import React from "react";
-import Link from "next/link";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -121,12 +120,6 @@ export function LoginForm({
               </Button>
             </form>
           </Form>
-          <p className="text-center text-sm text-muted-foreground">
-            Don&apos;t have an account?{" "}
-            <Link href="/registration" className="underline">
-              Register
-            </Link>
-          </p>
         </div>
       </div>
     </div>

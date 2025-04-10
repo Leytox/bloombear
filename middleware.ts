@@ -10,6 +10,7 @@ const PROTECTED_ROUTES = [
   "/occasions",
   "/orders",
   "/products",
+  "/registration",
 ];
 
 export const { auth } = NextAuth(authConfig);
@@ -31,9 +32,6 @@ export default auth(async function middleware(req) {
     return NextResponse.redirect(new URL("/", nextUrl));
 
   if (isLoggedIn && nextUrl.pathname.startsWith("/login"))
-    return NextResponse.redirect(new URL("/dashboard", nextUrl));
-
-  if (isLoggedIn && nextUrl.pathname.startsWith("/registration"))
     return NextResponse.redirect(new URL("/dashboard", nextUrl));
 
   if (!isLoggedIn && nextUrl.pathname.startsWith("/logout"))

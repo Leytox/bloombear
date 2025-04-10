@@ -4,7 +4,6 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import React from "react";
-import Link from "next/link";
 import { ArrowRightIcon, Loader2Icon } from "lucide-react";
 import {
   Form,
@@ -203,12 +202,6 @@ export function RegistrationForm({
                   </FormItem>
                 )}
               />
-              <p className="text-center text-sm text-muted-foreground">
-                Already have an account?{" "}
-                <Link href="/login" className="underline">
-                  Login
-                </Link>
-              </p>
               <Button
                 type="submit"
                 className="w-full"
