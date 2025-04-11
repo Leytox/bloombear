@@ -1,7 +1,8 @@
 "use server";
-import { PaymentStatus } from "@prisma/client";
+import { PaymentStatus, Order } from "@prisma/client";
 import prisma from "@/lib/prisma";
 import { CartItem } from "@/types";
+import { OrderStatus } from "@prisma/client";
 
 type CreateOrderParams = {
   customerName: string;
@@ -53,7 +54,7 @@ export async function createOrder(data: CreateOrderParams) {
   }
 }
 
-export async function getOrderById(id: number) {
+export async function getOrderById(id: number): Promise<Order | null> {
   return prisma.order.findUnique({
     where: { id },
     include: {
@@ -70,12 +71,39 @@ export async function updateOrderPaymentStatus(
   orderId: number,
   paymentStatus: PaymentStatus,
   paymentIntentId?: string,
-) {
+): Promise<Order | null> {
   return prisma.order.update({
     where: { id: orderId },
     data: {
       paymentStatus,
       paymentIntentId,
+    },
+  });
+}
+
+export async function getAllOrders(): Promise<Order[]> {
+  return prisma.order.findMany({
+    orderBy: { createdAt: 'desc' },
+    include: {
+      items: {
+        include: {
+          product: true,
+        },
+      },
+    },
+  });
+}
+
+export async function updateOrderStatus(orderId: number, status: OrderStatus): Promise<Order | null> {
+  const order = await prisma.order.findUnique({
+    where: { id: orderId },
+  });
+  if (status === OrderStatus.COMPLETED && order?.paymentStatus !== PaymentStatus.PAID)
+    throw new Error("Order is not paid");
+  return prisma.order.update({
+    where: { id: orderId },
+    data: {
+      status,
     },
   });
 }
