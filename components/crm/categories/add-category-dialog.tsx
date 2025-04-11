@@ -18,6 +18,7 @@ import { createCategory } from "@/actions/category";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { Textarea } from "@/components/ui/textarea";
+import ImageUpload from "@/components/ui/image-upload";
 
 export default function AddCategoryDialog() {
   const [open, setOpen] = useState(false);
@@ -96,16 +97,11 @@ export default function AddCategoryDialog() {
                 disabled={isLoading}
               />
             </div>
-            <div className="grid gap-2">
-              <Label htmlFor="image">Image</Label>
-              <Input
-                id="image"
-                placeholder="Enter category image URL"
-                value={image}
-                onChange={(e) => setImage(e.target.value)}
-                disabled={isLoading}
-              />
-            </div>
+            <ImageUpload
+              value={image}
+              onChange={setImage}
+              disabled={isLoading}
+            />
           </div>
           <DialogFooter>
             <Button
@@ -119,7 +115,7 @@ export default function AddCategoryDialog() {
             <Button type="submit" disabled={isLoading}>
               {isLoading ? (
                 <>
-                  <Loader2Icon className="animate-spin" />
+                  <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />
                   Creating...
                 </>
               ) : (

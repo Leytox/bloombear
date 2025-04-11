@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { StarIcon } from "lucide-react";
 import {
   Card,
@@ -18,6 +17,7 @@ import {
 } from "@/components/ui/tooltip";
 import AddToCartButton from "./AddToCartButton";
 import FavoriteButton from "./FavoriteButton";
+import Image from "next/image";
 
 export default function FlowerCard({ product }: { product: Product }) {
   return (
@@ -75,8 +75,7 @@ export default function FlowerCard({ product }: { product: Product }) {
                   <div>
                     <span className="text-sm text-muted-foreground line-through">
                       {Math.round(
-                        product.price +
-                          (product.discount * product.price) / 100,
+                        product.price + (product.discount * product.price) / 100
                       )}{" "}
                       €
                     </span>

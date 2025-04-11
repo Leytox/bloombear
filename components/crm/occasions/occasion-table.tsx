@@ -13,7 +13,7 @@ import { SearchIcon, ImageIcon } from "lucide-react";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import EditOccasionDialog from "./edit-occasion-dialog";
-import Image from "next/image";
+import { CldImage } from "next-cloudinary";
 
 export default function OccasionTable({
   initialOccasions,
@@ -24,14 +24,14 @@ export default function OccasionTable({
   const [searchQuery, setSearchQuery] = useState("");
 
   const filteredOccasions = occasions.filter((occasion) =>
-    occasion.name.toLowerCase().includes(searchQuery.toLowerCase()),
+    occasion.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const updateOccasion = (updatedOccasion: Occasion) => {
     setOccasions(
       occasions.map((occasion) =>
-        occasion.id === updatedOccasion.id ? updatedOccasion : occasion,
-      ),
+        occasion.id === updatedOccasion.id ? updatedOccasion : occasion
+      )
     );
   };
 
@@ -71,7 +71,7 @@ export default function OccasionTable({
                   <TableCell>
                     {occasion.image ? (
                       <div className="relative h-10 w-10 rounded-md overflow-hidden">
-                        <Image
+                        <CldImage
                           src={occasion.image}
                           alt={occasion.name}
                           fill

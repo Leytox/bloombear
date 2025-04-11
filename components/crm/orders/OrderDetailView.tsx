@@ -16,7 +16,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { formatDate } from "@/lib/utils";
 import OrderStatusUpdate from "./OrderStatusUpdate";
-import Image from "next/image";
+import { CldImage } from "next-cloudinary";
 
 type OrderWithItems = Order & {
   items: Array<
@@ -184,7 +184,7 @@ export default function OrderDetailView({ order }: { order: OrderWithItems }) {
               <div key={item.id} className="flex items-start gap-4">
                 {item.product?.image && (
                   <div className="relative h-20 w-20 overflow-hidden rounded-md flex-shrink-0">
-                    <Image
+                    <CldImage
                       fill
                       sizes="20"
                       src={item.product.image}

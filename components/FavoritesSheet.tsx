@@ -11,7 +11,6 @@ import {
 import { useFavoriteStore } from "@/store/useFavoriteStore";
 import { Button } from "@/components/ui/button";
 import { ArrowRightIcon, HeartIcon, Trash2Icon } from "lucide-react";
-import Image from "next/image";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Card, CardContent } from "@/components/ui/card";
 import { toast } from "sonner";
@@ -26,6 +25,7 @@ import {
   TooltipContent,
 } from "@/components/ui/tooltip";
 import { Separator } from "./ui/separator";
+import { CldImage } from "next-cloudinary";
 
 export function FavoritesSheet({
   open,
@@ -75,7 +75,7 @@ export function FavoritesSheet({
                           href={`/product/${product.id}`}
                           onClick={() => setOpenAction(false)}
                         >
-                          <Image
+                          <CldImage
                             src={product.image}
                             alt={product.name}
                             fill

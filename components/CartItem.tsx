@@ -4,11 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useCartStore } from "@/store/useCartStore";
 import { Trash2Icon } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { toast } from "sonner";
 import { Product } from "@prisma/client";
 import ProductQuantity from "./ProductQuantity";
+import { CldImage } from "next-cloudinary";
 
 export default function CartItem({
   productId,
@@ -32,7 +32,7 @@ export default function CartItem({
         onClick={onCartClose}
         className={`relative ${compact ? "size-28" : "size-32"} rounded-md overflow-hidden flex-shrink-0`}
       >
-        <Image
+        <CldImage
           src={product.image}
           alt={product.name}
           fill

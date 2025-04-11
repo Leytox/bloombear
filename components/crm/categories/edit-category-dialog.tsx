@@ -12,14 +12,14 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { PencilIcon, Loader2Icon, ImageIcon } from "lucide-react";
+import { PencilIcon, Loader2Icon } from "lucide-react";
 import { useState } from "react";
 import { updateCategory } from "@/actions/category";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { Category } from "@prisma/client";
 import { Textarea } from "@/components/ui/textarea";
-import Image from "next/image";
+import ImageUpload from "@/components/ui/image-upload";
 
 interface EditCategoryDialogProps {
   category: Category;
@@ -34,7 +34,6 @@ export default function EditCategoryDialog({
   const [name, setName] = useState(category.name);
   const [description, setDescription] = useState(category.description);
   const [image, setImage] = useState(category.image);
-  const [imagePreview, setImagePreview] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
@@ -101,32 +100,11 @@ export default function EditCategoryDialog({
               />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="edit-image">Image</Label>
-              <div className="flex gap-2">
-                <Input
-                  id="edit-image"
-                  placeholder="Enter category image URL"
-                  value={image}
-                  onChange={(e) => setImage(e.target.value)}
-                  disabled={isLoading}
-                />
-                <Button
-                  type="button"
-                  variant={imagePreview ? "default" : "outline"}
-                  onClick={() => setImagePreview((prev) => !prev)}
-                >
-                  <ImageIcon />
-                </Button>
-              </div>
-              {imagePreview && (
-                <Image
-                  src={image}
-                  alt="Category Image"
-                  width={200}
-                  height={200}
-                  className="rounded-md"
-                />
-              )}
+              <ImageUpload
+                value={image}
+                onChange={setImage}
+                disabled={isLoading}
+              />
             </div>
           </div>
           <DialogFooter>

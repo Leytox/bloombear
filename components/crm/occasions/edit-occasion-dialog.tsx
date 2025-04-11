@@ -19,7 +19,7 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { Occasion } from "@prisma/client";
 import { Textarea } from "@/components/ui/textarea";
-import Image from "next/image";
+import ImageUpload from "@/components/ui/image-upload";
 
 interface EditOccasionDialogProps {
   occasion: Occasion;
@@ -101,28 +101,11 @@ export default function EditOccasionDialog({
               />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="edit-image">Image URL</Label>
-              <div className="flex gap-2">
-                <Input
-                  id="edit-image"
-                  placeholder="https://example.com/image.jpg"
-                  value={image}
-                  onChange={(e) => setImage(e.target.value)}
-                  disabled={isLoading}
-                />
-                {image && (
-                  <div className="h-10 w-10 rounded-md overflow-hidden relative flex-shrink-0">
-                    <Image
-                      src={image}
-                      alt="Preview"
-                      className="object-cover w-full h-full"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = "/placeholder.png";
-                      }}
-                    />
-                  </div>
-                )}
-              </div>
+              <ImageUpload
+                value={image}
+                onChange={setImage}
+                disabled={isLoading}
+              />
             </div>
           </div>
           <DialogFooter>

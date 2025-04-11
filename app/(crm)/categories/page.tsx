@@ -26,14 +26,12 @@ export default async function Categories() {
         <AddCategoryDialog />
       </div>
       <Card>
-        <CardHeader className="flex flex-row w-full justify-between">
-          <div>
-            <CardTitle>All Categories</CardTitle>
-            <CardDescription>
-              {categories.length}{" "}
-              {categories.length === 1 ? "category" : "categories"} total
-            </CardDescription>
-          </div>
+        <CardHeader>
+          <CardTitle>All Categories</CardTitle>
+          <CardDescription>
+            {categories.length}{" "}
+            {categories.length === 1 ? "category" : "categories"} total
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <Suspense fallback={<CategoryTableSkeleton />}>

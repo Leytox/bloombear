@@ -20,7 +20,6 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import EditProductDialog from "./edit-product-dialog";
 import { Badge } from "@/components/ui/badge";
-import Image from "next/image";
 import {
   Select,
   SelectContent,
@@ -28,6 +27,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { CldImage } from "next-cloudinary";
 
 interface ProductTableProps {
   initialProducts: Product[];
@@ -63,8 +63,8 @@ export default function ProductTable({
   const updateProduct = (updatedProduct: Product) => {
     setProducts(
       products.map((product) =>
-        product.id === updatedProduct.id ? updatedProduct : product,
-      ),
+        product.id === updatedProduct.id ? updatedProduct : product
+      )
     );
   };
 
@@ -139,7 +139,7 @@ export default function ProductTable({
                   <TableCell>
                     {product.image ? (
                       <div className="relative h-12 w-12 rounded-md overflow-hidden">
-                        <Image
+                        <CldImage
                           src={product.image}
                           alt={product.name}
                           fill
@@ -170,7 +170,7 @@ export default function ProductTable({
                     {product.discount > 0 && (
                       <div className="text-sm text-muted-foreground line-through">
                         {Math.round(
-                          product.price * (1 + product.discount / 100),
+                          product.price * (1 + product.discount / 100)
                         )}{" "}
                         €
                       </div>

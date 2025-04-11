@@ -42,7 +42,7 @@ import {
 import { X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import Image from "next/image";
+import ImageUpload from "@/components/ui/image-upload";
 
 interface AddProductDialogProps {
   categories: Category[];
@@ -195,29 +195,11 @@ export default function AddProductDialog({
 
             <div className="grid gap-2">
               <Label htmlFor="image">Image URL</Label>
-              <div className="flex gap-2">
-                <Input
-                  id="image"
-                  placeholder="https://example.com/image.jpg"
-                  value={image}
-                  onChange={(e) => setImage(e.target.value)}
-                  disabled={isLoading}
-                />
-                {image && (
-                  <div className="h-10 w-10 rounded-md overflow-hidden relative flex-shrink-0">
-                    <Image
-                      src={image}
-                      alt="Preview"
-                      fill
-                      sizes="10"
-                      className="object-cover w-full h-full"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = "/placeholder.png";
-                      }}
-                    />
-                  </div>
-                )}
-              </div>
+              <ImageUpload
+                value={image}
+                onChange={setImage}
+                disabled={isLoading}
+              />
             </div>
 
             <div className="grid gap-2">
@@ -276,7 +258,7 @@ export default function AddProductDialog({
                               "mr-2 h-4 w-4 border rounded-sm flex items-center justify-center",
                               selectedOccasions.includes(occasion.id)
                                 ? "bg-primary border-primary"
-                                : "opacity-50",
+                                : "opacity-50"
                             )}
                           >
                             {selectedOccasions.includes(occasion.id) && (

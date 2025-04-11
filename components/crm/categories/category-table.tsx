@@ -13,6 +13,7 @@ import { SearchIcon } from "lucide-react";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import EditCategoryDialog from "@/components/crm/categories/edit-category-dialog";
+import { CldImage } from "next-cloudinary";
 
 export default function CategoryTable({
   initialCategories,
@@ -23,14 +24,14 @@ export default function CategoryTable({
   const [searchQuery, setSearchQuery] = useState("");
 
   const filteredCategories = categories.filter((category) =>
-    category.name.toLowerCase().includes(searchQuery.toLowerCase()),
+    category.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const updateCategory = (updatedCategory: Category) => {
     setCategories(
       categories.map((category) =>
-        category.id === updatedCategory.id ? updatedCategory : category,
-      ),
+        category.id === updatedCategory.id ? updatedCategory : category
+      )
     );
   };
 
@@ -52,6 +53,7 @@ export default function CategoryTable({
         <Table>
           <TableHeader>
             <TableRow>
+              <TableHead>Image</TableHead>
               <TableHead>Name</TableHead>
               <TableHead>Slug</TableHead>
               <TableHead className="text-right">Actions</TableHead>
@@ -67,6 +69,16 @@ export default function CategoryTable({
             ) : (
               filteredCategories.map((category: Category) => (
                 <TableRow key={category.id}>
+                  <TableCell className="font-medium">
+                    <div className="relative h-12 w-12 rounded-md overflow-hidden">
+                      <CldImage
+                        src={category.image}
+                        alt={category.name}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                  </TableCell>
                   <TableCell className="font-medium">{category.name}</TableCell>
                   <TableCell className="font-mono text-sm">
                     {category.slug}

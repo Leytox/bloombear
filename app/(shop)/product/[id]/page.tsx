@@ -1,4 +1,3 @@
-import Image from "next/image";
 import {
   Card,
   CardContent,
@@ -24,6 +23,7 @@ import {
   BreadcrumbLink,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import Image from "next/image";
 
 export default async function ProductPage({
   params,
@@ -41,7 +41,7 @@ export default async function ProductPage({
     .slice(0, 4);
 
   const originalPrice = Math.round(
-    product.price * (1 + product.discount / 100),
+    product.price * (1 + product.discount / 100)
   );
   const hasDiscount = product.discount > 0;
 

@@ -64,9 +64,7 @@ export default async function Orders() {
       <Card>
         <CardHeader>
           <CardTitle>All Orders</CardTitle>
-          <CardDescription>
-            View and manage all customer orders
-          </CardDescription>
+          <CardDescription>View and manage all customer orders</CardDescription>
         </CardHeader>
         <CardContent>
           <Table>
@@ -101,38 +99,45 @@ export default async function Orders() {
                     </Badge>
                   </TableCell>
                   <TableCell>
-                    <Badge className={getPaymentStatusColor(order.paymentStatus)}>
+                    <Badge
+                      className={getPaymentStatusColor(order.paymentStatus)}
+                    >
                       {order.paymentStatus}
                     </Badge>
                   </TableCell>
                   <TableCell className="text-right">
                     <div className="flex justify-end items-center gap-2">
-                      {order.items.length > 0 && order.items[0].product?.image && (
-                        <div className="flex -space-x-2">
-                          {order.items.slice(0, 3).map((item, idx) => (
-                            item.product?.image && (
-                              <div 
-                                key={item.id} 
-                                className="relative h-8 w-8 rounded-full overflow-hidden border border-background"
-                                style={{ zIndex: 3 - idx }}
+                      {order.items.length > 0 &&
+                        order.items[0].product?.image && (
+                          <div className="flex -space-x-2">
+                            {order.items.slice(0, 3).map(
+                              (item, idx) =>
+                                item.product?.image && (
+                                  <div
+                                    key={item.id}
+                                    className="relative h-8 w-8 rounded-full overflow-hidden border border-background"
+                                    style={{ zIndex: 3 - idx }}
+                                  >
+                                    <Image
+                                      fill
+                                      sizes="8"
+                                      src={item.product.image}
+                                      alt={item.product.name + " image"}
+                                      className="h-full w-full object-cover"
+                                    />
+                                  </div>
+                                )
+                            )}
+                            {order.items.length > 3 && (
+                              <div
+                                className="relative h-8 w-8 rounded-full bg-muted flex items-center justify-center text-xs font-medium border border-background"
+                                style={{ zIndex: 0 }}
                               >
-                                <Image
-                                  fill
-                                  sizes="8"
-                                  src={item.product.image}
-                                  alt={item.product.name+" image"}
-                                  className="h-full w-full object-cover"
-                                />
+                                +{order.items.length - 3}
                               </div>
-                            )
-                          ))}
-                          {order.items.length > 3 && (
-                            <div className="relative h-8 w-8 rounded-full bg-muted flex items-center justify-center text-xs font-medium border border-background" style={{ zIndex: 0 }}>
-                              +{order.items.length - 3}
-                            </div>
-                          )}
-                        </div>
-                      )}
+                            )}
+                          </div>
+                        )}
                       <Button asChild variant="ghost" size="sm">
                         <Link href={`/orders/${order.id}`}>View Details</Link>
                       </Button>

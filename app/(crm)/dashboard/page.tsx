@@ -7,10 +7,9 @@ export default async function DashboardPage() {
   const products = await getProducts();
 
   // Calculate key metrics
-  const totalRevenue = orders.reduce(
-    (sum, order) => sum + order.totalAmount,
-    0
-  );
+  const totalRevenue = orders.length
+    ? orders.reduce((sum, order) => sum + order.totalAmount, 0)
+    : 0;
   const totalOrders = orders.length;
   const totalProducts = products.length;
 
@@ -53,14 +52,16 @@ export default async function DashboardPage() {
   );
 
   // Calculate growth percentages
-  const revenueGrowth = lastMonthYear
-    ? ((revenueThisMonth - revenueLastMonth) / revenueLastMonth) * 100
-    : 0;
-  const ordersGrowth = ordersLastMonth.length
-    ? ((ordersThisMonth.length - ordersLastMonth.length) /
-        ordersLastMonth.length) *
-      100
-    : 0;
+  const revenueGrowth =
+    orders.length > 0 && lastMonthYear
+      ? ((revenueThisMonth - revenueLastMonth) / revenueLastMonth) * 100
+      : 0;
+  const ordersGrowth =
+    orders.length > 0 && ordersLastMonth.length
+      ? ((ordersThisMonth.length - ordersLastMonth.length) /
+          ordersLastMonth.length) *
+        100
+      : 0;
 
   // Products out of stock
   const outOfStockProducts = products.filter((product) => !product.inStock);

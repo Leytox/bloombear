@@ -41,7 +41,6 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { Switch } from "@/components/ui/switch";
-import Image from "next/image";
 
 interface EditProductDialogProps {
   product: Product;
@@ -61,10 +60,10 @@ export default function EditProductDialog({
   const [description, setDescription] = useState(product.description || "");
   const [price, setPrice] = useState(product.price.toString());
   const [discount, setDiscount] = useState(product.discount.toString());
-  const [image, setImage] = useState(product.image || "");
+  const [image] = useState(product.image || "");
   const [inStock, setInStock] = useState(product.inStock);
   const [categoryId, setCategoryId] = useState(
-    product.categoryId ? product.categoryId.toString() : "",
+    product.categoryId ? product.categoryId.toString() : ""
   );
   const [selectedOccasions, setSelectedOccasions] = useState<number[]>([]);
   const [openOccasionsCombobox, setOpenOccasionsCombobox] = useState(false);
@@ -212,30 +211,7 @@ export default function EditProductDialog({
 
               <div className="grid gap-2">
                 <Label htmlFor="edit-image">Image URL</Label>
-                <div className="flex gap-2">
-                  <Input
-                    id="edit-image"
-                    placeholder="https://example.com/image.jpg"
-                    value={image}
-                    onChange={(e) => setImage(e.target.value)}
-                    disabled={isLoading}
-                  />
-                  {image && (
-                    <div className="h-10 w-10 rounded-md overflow-hidden relative flex-shrink-0">
-                      <Image
-                        src={image}
-                        alt="Preview"
-                        fill
-                        sizes="10"
-                        className="object-cover w-full h-full"
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).src =
-                            "/placeholder.png";
-                        }}
-                      />
-                    </div>
-                  )}
-                </div>
+                <div className="flex gap-2"></div>
               </div>
 
               <div className="grid gap-2">
@@ -294,7 +270,7 @@ export default function EditProductDialog({
                                 "mr-2 h-4 w-4 border rounded-sm flex items-center justify-center",
                                 selectedOccasions.includes(occasion.id)
                                   ? "bg-primary border-primary"
-                                  : "opacity-50",
+                                  : "opacity-50"
                               )}
                             >
                               {selectedOccasions.includes(occasion.id) && (

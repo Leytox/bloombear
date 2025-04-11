@@ -6,16 +6,16 @@ import { useDebounceValue } from "usehooks-ts";
 import { RefObject, useEffect, useRef, useState } from "react";
 import { searchProducts } from "@/actions/product";
 import { Product } from "@prisma/client";
-import Image from "next/image";
 import { useOnClickOutside } from "usehooks-ts";
 import Link from "next/link";
 import { Badge } from "./ui/badge";
+import { CldImage } from "next-cloudinary";
 
 export default function Search() {
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useDebounceValue(
     "",
-    500,
+    500
   );
   const [results, setResults] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -24,7 +24,7 @@ export default function Search() {
 
   // Close dropdown when clicking outside
   useOnClickOutside(searchRef as RefObject<HTMLDivElement>, () =>
-    setIsOpen(false),
+    setIsOpen(false)
   );
 
   useEffect(() => {
@@ -93,7 +93,7 @@ export default function Search() {
                 >
                   {product.image && (
                     <div className="size-18 relative flex-shrink-0 overflow-hidden rounded-md mr-3">
-                      <Image
+                      <CldImage
                         src={product.image}
                         alt={product.name}
                         fill
@@ -111,7 +111,7 @@ export default function Search() {
                           <p className="font-medium">{product.price} €</p>
                           <p className="text-muted-foreground text-sm line-through">
                             {Math.round(
-                              (product.price * 100) / (100 - product.discount),
+                              (product.price * 100) / (100 - product.discount)
                             )}{" "}
                             €
                           </p>

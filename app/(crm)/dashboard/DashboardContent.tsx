@@ -11,8 +11,7 @@ import {
   Calendar,
 } from "lucide-react";
 import { Order, Product } from "@prisma/client";
-import Image from "next/image";
-
+import { CldImage } from "next-cloudinary";
 type DashboardData = {
   metrics: {
     totalRevenue: number;
@@ -68,7 +67,7 @@ export default function DashboardContent({ data }: { data: DashboardData }) {
       {/* Recent orders */}
       <div className="mt-8">
         <h2 className="text-xl font-semibold mb-4">Recent Orders</h2>
-        <Card className="overflow-hidden">
+        <Card className="overflow-hidden pt-0">
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
@@ -112,10 +111,10 @@ export default function DashboardContent({ data }: { data: DashboardData }) {
               className="pt-0 overflow-hidden flex flex-col"
             >
               <div className="aspect-video w-full overflow-hidden">
-                <Image
+                <CldImage
                   height={500}
                   width={500}
-                  src={product.image}
+                  src={"cld-sample-5"}
                   alt={product.name}
                   className="w-full h-full object-cover"
                 />
