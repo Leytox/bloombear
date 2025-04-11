@@ -5,9 +5,14 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "images.unsplash.com",
+        hostname: "res.cloudinary.com",
       },
     ],
+  },
+  experimental: {
+    serverActions: {
+      bodySizeLimit: "16mb",
+    },
   },
 };
 
