@@ -44,8 +44,8 @@ import { Switch } from "@/components/ui/switch";
 
 interface EditProductDialogProps {
   product: Product;
-  categories: Category[];
-  occasions: Occasion[];
+  categories: Category[] | undefined | null;
+  occasions: Occasion[] | undefined | null;
   onSaveAction: (product: Product) => void;
 }
 
@@ -118,7 +118,7 @@ export default function EditProductDialog({
       toast.success("Product updated successfully");
       setOpen(false);
       router.refresh();
-      onSaveAction(updatedProduct);
+      onSaveAction(updatedProduct as Product);
     } catch (error) {
       toast.error("Failed to update product");
       console.error(error);
@@ -221,7 +221,7 @@ export default function EditProductDialog({
                     <SelectValue placeholder="Select category" />
                   </SelectTrigger>
                   <SelectContent>
-                    {categories.map((category) => (
+                    {categories?.map((category) => (
                       <SelectItem
                         key={category.id}
                         value={category.id.toString()}
@@ -259,7 +259,7 @@ export default function EditProductDialog({
                       />
                       <CommandEmpty>No occasion found.</CommandEmpty>
                       <CommandGroup>
-                        {occasions.map((occasion) => (
+                        {occasions?.map((occasion) => (
                           <CommandItem
                             key={occasion.id}
                             value={occasion.name}
@@ -290,7 +290,7 @@ export default function EditProductDialog({
                 {selectedOccasions.length > 0 && (
                   <div className="flex flex-wrap gap-2 mt-2">
                     {selectedOccasions.map((id) => {
-                      const occasion = occasions.find((o) => o.id === id);
+                      const occasion = occasions?.find((o) => o.id === id);
                       return occasion ? (
                         <Badge
                           key={id}

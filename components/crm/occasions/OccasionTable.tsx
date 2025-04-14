@@ -12,24 +12,26 @@ import {
 import { SearchIcon, ImageIcon } from "lucide-react";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
-import EditOccasionDialog from "./edit-occasion-dialog";
+import EditOccasionDialog from "./EditOccasionDialog";
 import { CldImage } from "next-cloudinary";
 
 export default function OccasionTable({
   initialOccasions,
 }: {
-  initialOccasions: Occasion[];
+  initialOccasions: Occasion[] | undefined | null;
 }) {
-  const [occasions, setOccasions] = useState<Occasion[]>(initialOccasions);
+  const [occasions, setOccasions] = useState<Occasion[] | undefined | null>(
+    initialOccasions
+  );
   const [searchQuery, setSearchQuery] = useState("");
 
-  const filteredOccasions = occasions.filter((occasion) =>
+  const filteredOccasions = occasions?.filter((occasion) =>
     occasion.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const updateOccasion = (updatedOccasion: Occasion) => {
     setOccasions(
-      occasions.map((occasion) =>
+      occasions?.map((occasion) =>
         occasion.id === updatedOccasion.id ? updatedOccasion : occasion
       )
     );
@@ -59,14 +61,14 @@ export default function OccasionTable({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filteredOccasions.length === 0 ? (
+            {filteredOccasions?.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={5} className="h-24 text-center">
                   No occasions found.
                 </TableCell>
               </TableRow>
             ) : (
-              filteredOccasions.map((occasion) => (
+              filteredOccasions?.map((occasion) => (
                 <TableRow key={occasion.id}>
                   <TableCell>
                     {occasion.image ? (

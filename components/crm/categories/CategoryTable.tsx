@@ -12,24 +12,26 @@ import {
 import { SearchIcon } from "lucide-react";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
-import EditCategoryDialog from "@/components/crm/categories/edit-category-dialog";
+import EditCategoryDialog from "@/components/crm/categories/EditCategoryDialog";
 import { CldImage } from "next-cloudinary";
 
 export default function CategoryTable({
   initialCategories,
 }: {
-  initialCategories: Category[];
+  initialCategories: Category[] | undefined | null;
 }) {
-  const [categories, setCategories] = useState<Category[]>(initialCategories);
+  const [categories, setCategories] = useState<Category[] | undefined | null>(
+    initialCategories
+  );
   const [searchQuery, setSearchQuery] = useState("");
 
-  const filteredCategories = categories.filter((category) =>
+  const filteredCategories = categories?.filter((category) =>
     category.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const updateCategory = (updatedCategory: Category) => {
     setCategories(
-      categories.map((category) =>
+      categories?.map((category) =>
         category.id === updatedCategory.id ? updatedCategory : category
       )
     );
@@ -60,14 +62,14 @@ export default function CategoryTable({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filteredCategories.length === 0 ? (
+            {filteredCategories?.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={5} className="h-24 text-center">
                   No categories found.
                 </TableCell>
               </TableRow>
             ) : (
-              filteredCategories.map((category: Category) => (
+              filteredCategories?.map((category: Category) => (
                 <TableRow key={category.id}>
                   <TableCell className="font-medium">
                     <div className="relative h-12 w-12 rounded-md overflow-hidden">

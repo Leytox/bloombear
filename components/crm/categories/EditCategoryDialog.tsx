@@ -56,7 +56,7 @@ export default function EditCategoryDialog({
       toast.success("Category updated successfully");
       setOpen(false);
       router.refresh();
-      onSaveAction(updatedCategory);
+      onSaveAction(updatedCategory as Category);
     } catch (error) {
       toast.error("Failed to update category");
       console.error(error);

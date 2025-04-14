@@ -56,7 +56,7 @@ export default function EditOccasionDialog({
       toast.success("Occasion updated successfully");
       setOpen(false);
       router.refresh();
-      onSaveAction(updatedOccasion);
+      onSaveAction(updatedOccasion as Occasion);
     } catch (error) {
       toast.error("Failed to update occasion");
       console.error(error);

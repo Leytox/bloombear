@@ -18,7 +18,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
-import EditProductDialog from "./edit-product-dialog";
+import EditProductDialog from "./EditProductDialog";
 import { Badge } from "@/components/ui/badge";
 import {
   Select,
@@ -30,9 +30,9 @@ import {
 import { CldImage } from "next-cloudinary";
 
 interface ProductTableProps {
-  initialProducts: Product[];
-  categories: Category[];
-  occasions: Occasion[];
+  initialProducts: Product[] | undefined | null;
+  categories: Category[] | undefined | null;
+  occasions: Occasion[] | undefined | null;
 }
 
 export default function ProductTable({
@@ -40,12 +40,14 @@ export default function ProductTable({
   categories,
   occasions,
 }: ProductTableProps) {
-  const [products, setProducts] = useState<Product[]>(initialProducts);
+  const [products, setProducts] = useState<Product[] | undefined | null>(
+    initialProducts
+  );
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
   const [stockFilter, setStockFilter] = useState<string>("all");
 
-  const filteredProducts = products.filter((product) => {
+  const filteredProducts = products?.filter((product) => {
     const matchesSearch = product.name
       .toLowerCase()
       .includes(searchQuery.toLowerCase());
@@ -62,7 +64,7 @@ export default function ProductTable({
 
   const updateProduct = (updatedProduct: Product) => {
     setProducts(
-      products.map((product) =>
+      products?.map((product) =>
         product.id === updatedProduct.id ? updatedProduct : product
       )
     );
@@ -70,7 +72,7 @@ export default function ProductTable({
 
   const getCategoryName = (categoryId: number | null) => {
     if (!categoryId) return "Uncategorized";
-    const category = categories.find((cat) => cat.id === categoryId);
+    const category = categories?.find((cat) => cat.id === categoryId);
     return category ? category.name : "Unknown";
   };
 
@@ -93,7 +95,7 @@ export default function ProductTable({
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All Categories</SelectItem>
-              {categories.map((category) => (
+              {categories?.map((category) => (
                 <SelectItem key={category.id} value={category.id.toString()}>
                   {category.name}
                 </SelectItem>
@@ -127,14 +129,14 @@ export default function ProductTable({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filteredProducts.length === 0 ? (
+            {filteredProducts?.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={6} className="h-24 text-center">
                   No products found.
                 </TableCell>
               </TableRow>
             ) : (
-              filteredProducts.map((product) => (
+              filteredProducts?.map((product) => (
                 <TableRow key={product.id}>
                   <TableCell>
                     {product.image ? (

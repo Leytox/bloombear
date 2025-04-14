@@ -3,28 +3,37 @@
 import React from "react";
 import { Card } from "@/components/ui/card";
 import {
-  ArrowUp,
-  ArrowDown,
-  Package,
-  DollarSign,
-  ShoppingCart,
-  Calendar,
+  PackageIcon,
+  EuroIcon,
+  ShoppingCartIcon,
+  CalendarIcon,
+  ScaleIcon,
+  ArrowDownIcon,
+  ArrowUpIcon,
 } from "lucide-react";
 import { Order, Product } from "@prisma/client";
 import { CldImage } from "next-cloudinary";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 type DashboardData = {
   metrics: {
-    totalRevenue: number;
-    totalOrders: number;
-    totalProducts: number;
-    revenueThisMonth: number;
-    ordersThisMonth: number;
-    revenueGrowth: number;
-    ordersGrowth: number;
-    outOfStockProducts: number;
+    totalRevenue: number | undefined;
+    totalOrders: number | undefined;
+    totalProducts: number | undefined;
+    revenueThisMonth: number | undefined;
+    ordersThisMonth: number | undefined;
+    revenueGrowth: number | undefined;
+    ordersGrowth: number | undefined;
+    outOfStockProducts: number | undefined;
   };
-  recentOrders: Order[];
-  topRatedProducts: Product[];
+  recentOrders: Order[] | undefined;
+  topRatedProducts: Product[] | undefined;
 };
 
 export default function DashboardContent({ data }: { data: DashboardData }) {
@@ -38,28 +47,40 @@ export default function DashboardContent({ data }: { data: DashboardData }) {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <MetricCard
           title="Total Revenue"
-          value={`$${metrics.totalRevenue.toLocaleString()}`}
-          icon={<DollarSign className="h-8 w-8 text-green-500" />}
-          change={metrics.revenueGrowth}
-          trend={metrics.revenueGrowth >= 0 ? "up" : "down"}
+          value={`€${metrics.totalRevenue?.toLocaleString()}`}
+          icon={<EuroIcon size={36} />}
+          change={metrics.revenueGrowth || 0}
+          trend={
+            metrics.revenueGrowth && metrics.revenueGrowth > 0
+              ? "up"
+              : metrics.revenueGrowth && metrics.revenueGrowth < 0
+                ? "down"
+                : "stable"
+          }
         />
         <MetricCard
           title="Total Orders"
-          value={metrics.totalOrders.toString()}
-          icon={<ShoppingCart className="h-8 w-8 text-blue-500" />}
-          change={metrics.ordersGrowth}
-          trend={metrics.ordersGrowth >= 0 ? "up" : "down"}
+          value={metrics.totalOrders?.toString() || "0"}
+          icon={<ShoppingCartIcon size={36} />}
+          change={metrics.ordersGrowth || 0}
+          trend={
+            metrics.ordersGrowth && metrics.ordersGrowth > 0
+              ? "up"
+              : metrics.ordersGrowth && metrics.ordersGrowth < 0
+                ? "down"
+                : "stable"
+          }
         />
         <MetricCard
           title="This Month"
-          value={`$${metrics.revenueThisMonth.toLocaleString()}`}
-          icon={<Calendar className="h-8 w-8 text-purple-500" />}
+          value={`€${metrics.revenueThisMonth?.toLocaleString()}`}
+          icon={<CalendarIcon size={36} />}
           subtitle={`${metrics.ordersThisMonth} orders`}
         />
         <MetricCard
           title="Products"
-          value={metrics.totalProducts.toString()}
-          icon={<Package className="h-8 w-8 text-orange-500" />}
+          value={metrics.totalProducts?.toString() || "0"}
+          icon={<PackageIcon size={36} />}
           subtitle={`${metrics.outOfStockProducts} out of stock`}
         />
       </div>
@@ -67,36 +88,44 @@ export default function DashboardContent({ data }: { data: DashboardData }) {
       {/* Recent orders */}
       <div className="mt-8">
         <h2 className="text-xl font-semibold mb-4">Recent Orders</h2>
-        <Card className="overflow-hidden pt-0">
+        <Card className="overflow-hidden py-0">
           <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="bg-muted/50">
-                  <th className="py-3 px-4 text-left font-medium">Order ID</th>
-                  <th className="py-3 px-4 text-left font-medium">Customer</th>
-                  <th className="py-3 px-4 text-left font-medium">Date</th>
-                  <th className="py-3 px-4 text-left font-medium">Amount</th>
-                  <th className="py-3 px-4 text-left font-medium">Status</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y">
-                {recentOrders.map((order) => (
-                  <tr key={order.id} className="hover:bg-muted/50">
-                    <td className="py-3 px-4">{order.id}</td>
-                    <td className="py-3 px-4">{order.customerName}</td>
-                    <td className="py-3 px-4">
-                      {new Date(order.createdAt).toLocaleDateString()}
-                    </td>
-                    <td className="py-3 px-4">
-                      ${order.totalAmount.toLocaleString()}
-                    </td>
-                    <td className="py-3 px-4">
-                      <StatusBadge status={order.status} />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Order ID</TableHead>
+                  <TableHead>Customer</TableHead>
+                  <TableHead>Date</TableHead>
+                  <TableHead>Amount</TableHead>
+                  <TableHead>Status</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody className="divide-y">
+                {recentOrders?.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={5} className="py-4 text-center">
+                      No orders found.
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  recentOrders?.map((order) => (
+                    <TableRow key={order.id}>
+                      <TableCell>{order.id}</TableCell>
+                      <TableCell>{order.customerName}</TableCell>
+                      <TableCell>
+                        {new Date(order.createdAt).toLocaleDateString()}
+                      </TableCell>
+                      <TableCell>
+                        ${order.totalAmount.toLocaleString()}
+                      </TableCell>
+                      <TableCell>
+                        <StatusBadge status={order.status} />
+                      </TableCell>
+                    </TableRow>
+                  ))
+                )}
+              </TableBody>
+            </Table>
           </div>
         </Card>
       </div>
@@ -105,7 +134,7 @@ export default function DashboardContent({ data }: { data: DashboardData }) {
       <div className="mt-8">
         <h2 className="text-xl font-semibold mb-4">Top Rated Products</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {topRatedProducts.map((product) => (
+          {topRatedProducts?.map((product: Product) => (
             <Card
               key={product.id}
               className="pt-0 overflow-hidden flex flex-col"
@@ -114,7 +143,7 @@ export default function DashboardContent({ data }: { data: DashboardData }) {
                 <CldImage
                   height={500}
                   width={500}
-                  src={"cld-sample-5"}
+                  src={product.image}
                   alt={product.name}
                   className="w-full h-full object-cover"
                 />
@@ -151,7 +180,7 @@ type MetricCardProps = {
   value: string;
   icon: React.ReactNode;
   change?: number;
-  trend?: "up" | "down";
+  trend?: "up" | "down" | "stable";
   subtitle?: string;
 };
 
@@ -175,13 +204,19 @@ function MetricCard({
           {change !== undefined && (
             <div className="flex items-center mt-2">
               {trend === "up" ? (
-                <ArrowUp className="h-4 w-4 text-green-500 mr-1" />
+                <ArrowUpIcon className="mr-2" />
+              ) : trend === "down" ? (
+                <ArrowDownIcon className="mr-2" />
               ) : (
-                <ArrowDown className="h-4 w-4 text-red-500 mr-1" />
+                <ScaleIcon className="mr-2" />
               )}
               <span
                 className={`text-sm ${
-                  trend === "up" ? "text-green-500" : "text-red-500"
+                  trend === "up"
+                    ? "text-green-500"
+                    : trend === "down"
+                      ? "text-red-500"
+                      : null
                 }`}
               >
                 {Math.abs(change).toFixed(1)}%
