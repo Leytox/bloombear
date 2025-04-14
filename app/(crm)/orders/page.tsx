@@ -26,6 +26,16 @@ import {
   Product,
 } from "@prisma/client";
 import Image from "next/image";
+import {
+  Dialog,
+  DialogFooter,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { FolderDownIcon } from "lucide-react";
 import ExportOrdersDialog from "@/components/crm/orders/ExportOrdersDialog";
 // Define the type that matches Prisma's return
 type OrderWithItems = Order & {
@@ -70,8 +80,33 @@ export default async function Orders() {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold">Orders</h1>
-        <ExportOrdersDialog />
+        <div>
+          <h1 className="text-3xl font-bold">Orders</h1>
+          <p className="text-sm text-muted-foreground">
+            {orders.length} orders found
+          </p>
+        </div>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button
+              variant="outline"
+              title="Export orders to a file"
+              disabled={orders.length === 0}
+            >
+              <FolderDownIcon />
+              Export
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Export Orders</DialogTitle>
+            </DialogHeader>
+            <DialogDescription>Export all orders to a file.</DialogDescription>
+            <DialogFooter>
+              <ExportOrdersDialog />
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
 
       <Card>
