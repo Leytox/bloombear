@@ -3,7 +3,7 @@
 import prisma from "@/lib/prisma";
 import { Category, Occasion, Prisma, Product } from "@prisma/client";
 import { revalidatePath } from "next/cache";
-
+import { deleteImage } from "./cloudinary";
 export type ProductWithOccasions = Product & {
   category: Category | null;
   occasions: Occasion[];
@@ -265,12 +265,14 @@ export async function updateProduct({
   occasionIds?: number[];
 }): Promise<Product | null> {
   try {
-    // First, delete existing occasion relationships
     await prisma.productOnOccasion.deleteMany({
       where: { productId: id },
     });
 
-    // Then update the product with new data
+    const oldProduct = await prisma.product.findUnique({ where: { id } });
+    if (oldProduct?.image)
+      await deleteImage(oldProduct.image);
+    
     const product = await prisma.product.update({
       where: { id },
       data: {
@@ -285,7 +287,6 @@ export async function updateProduct({
       },
     });
 
-    // Create new occasion relationships
     if (occasionIds.length > 0) {
       await prisma.productOnOccasion.createMany({
         data: occasionIds.map((occasionId) => ({

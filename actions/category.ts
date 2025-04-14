@@ -4,7 +4,7 @@ import prisma from "@/lib/prisma";
 import { Category } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import slugify from "slugify";
-
+import { deleteImage } from "./cloudinary";
 export async function createCategory({
   name,
   description,
@@ -50,6 +50,10 @@ export async function updateCategory({
   const slug = slugify(name, { lower: true });
 
   try {
+    const oldCategory = await prisma.category.findUnique({ where: { id } });
+    if (oldCategory?.image)
+      await deleteImage(oldCategory.image);
+
     const category = await prisma.category.update({
       where: { id },
       data: {
@@ -70,21 +74,6 @@ export async function updateCategory({
   }
 }
 
-export async function deleteCategory(id: number): Promise<{ success: boolean }> {
-  try {
-    await prisma.category.delete({
-      where: { id },
-    });
-
-    revalidatePath("/categories");
-    revalidatePath("/catalog");
-
-    return { success: true };
-  } catch (error) {
-    console.error("Failed to delete category:", error);
-    throw new Error("Failed to delete category");
-  }
-}
 export async function getCategories(): Promise<Category[] | null> {
   return prisma.category.findMany();
 }

@@ -3,7 +3,7 @@
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { Occasion } from "@prisma/client";
-
+import { deleteImage } from "./cloudinary";
 export async function createOccasion({
   name,
   description,
@@ -44,6 +44,10 @@ export async function updateOccasion({
   image: string;
 }): Promise<Occasion | null> {
   try {
+    const oldOccasion = await prisma.occasion.findUnique({ where: { id } });
+    if (oldOccasion?.image)
+      await deleteImage(oldOccasion.image);
+
     const occasion = await prisma.occasion.update({
       where: { id },
       data: {
