@@ -24,6 +24,7 @@ export async function createUser(
         lastName,
         role,
         password,
+        image: "/default-avatar.jpg",
       },
     });
   } catch (error) {
