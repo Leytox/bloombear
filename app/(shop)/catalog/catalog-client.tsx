@@ -170,7 +170,7 @@ export default function CatalogClient({
   }, [debouncedPriceRange, fetchFilteredProducts]);
 
   return (
-    <div className="container mx-auto py-4 sm:py-6 md:py-8 px-4 sm:px-6 md:px-8">
+    <div className="container min-h-screen mx-auto py-4 sm:py-6 md:py-8 px-4 sm:px-6 md:px-8">
       <Breadcrumb className="mb-8">
         <BreadcrumbList>
           <BreadcrumbItem>
