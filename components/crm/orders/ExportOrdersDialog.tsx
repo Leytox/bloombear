@@ -18,7 +18,7 @@ import {
   exportOrdersToXlsx,
   exportOrdersToCsv,
   downloadFile,
-} from "@/helpers";
+} from "@/lib/export";
 
 export default function ExportOrdersDialog() {
   return (
