@@ -5,6 +5,7 @@ import {
   LayoutDashboardIcon,
   ScanBarcodeIcon,
   ShoppingBasketIcon,
+  UserPlusIcon,
 } from "lucide-react";
 
 import {
@@ -22,20 +23,10 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import { auth } from "@/auth";
+import { Role } from "@prisma/client";
 
 // Main
 const mainItems = [
-  {
-    title: "Dashboard",
-    url: "/dashboard",
-    icon: LayoutDashboardIcon,
-  },
-  {
-    title: "Analytics",
-    url: "/analytics",
-    icon: ChartAreaIcon,
-  },
-
   {
     title: "Orders",
     url: "/orders",
@@ -58,6 +49,24 @@ const databaseItems = [
     title: "Products",
     url: "/products",
     icon: ShoppingBasketIcon,
+  },
+  {
+    title: "Register employee",
+    url: "/registration",
+    icon: UserPlusIcon,
+  },
+];
+
+const analyticsItems = [
+  {
+    title: "Dashboard",
+    url: "/dashboard",
+    icon: LayoutDashboardIcon,
+  },
+  {
+    title: "Analytics",
+    url: "/analytics",
+    icon: ChartAreaIcon,
   },
 ];
 
@@ -109,23 +118,44 @@ export async function CrmSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-        <SidebarGroup>
-          <SidebarGroupLabel>Database Items</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {databaseItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <Link href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        {session?.user?.role !== Role.STAFF && (
+          <>
+            <SidebarGroup>
+              <SidebarGroupLabel>Main</SidebarGroupLabel>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  {analyticsItems.map((item) => (
+                    <SidebarMenuItem key={item.title}>
+                      <SidebarMenuButton asChild>
+                        <Link href={item.url}>
+                          <item.icon />
+                          <span>{item.title}</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+            <SidebarGroup>
+              <SidebarGroupLabel>Database Items</SidebarGroupLabel>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  {databaseItems.map((item) => (
+                    <SidebarMenuItem key={item.title}>
+                      <SidebarMenuButton asChild>
+                        <Link href={item.url}>
+                          <item.icon />
+                          <span>{item.title}</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+          </>
+        )}
       </SidebarContent>
       <SidebarFooter>
         <SidebarHeader className="text-center text-muted-foreground">
