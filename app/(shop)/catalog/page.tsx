@@ -14,9 +14,9 @@ export default async function CatalogPage() {
 
   return (
     <CatalogClient
-      initialProducts={products}
-      categories={categories}
-      occasions={occasions}
+      initialProducts={products || []}
+      categories={categories || []}
+      occasions={occasions || []}
       minPrice={priceRange.min}
       maxPrice={priceRange.max}
     />

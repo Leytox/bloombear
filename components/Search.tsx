@@ -38,7 +38,7 @@ export default function Search() {
       setIsLoading(true);
       try {
         const products = await searchProducts(debouncedSearchTerm);
-        setResults(products);
+        setResults(products || []);
         setIsOpen(true);
       } catch (error) {
         console.error("Error searching products:", error);

@@ -26,9 +26,9 @@ export default async function CategoryPage({
 
   return (
     <CatalogClient
-      initialProducts={products}
-      categories={categories}
-      occasions={occasions}
+      initialProducts={products || []}
+      categories={categories || []}
+      occasions={occasions || []}
       title={`${category.name} - Bouquets catalog`}
       currentCategory={category.id}
       minPrice={priceRange.min}
@@ -39,8 +39,7 @@ export default async function CategoryPage({
 
 export async function generateStaticParams() {
   const categories = await getCategories();
-
-  return categories.map((category) => ({
+  return (categories || []).map((category) => ({
     slug: category.slug,
   }));
 }

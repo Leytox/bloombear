@@ -76,18 +76,20 @@ export default function CatalogClient({
 }: CatalogClientProps) {
   const [isPending, startTransition] = useTransition();
   const [showFilters, setShowFilters] = useState(true);
-  const [allProducts, setAllProducts] = useState<Product[]>(initialProducts);
+  const [allProducts, setAllProducts] = useState<Product[] | null>(
+    initialProducts
+  );
 
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
   const currentPage = parseInt(searchParams.get("page") || "1", 10);
-  const totalProducts = allProducts.length;
+  const totalProducts = allProducts?.length || 0;
   const totalPages = Math.ceil(totalProducts / PRODUCTS_PER_PAGE);
-  const currentProducts = allProducts.slice(
+  const currentProducts = allProducts?.slice(
     (currentPage - 1) * PRODUCTS_PER_PAGE,
-    currentPage * PRODUCTS_PER_PAGE,
+    currentPage * PRODUCTS_PER_PAGE
   );
 
   const [filterState, setFilterState] = useState<FilterState>({
@@ -105,7 +107,7 @@ export default function CatalogClient({
       params.set("page", pageNumber.toString());
       return `${pathname}?${params.toString()}`;
     },
-    [pathname, searchParams],
+    [pathname, searchParams]
   );
 
   const fetchFilteredProducts = useCallback(
@@ -135,7 +137,7 @@ export default function CatalogClient({
       router,
       pathname,
       searchParams,
-    ],
+    ]
   );
 
   const handleFilterChange = useCallback(
@@ -148,7 +150,7 @@ export default function CatalogClient({
         fetchFilteredProducts(resetPage);
       }
     },
-    [fetchFilteredProducts],
+    [fetchFilteredProducts]
   );
 
   const resetFilters = useCallback(() => {
@@ -279,7 +281,7 @@ export default function CatalogClient({
         <div className={showFilters ? "lg:col-span-3" : "lg:col-span-4"}>
           {isPending ? (
             <LoadingIndicator />
-          ) : currentProducts.length > 0 ? (
+          ) : currentProducts && currentProducts.length > 0 ? (
             <>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
                 {currentProducts.map((product) => (

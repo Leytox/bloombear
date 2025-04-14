@@ -37,7 +37,7 @@ export default async function ProductPage({
   if (!product) notFound();
   const similarProducts = await getSimilarProducts(product.categoryId);
   const filteredSimilarProducts = similarProducts
-    .filter((p) => p.id !== product.id)
+    ?.filter((p) => p.id !== product.id)
     .slice(0, 4);
 
   const originalPrice = Math.round(
@@ -200,7 +200,7 @@ export default async function ProductPage({
         </div>
       </div>
 
-      {filteredSimilarProducts.length > 0 && (
+      {filteredSimilarProducts && filteredSimilarProducts.length > 0 && (
         <section className="mt-16 md:mt-24">
           <h2 className="text-2xl md:text-3xl font-bold mb-8">
             Similar Products
@@ -242,7 +242,7 @@ export async function generateMetadata({
 export async function generateStaticParams() {
   const products = await getProducts();
 
-  return products.map((product) => ({
+  return (products || []).map((product) => ({
     id: String(product.id),
   }));
 }

@@ -20,9 +20,9 @@ export default async function Home() {
     <main>
       <Hero />
       <Benefits />
-      <Popular categories={categories} />
-      <Bouquets products={products} />
-      <Occasions occasions={occasions} />
+      <Popular categories={categories || []} />
+      <Bouquets products={products || []} />
+      <Occasions occasions={occasions || []} />
       <Testimonials />
       <CallToAction />
       <Newsletter />
