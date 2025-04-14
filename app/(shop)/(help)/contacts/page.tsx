@@ -172,7 +172,7 @@ export default function ContactsPage() {
                       <Input
                         id="email"
                         type="email"
-                        placeholder="example@mail.ru"
+                        placeholder="example@mail.de"
                         required
                       />
                     </div>
@@ -181,7 +181,7 @@ export default function ContactsPage() {
                     <Label htmlFor="phone">Phone</Label>
                     <Input
                       id="phone"
-                      placeholder="+7 (___) ___-__-__"
+                      placeholder="+49 (___) ___-__-__"
                       required
                     />
                   </div>
