@@ -12,7 +12,7 @@ model Product {
   name        String
   description String
   price       Int
-  image       String              @default("https://images.unsplash.com/photo-1606041008023-472dfb5e530f?w=120")
+  image       String              @default("/default-avatar.jpg")
   category    Category            @relation(fields: [categoryId], references: [id])
   categoryId  Int
   occasions   ProductOnOccasion[]
