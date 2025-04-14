@@ -12,7 +12,7 @@ export async function createOccasion({
   name: string;
   description: string;
   image: string;
-}) {
+}): Promise<Occasion | null> {
   try {
     const occasion = await prisma.occasion.create({
       data: {
@@ -42,7 +42,7 @@ export async function updateOccasion({
   name: string;
   description: string;
   image: string;
-}) {
+}): Promise<Occasion | null> {
   try {
     const occasion = await prisma.occasion.update({
       where: { id },
@@ -63,6 +63,10 @@ export async function updateOccasion({
   }
 }
 
-export async function getOccasions(): Promise<Occasion[]> {
+export async function getOccasions(): Promise<Occasion[] | null> {
   return prisma.occasion.findMany();
+}
+
+export async function getOccasion(id: number): Promise<Occasion | null> {
+  return prisma.occasion.findUnique({ where: { id } });
 }

@@ -20,7 +20,7 @@ export type ProductFilterParams = {
 
 export async function getFilteredProducts(
   filters: ProductFilterParams = {},
-): Promise<Product[]> {
+): Promise<Product[] | null> {
   const {
     categoryIds = [],
     occasionIds = [],
@@ -94,7 +94,7 @@ export async function getFilteredProducts(
   });
 }
 
-export async function getProducts(): Promise<Product[]> {
+export async function getProducts(): Promise<Product[] | null> {
   return prisma.product.findMany({
     include: {
       occasions: true,
@@ -119,7 +119,7 @@ export async function getProduct(id: number): Promise<Product | null> {
 
 export async function getSimilarProducts(
   categoryId: number,
-): Promise<Product[]> {
+): Promise<Product[] | null> {
   return prisma.product.findMany({
     where: {
       categoryId,
@@ -132,7 +132,7 @@ export async function getSimilarProducts(
   });
 }
 
-export async function searchProducts(query: string): Promise<Product[]> {
+export async function searchProducts(query: string): Promise<Product[] | null> {
   return prisma.product.findMany({
     where: {
       name: { contains: query, mode: "insensitive" },
@@ -180,7 +180,7 @@ export async function createProduct({
   inStock?: boolean;
   categoryId: number;
   occasionIds?: number[];
-}) {
+}): Promise<Product | null> {
   try {
     const product = await prisma.product.create({
       data: {
@@ -263,7 +263,7 @@ export async function updateProduct({
   categoryId: number;
   rating: number;
   occasionIds?: number[];
-}) {
+}): Promise<Product | null> {
   try {
     // First, delete existing occasion relationships
     await prisma.productOnOccasion.deleteMany({

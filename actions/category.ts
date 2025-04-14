@@ -13,7 +13,7 @@ export async function createCategory({
   name: string;
   description: string;
   image: string;
-}) {
+}): Promise<Category | null> {
   const slug = slugify(name, { lower: true });
 
   try {
@@ -46,7 +46,7 @@ export async function updateCategory({
   name: string;
   description: string;
   image: string;
-}) {
+}): Promise<Category | null> {
   const slug = slugify(name, { lower: true });
 
   try {
@@ -70,7 +70,7 @@ export async function updateCategory({
   }
 }
 
-export async function deleteCategory(id: number) {
+export async function deleteCategory(id: number): Promise<{ success: boolean }> {
   try {
     await prisma.category.delete({
       where: { id },
@@ -85,7 +85,7 @@ export async function deleteCategory(id: number) {
     throw new Error("Failed to delete category");
   }
 }
-export async function getCategories(): Promise<Category[]> {
+export async function getCategories(): Promise<Category[] | null> {
   return prisma.category.findMany();
 }
 

@@ -1,7 +1,7 @@
 "use server";
 
 import Stripe from "stripe";
-import { z } from "zod";
+import { z, ZodFormattedError } from "zod";
 import { formatAmountForStripe } from "@/lib/stripe";
 import { CartItem } from "@/types";
 import { createOrder, updateOrderPaymentStatus } from "./order";
@@ -31,7 +31,7 @@ export async function createPaymentIntent(
   items: CartItem[],
   amount: number,
   customerDetails: CheckoutFormData,
-) {
+): Promise<{success: boolean, error?: string, details?: ZodFormattedError<CheckoutFormData>, clientSecret?: string | null, orderId?: number}> {
   try {
     // Validate the items array
     if (!items?.length) return { success: false, error: "No items in cart" };

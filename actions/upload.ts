@@ -8,12 +8,10 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-export async function uploadImage(formData: FormData) {
+export async function uploadImage(formData: FormData): Promise<{ success: boolean, url?: string, error?: string }> {
   try {
     const file = formData.get("file") as File;
-    if (!file) {
-      throw new Error("No file provided");
-    }
+    if (!file) throw new Error("No file provided");
 
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);

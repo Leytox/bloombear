@@ -3,7 +3,6 @@ import { PaymentStatus, Order } from "@prisma/client";
 import prisma from "@/lib/prisma";
 import { CartItem } from "@/types";
 import { OrderStatus } from "@prisma/client";
-
 type CreateOrderParams = {
   customerName: string;
   customerEmail: string;
@@ -19,7 +18,7 @@ type CreateOrderParams = {
   items: CartItem[];
 };
 
-export async function createOrder(data: CreateOrderParams) {
+export async function createOrder(data: CreateOrderParams): Promise<{ success: boolean, orderId?: number, error?: string }> {
   try {
     // Create order with items
     const order = await prisma.order.create({
@@ -81,7 +80,7 @@ export async function updateOrderPaymentStatus(
   });
 }
 
-export async function getAllOrders(): Promise<Order[]> {
+export async function getAllOrders(): Promise<Order[] | null> {
   return prisma.order.findMany({
     orderBy: { createdAt: 'desc' },
     include: {
