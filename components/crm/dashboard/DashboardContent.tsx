@@ -134,40 +134,46 @@ export default function DashboardContent({ data }: { data: DashboardData }) {
       <div className="mt-8">
         <h2 className="text-xl font-semibold mb-4">Top Rated Products</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {topRatedProducts?.map((product: Product) => (
-            <Card
-              key={product.id}
-              className="pt-0 overflow-hidden flex flex-col"
-            >
-              <div className="aspect-video w-full overflow-hidden">
-                <CldImage
-                  height={500}
-                  width={500}
-                  src={product.image}
-                  alt={product.name}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="p-4 flex-1 flex flex-col">
-                <h3 className="font-semibold truncate">{product.name}</h3>
-                <div className="text-sm text-muted-foreground mb-2">
-                  Rating: {product.rating.toFixed(1)} ★
+          {topRatedProducts && topRatedProducts.length > 0 ? (
+            topRatedProducts.map((product: Product) => (
+              <Card
+                key={product.id}
+                className="pt-0 overflow-hidden flex flex-col"
+              >
+                <div className="aspect-video w-full overflow-hidden">
+                  <CldImage
+                    height={500}
+                    width={500}
+                    src={product.image}
+                    alt={product.name}
+                    className="w-full h-full object-cover"
+                  />
                 </div>
-                <div className="mt-auto flex justify-between items-center">
-                  <span className="font-medium">
-                    €{product.price.toLocaleString()}
-                  </span>
-                  <span
-                    className={`text-sm ${
-                      product.inStock ? "text-green-500" : "text-red-500"
-                    }`}
-                  >
-                    {product.inStock ? "In Stock" : "Out of Stock"}
-                  </span>
+                <div className="p-4 flex-1 flex flex-col">
+                  <h3 className="font-semibold truncate">{product.name}</h3>
+                  <div className="text-sm text-muted-foreground mb-2">
+                    Rating: {product.rating.toFixed(1)} ★
+                  </div>
+                  <div className="mt-auto flex justify-between items-center">
+                    <span className="font-medium">
+                      €{product.price.toLocaleString()}
+                    </span>
+                    <span
+                      className={`text-sm ${
+                        product.inStock ? "text-green-500" : "text-red-500"
+                      }`}
+                    >
+                      {product.inStock ? "In Stock" : "Out of Stock"}
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </Card>
-          ))}
+              </Card>
+            ))
+          ) : (
+            <div className="col-span-3 text-center text-muted-foreground">
+              No products found.
+            </div>
+          )}
         </div>
       </div>
     </div>
