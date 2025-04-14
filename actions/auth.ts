@@ -28,7 +28,7 @@ export async function signInCredentials(login: string, password: string) {
     return { success: true };
   } catch (error) {
     console.log(error);
-    throw error;
+    throw new Error(error instanceof Error ? error.message : "Unknown error");
   }
 }
 

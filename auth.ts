@@ -6,6 +6,7 @@ import prisma from "./lib/prisma";
 import bcrypt from "bcrypt";
 import { z } from "zod";
 import { getUserByLogin } from "./lib/user";
+import { Role } from "@prisma/client";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(prisma),
@@ -37,8 +38,25 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           id: user.id,
           name: user.firstName,
           image: user.image,
+          role: user.role,
         };
       },
     }),
   ],
+  callbacks: {
+    jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+        token.role = user.role;
+      }
+      return token;
+    },
+    session({ session, token }) {
+      if (token) {
+        session.user.id = token.id as string;
+        session.user.role = token.role as Role;
+      }
+      return session;
+    },
+  },
 });
