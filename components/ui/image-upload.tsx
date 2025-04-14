@@ -5,7 +5,7 @@ import { Button } from "./button";
 import { Input } from "./input";
 import { Label } from "./label";
 import { ImageIcon, Loader2Icon } from "lucide-react";
-import { uploadImage } from "@/actions/upload";
+import { uploadImage } from "@/actions/cloudinary";
 import { toast } from "sonner";
 import { CldImage } from "next-cloudinary";
 
@@ -35,9 +35,7 @@ export default function ImageUpload({
       if (result.success && result.url) {
         onChange(result.url);
         toast.success("Image uploaded successfully");
-      } else {
-        toast.error(result.error || "Failed to upload image");
-      }
+      } else toast.error(result.error || "Failed to upload image");
     } catch (error) {
       toast.error("Failed to upload image");
       console.error(error);
@@ -56,7 +54,7 @@ export default function ImageUpload({
           placeholder="Image URL"
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          disabled={isLoading || disabled}
+          disabled={true}
         />
         <div className="relative">
           <Input
