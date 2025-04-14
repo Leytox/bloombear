@@ -1,7 +1,9 @@
 import { getProducts } from "@/actions/product";
 import { getAllOrders } from "@/actions/order";
 import AnalyticsDashboard from "./AnalyticsDashboard";
-import { Order, OrderItem, Product } from "@prisma/client";
+import { Order, OrderItem, Product, Role } from "@prisma/client";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 
 type OrderWithItems = Order & {
   items: (OrderItem & {
@@ -10,6 +12,8 @@ type OrderWithItems = Order & {
 };
 
 export default async function AnalyticsPage() {
+  const session = await auth();
+  if (session?.user?.role === Role.STAFF) redirect("/orders");
   const products = await getProducts();
   const orders = (await getAllOrders()) as OrderWithItems[];
 
@@ -59,7 +63,7 @@ export default async function AnalyticsPage() {
     .sort((a, b) => b[1] - a[1])
     .slice(0, 5)
     .map(([productId, quantity]) => {
-      const product = products.find((p) => p.id === productId);
+      const product = products?.find((p) => p.id === productId);
       return {
         name: product?.name || "Unknown Product",
         value: quantity,

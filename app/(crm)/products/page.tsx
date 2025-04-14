@@ -8,12 +8,17 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import AddProductDialog from "@/components/crm/products/add-product-dialog";
-import ProductTable from "@/components/crm/products/product-table";
+import AddProductDialog from "@/components/crm/products/AddProductDialog";
+import ProductTable from "@/components/crm/products/ProductTable";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { redirect } from "next/navigation";
+import { auth } from "@/auth";
+import { Role } from "@prisma/client";
 
 export default async function Products() {
+  const session = await auth();
+  if (session?.user?.role === Role.STAFF) redirect("/orders");
   const [products, categories, occasions] = await Promise.all([
     getProducts(),
     getCategories(),
@@ -36,7 +41,7 @@ export default async function Products() {
         <CardHeader>
           <CardTitle>All Products</CardTitle>
           <CardDescription>
-            {products.length} {products.length === 1 ? "product" : "products"}{" "}
+            {products?.length} {products?.length === 1 ? "product" : "products"}{" "}
             total
           </CardDescription>
         </CardHeader>

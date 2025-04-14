@@ -6,12 +6,17 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import CategoryTable from "@/components/crm/categories/category-table";
-import AddCategoryDialog from "@/components/crm/categories/add-category-dialog";
+import CategoryTable from "@/components/crm/categories/CategoryTable";
+import AddCategoryDialog from "@/components/crm/categories/AddCategoryDialog";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Role } from "@prisma/client";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 
 export default async function Categories() {
+  const session = await auth();
+  if (session?.user?.role === Role.STAFF) redirect("/orders");
   const categories = await getCategories();
 
   return (
@@ -29,8 +34,8 @@ export default async function Categories() {
         <CardHeader>
           <CardTitle>All Categories</CardTitle>
           <CardDescription>
-            {categories.length}{" "}
-            {categories.length === 1 ? "category" : "categories"} total
+            {categories?.length}{" "}
+            {categories?.length === 1 ? "category" : "categories"} total
           </CardDescription>
         </CardHeader>
         <CardContent>

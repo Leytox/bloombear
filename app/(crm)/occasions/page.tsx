@@ -6,8 +6,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import AddOccasionDialog from "@/components/crm/occasions/add-occasion-dialog";
-import OccasionTable from "@/components/crm/occasions/occasion-table";
+import AddOccasionDialog from "@/components/crm/occasions/AddOccasionDialog";
+import OccasionTable from "@/components/crm/occasions/OccasionTable";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -30,8 +30,8 @@ export default async function Occasions() {
         <CardHeader>
           <CardTitle>All Occasions</CardTitle>
           <CardDescription>
-            {occasions.length}{" "}
-            {occasions.length === 1 ? "occasion" : "occasions"} total
+            {occasions?.length}{" "}
+            {occasions?.length === 1 ? "occasion" : "occasions"} total
           </CardDescription>
         </CardHeader>
         <CardContent>

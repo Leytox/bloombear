@@ -15,9 +15,10 @@ type OrderWithItems = Order & {
 export default async function OrderDetail({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const orderId = parseInt(params.id);
+  const { id } = await params;
+  const orderId = parseInt(id);
 
   if (isNaN(orderId)) notFound();
 
