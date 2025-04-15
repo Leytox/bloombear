@@ -2,9 +2,9 @@ import { Category } from "@prisma/client";
 import { MoveUpRightIcon } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-
-export default function Popular({ categories }: { categories: Category[] }) {
-  console.log(categories);
+import { getCategories } from "@/actions/category";
+export default async function Popular() {
+  const categories = await getCategories();
   return (
     <section className="py-10 md:py-16 bg-muted">
       <div className="container mx-auto px-4">
@@ -12,7 +12,7 @@ export default function Popular({ categories }: { categories: Category[] }) {
           <MoveUpRightIcon /> Popular Categories
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-          {categories.length > 0 ? (
+          {categories && categories.length > 0 ? (
             categories.map((category: Category) => (
               <Link
                 href={`/catalog/${category.slug}`}

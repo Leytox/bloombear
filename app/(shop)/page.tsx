@@ -1,6 +1,4 @@
 import { getProducts } from "@/actions/product";
-import { getCategories } from "@/actions/category";
-import { getOccasions } from "@/actions/occasions";
 import CallToAction from "@/components/landing/Cta";
 import Bouquets from "@/components/landing/Bouquets";
 import Benefits from "@/components/landing/Benefits";
@@ -11,18 +9,14 @@ import Occasions from "@/components/landing/Occasions";
 import Newsletter from "@/components/landing/Newsletter";
 
 export default async function Home() {
-  const [products, categories, occasions] = await Promise.all([
-    getProducts(),
-    getCategories(),
-    getOccasions(),
-  ]);
+  const products = await getProducts();
   return (
     <main>
       <Hero />
       <Benefits />
-      <Popular categories={categories || []} />
+      <Popular />
       <Bouquets products={products || []} />
-      <Occasions occasions={occasions || []} />
+      <Occasions />
       <Testimonials />
       <CallToAction />
       <Newsletter />
