@@ -1,14 +1,14 @@
 import { getProducts } from "@/actions/product";
 import { getCategories } from "@/actions/category";
 import { getOccasions } from "@/actions/occasions";
-import CallToAction from "@/components/landing/cta";
-import Bouquets from "@/components/landing/bouquets";
-import Benefits from "@/components/landing/benefits";
-import Popular from "@/components/landing/popular";
-import Hero from "@/components/landing/hero";
-import Testimonials from "@/components/landing/testimonials";
-import Occasions from "@/components/landing/occasions";
-import Newsletter from "@/components/landing/newsletter";
+import CallToAction from "@/components/landing/Cta";
+import Bouquets from "@/components/landing/Bouquets";
+import Benefits from "@/components/landing/Benefits";
+import Popular from "@/components/landing/Popular";
+import Hero from "@/components/landing/Hero";
+import Testimonials from "@/components/landing/Testimonials";
+import Occasions from "@/components/landing/Occasions";
+import Newsletter from "@/components/landing/Newsletter";
 
 export default async function Home() {
   const [products, categories, occasions] = await Promise.all([

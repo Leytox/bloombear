@@ -1,7 +1,12 @@
 import { testimonials } from "@/constants";
 import { MessageCircleHeartIcon, StarIcon } from "lucide-react";
 import Image from "next/image";
-import { Card, CardContent, CardFooter, CardHeader } from "../ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
 
 export default function Testimonials() {
   return (

@@ -14,7 +14,7 @@ import FlowerCard from "@/components/FlowerCard";
 import { Button } from "@/components/ui/button";
 import CopyLinkButton from "@/components/CopyLinkButton";
 import { SiFacebook, SiInstagram, SiX } from "@icons-pack/react-simple-icons";
-import AddProduct from "@/components/AddProduct";
+import AddProduct from "@/components/shop/product/AddProduct";
 import FavoriteButton from "@/components/FavoriteButton";
 import {
   Breadcrumb,

@@ -17,7 +17,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { formatDate } from "@/lib/utils";
-import OrderStatusUpdate from "./OrderStatusUpdate";
+import OrderStatusUpdate from "@/components/crm/orders/OrderStatusUpdate";
 import { CldImage } from "next-cloudinary";
 
 type OrderWithItems = Order & {

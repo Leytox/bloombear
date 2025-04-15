@@ -18,7 +18,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
-import EditProductDialog from "./EditProductDialog";
+import EditProductDialog from "@/components/crm/products/EditProductDialog";
 import { Badge } from "@/components/ui/badge";
 import {
   Select,

@@ -1,14 +1,14 @@
 "use client";
 import { Product } from "@prisma/client";
 import { Flower2Icon } from "lucide-react";
-import FlowerCard from "../FlowerCard";
+import FlowerCard from "@/components/FlowerCard";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselPrevious,
   CarouselNext,
-} from "../ui/carousel";
+} from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 
 export default function Bouquets({ products }: { products: Product[] }) {

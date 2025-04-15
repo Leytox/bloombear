@@ -1,5 +1,5 @@
 import { getFilteredProducts, getMinMaxPrices } from "@/actions/product";
-import CatalogClient from "./catalog-client";
+import CatalogClient from "@/components/shop/catalog/CatalogClient";
 import { getCategories } from "@/actions/category";
 import { getOccasions } from "@/actions/occasions";
 import { Metadata } from "next";

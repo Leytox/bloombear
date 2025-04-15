@@ -3,8 +3,8 @@ import { Separator } from "@/components/ui/separator";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
 import { CheckCircleIcon, ArrowRightIcon, ShoppingBagIcon } from "lucide-react";
-import CheckoutForm from "./checkout-form";
-import OrderSummary from "./order-summary";
+import CheckoutForm from "@/components/shop/checkout/CheckoutForm";
+import OrderSummary from "@/components/shop/checkout/OrderSummary";
 import { useCartStore } from "@/store/useCartStore";
 import { Button } from "@/components/ui/button";
 import {

@@ -1,5 +1,5 @@
 "use client";
-import { Separator } from "@radix-ui/react-separator";
+import { Separator } from "@/components/ui/separator";
 import {
   Breadcrumb,
   BreadcrumbList,
@@ -7,12 +7,12 @@ import {
   BreadcrumbLink,
   BreadcrumbSeparator,
   BreadcrumbPage,
-} from "../ui/breadcrumb";
-import { SidebarTrigger } from "../ui/sidebar";
+} from "@/components/ui/breadcrumb";
+import { SidebarTrigger } from "@/components/ui/sidebar";
 import { usePathname } from "next/navigation";
-import { ThemeSwitcher } from "../ThemeSwitcher";
+import { ThemeSwitcher } from "@/components/ThemeSwitcher";
 import Link from "next/link";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { SquareArrowLeftIcon } from "lucide-react";
 
 export default function CrmHeader() {

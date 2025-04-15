@@ -1,5 +1,5 @@
 import { deliveryBenefits } from "@/constants";
-import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 
 export default function Benefits() {
   return (

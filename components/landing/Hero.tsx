@@ -6,9 +6,9 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "../ui/carousel";
+} from "@/components/ui/carousel";
 import { ArrowRightIcon } from "lucide-react";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -62,7 +62,7 @@ export default function Hero() {
                   </div>
                 </div>
               </CarouselItem>
-            ),
+            )
           )}
         </CarouselContent>
         <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">

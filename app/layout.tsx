@@ -1,7 +1,7 @@
 import { Onest, Raleway } from "next/font/google";
 import "./globals.css";
 import React from "react";
-import { ThemeProvider } from "@/components/theme-provider";
+import { ThemeProvider } from "@/components/ThemeProvider";
 import { Toaster } from "@/components/ui/sonner";
 import GoTop from "@/components/GoTop";
 

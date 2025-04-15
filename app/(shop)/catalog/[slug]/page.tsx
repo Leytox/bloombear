@@ -1,4 +1,4 @@
-import CatalogClient from "../catalog-client";
+import CatalogClient from "@/components/shop/catalog/CatalogClient";
 import { notFound } from "next/navigation";
 import prisma from "@/lib/prisma";
 import { getCategories } from "@/actions/category";
