@@ -204,8 +204,8 @@ export async function createProduct({
       });
     }
 
-    revalidatePath("/admin/products");
-    revalidatePath("/catalog");
+    revalidatePath("/products");
+    revalidatePath("/catalog");revalidatePath(`/product/${product.id}`);revalidatePath("/");
     return product;
   } catch (error) {
     console.error("Failed to create product:", error);
@@ -296,9 +296,9 @@ export async function updateProduct({
       });
     }
 
-    revalidatePath("/admin/products");
+    revalidatePath("/products");
     revalidatePath("/catalog");
-    revalidatePath(`/product/${id}`);
+    revalidatePath(`/product/${id}`);revalidatePath("/");
 
     return product;
   } catch (error) {

@@ -28,6 +28,7 @@ export async function createCategory({
 
     revalidatePath("/categories");
     revalidatePath("/catalog");
+    revalidatePath("/");
 
     return category;
   } catch (error) {
@@ -66,6 +67,7 @@ export async function updateCategory({
 
     revalidatePath("/categories");
     revalidatePath("/catalog");
+    revalidatePath("/");
 
     return category;
   } catch (error) {

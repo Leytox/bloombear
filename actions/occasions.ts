@@ -24,6 +24,7 @@ export async function createOccasion({
 
     revalidatePath("/occasions");
     revalidatePath("/catalog");
+    revalidatePath("/");
 
     return occasion;
   } catch (error) {
@@ -59,6 +60,7 @@ export async function updateOccasion({
 
     revalidatePath("/occasions");
     revalidatePath("/catalog");
+    revalidatePath("/");
 
     return occasion;
   } catch (error) {
