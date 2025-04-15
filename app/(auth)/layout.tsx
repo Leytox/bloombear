@@ -1,3 +1,4 @@
+import AuthHeader from "@/components/auth/AuthHeader";
 import type { Metadata } from "next";
 import React from "react";
 
@@ -11,5 +12,10 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return children;
+  return (
+    <>
+      <AuthHeader />
+      <main>{children}</main>
+    </>
+  );
 }
