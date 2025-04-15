@@ -32,11 +32,8 @@ export async function uploadImage(formData: FormData): Promise<{ success: boolea
 
 export async function deleteImage(url: string) {
   const publicId = url.split("/").pop()?.split(".")[0];
-  console.log("Deleting image:", publicId);
-  await cloudinary.uploader.destroy(`bloombear/${publicId!.trim()}`, {resource_type: "image"}, (error, result) => {
-    if (error)
-      console.error("Error deleting image:", error);
-    else 
-      console.log("Image deleted:", result);
+  await cloudinary.uploader.destroy(`bloombear/${publicId!.trim()}`, {
+    resource_type: "image",
   });
 }
+

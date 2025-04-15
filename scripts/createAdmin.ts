@@ -10,5 +10,5 @@ createAdmin()
     console.log("Admin created");
   })
   .catch((error) => {
-    console.error(error);
+    console.error("Error creating admin", error);
   });
