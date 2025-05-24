@@ -1,4 +1,4 @@
-import { Occasion } from "@prisma/client";
+import { Occasion } from "@/generated/prisma";
 import { BookImageIcon } from "lucide-react";
 import Image from "next/image";
 import { getOccasions } from "@/actions/occasions";

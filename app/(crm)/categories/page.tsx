@@ -10,7 +10,7 @@ import CategoryTable from "@/components/crm/categories/CategoryTable";
 import AddCategoryDialog from "@/components/crm/categories/AddCategoryDialog";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Role } from "@prisma/client";
+import { Role } from "@/generated/prisma";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 

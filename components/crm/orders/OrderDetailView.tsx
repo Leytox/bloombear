@@ -6,7 +6,7 @@ import {
   OrderStatus,
   PaymentStatus,
   Product,
-} from "@prisma/client";
+} from "@/generated/prisma";
 import {
   Card,
   CardContent,

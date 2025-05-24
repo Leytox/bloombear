@@ -2,7 +2,7 @@ import { getAllOrders } from "@/actions/order";
 import { getProducts } from "@/actions/product";
 import DashboardContent from "@/components/crm/dashboard/DashboardContent";
 import { auth } from "@/auth";
-import { Role } from "@prisma/client";
+import { Role } from "@/generated/prisma";
 import { redirect } from "next/navigation";
 
 export default async function DashboardPage() {

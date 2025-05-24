@@ -14,7 +14,7 @@ import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
-import { Role } from "@prisma/client";
+import { Role } from "@/generated/prisma";
 
 export default async function Products() {
   const session = await auth();

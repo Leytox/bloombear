@@ -1,6 +1,6 @@
 import CatalogClient from "@/components/shop/catalog/CatalogClient";
 import { notFound } from "next/navigation";
-import prisma from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
 import { getCategories } from "@/actions/category";
 import { getOccasions } from "@/actions/occasions";
 import { getFilteredProducts, getMinMaxPrices } from "@/actions/product";

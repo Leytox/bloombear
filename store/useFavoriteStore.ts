@@ -1,4 +1,4 @@
-import { Product } from "@prisma/client";
+import { Product } from "@/generated/prisma";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -36,6 +36,6 @@ export const useFavoriteStore = create<{
     }),
     {
       name: "favorites",
-    },
-  ),
+    }
+  )
 );

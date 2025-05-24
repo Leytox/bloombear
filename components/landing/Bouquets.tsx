@@ -1,5 +1,5 @@
 "use client";
-import { Product } from "@prisma/client";
+import { Product } from "@/generated/prisma";
 import { Flower2Icon } from "lucide-react";
 import FlowerCard from "@/components/FlowerCard";
 import {

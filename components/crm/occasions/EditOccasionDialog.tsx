@@ -17,7 +17,7 @@ import { useState } from "react";
 import { updateOccasion } from "@/actions/occasions";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { Occasion } from "@prisma/client";
+import { Occasion } from "@/generated/prisma";
 import { Textarea } from "@/components/ui/textarea";
 import ImageUpload from "@/components/ui/image-upload";
 

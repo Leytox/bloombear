@@ -1,5 +1,5 @@
 import { getOrderById } from "@/actions/order";
-import { Order, OrderItem, Product } from "@prisma/client";
+import { Order, OrderItem, Product } from "@/generated/prisma";
 import OrderDetailView from "@/components/crm/orders/OrderDetailView";
 import { notFound } from "next/navigation";
 

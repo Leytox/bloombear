@@ -24,7 +24,7 @@ import {
   Order,
   OrderItem,
   Product,
-} from "@prisma/client";
+} from "@/generated/prisma";
 import Image from "next/image";
 import {
   Dialog,

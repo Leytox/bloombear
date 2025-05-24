@@ -17,7 +17,7 @@ import { useState } from "react";
 import { updateCategory } from "@/actions/category";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { Category } from "@prisma/client";
+import { Category } from "@/generated/prisma";
 import { Textarea } from "@/components/ui/textarea";
 import ImageUpload from "@/components/ui/image-upload";
 

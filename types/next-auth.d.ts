@@ -1,4 +1,4 @@
-import { Role } from "@prisma/client";
+import { Role } from "@/generated/prisma";
 
 declare module "@auth/core/adapters" {
   interface AdapterUser {
@@ -25,4 +25,4 @@ declare module "next-auth/jwt" {
     id: string;
     role: Role;
   }
-} 
+}

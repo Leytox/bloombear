@@ -1,5 +1,5 @@
 "use client";
-import { Role } from "@prisma/client";
+import { Role } from "@/generated/prisma";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -68,13 +68,13 @@ export function RegistrationForm({
         values.firstName,
         values.lastName,
         values.role,
-        values.password,
+        values.password
       );
       toast.success("Registration successful!");
       router.push("/login");
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : "Registration failed",
+        error instanceof Error ? error.message : "Registration failed"
       );
       console.error(error);
     }

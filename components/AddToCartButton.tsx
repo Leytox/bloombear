@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { ArrowRightIcon, ShoppingCartIcon } from "lucide-react";
-import { Product } from "@prisma/client";
+import { Product } from "@/generated/prisma";
 import { useCartStore } from "@/store/useCartStore";
 import { toast } from "sonner";
 

@@ -10,7 +10,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "sonner";
-import { Order, OrderStatus } from "@prisma/client";
+import { Order, OrderStatus } from "@/generated/prisma";
 import { useState } from "react";
 import { Loader2Icon, PencilIcon } from "lucide-react";
 import { useRouter } from "next/navigation";

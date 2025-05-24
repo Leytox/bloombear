@@ -3,7 +3,7 @@
 import { HeartIcon } from "lucide-react";
 import { Button } from "./ui/button";
 import { useFavoriteStore } from "@/store/useFavoriteStore";
-import { Product } from "@prisma/client";
+import { Product } from "@/generated/prisma";
 import { toast } from "sonner";
 
 export default function FavoriteButton({ product }: { product: Product }) {

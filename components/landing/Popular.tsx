@@ -1,4 +1,4 @@
-import { Category } from "@prisma/client";
+import { Category } from "@/generated/prisma";
 import { MoveUpRightIcon } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";

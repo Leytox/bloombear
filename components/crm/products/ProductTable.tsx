@@ -1,6 +1,6 @@
 "use client";
 
-import { Category, Occasion, Product } from "@prisma/client";
+import { Category, Occasion, Product } from "@/generated/prisma";
 import {
   Table,
   TableBody,

@@ -1,7 +1,7 @@
 import { getProducts } from "@/actions/product";
 import { getAllOrders } from "@/actions/order";
 import AnalyticsDashboard from "@/components/crm/analytics/AnalyticsDashboard";
-import { Order, OrderItem, Product, Role } from "@prisma/client";
+import { Order, OrderItem, Product, Role } from "@/generated/prisma";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 

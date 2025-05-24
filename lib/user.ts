@@ -1,13 +1,13 @@
 import bcrypt from "bcrypt";
-import prisma from "./prisma";
-import { Role } from "@prisma/client";
+import { prisma } from "./prisma";
+import { Role } from "@/generated/prisma";
 
 export async function createUser(
   login: string,
   firstName: string,
   lastName: string,
   role: Role,
-  password: string,
+  password: string
 ) {
   try {
     const user = await prisma.user.findUnique({

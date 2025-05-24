@@ -1,8 +1,7 @@
 "use server";
-import { PaymentStatus, Order } from "@prisma/client";
-import prisma from "@/lib/prisma";
+import { PaymentStatus, Order, OrderStatus } from "@/generated/prisma";
+import { prisma } from "@/lib/prisma";
 import { CartItem } from "@/types";
-import { OrderStatus } from "@prisma/client";
 type CreateOrderParams = {
   customerName: string;
   customerEmail: string;
@@ -18,7 +17,9 @@ type CreateOrderParams = {
   items: CartItem[];
 };
 
-export async function createOrder(data: CreateOrderParams): Promise<{ success: boolean, orderId?: number, error?: string }> {
+export async function createOrder(
+  data: CreateOrderParams
+): Promise<{ success: boolean; orderId?: number; error?: string }> {
   try {
     // Create order with items
     const order = await prisma.order.create({
@@ -69,7 +70,7 @@ export async function getOrderById(id: number): Promise<Order | null> {
 export async function updateOrderPaymentStatus(
   orderId: number,
   paymentStatus: PaymentStatus,
-  paymentIntentId?: string,
+  paymentIntentId?: string
 ): Promise<Order | null> {
   return prisma.order.update({
     where: { id: orderId },
@@ -82,7 +83,7 @@ export async function updateOrderPaymentStatus(
 
 export async function getAllOrders(): Promise<Order[] | null> {
   return prisma.order.findMany({
-    orderBy: { createdAt: 'desc' },
+    orderBy: { createdAt: "desc" },
     include: {
       items: {
         include: {
@@ -93,11 +94,17 @@ export async function getAllOrders(): Promise<Order[] | null> {
   });
 }
 
-export async function updateOrderStatus(orderId: number, status: OrderStatus): Promise<Order | null> {
+export async function updateOrderStatus(
+  orderId: number,
+  status: OrderStatus
+): Promise<Order | null> {
   const order = await prisma.order.findUnique({
     where: { id: orderId },
   });
-  if (status === OrderStatus.COMPLETED && order?.paymentStatus !== PaymentStatus.PAID)
+  if (
+    status === OrderStatus.COMPLETED &&
+    order?.paymentStatus !== PaymentStatus.PAID
+  )
     throw new Error("Order is not paid");
   return prisma.order.update({
     where: { id: orderId },

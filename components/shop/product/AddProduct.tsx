@@ -1,7 +1,7 @@
 "use client";
 import AddToCartButton from "@/components/AddToCartButton";
 import ProductQuantity from "@/components/ProductQuantity";
-import { Product } from "@prisma/client";
+import { Product } from "@/generated/prisma";
 import { useState } from "react";
 
 export default function AddProduct({ product }: { product: Product }) {

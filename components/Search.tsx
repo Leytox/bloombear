@@ -5,7 +5,7 @@ import { Input } from "./ui/input";
 import { useDebounceValue } from "usehooks-ts";
 import { RefObject, useEffect, useRef, useState } from "react";
 import { searchProducts } from "@/actions/product";
-import { Product } from "@prisma/client";
+import { Product } from "@/generated/prisma";
 import { useOnClickOutside } from "usehooks-ts";
 import Link from "next/link";
 import { Badge } from "./ui/badge";

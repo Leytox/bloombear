@@ -18,7 +18,7 @@ import { getProductDetails, updateProduct } from "@/actions/product";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { Textarea } from "@/components/ui/textarea";
-import { Category, Occasion, Product } from "@prisma/client";
+import { Category, Occasion, Product } from "@/generated/prisma";
 import {
   Select,
   SelectContent,

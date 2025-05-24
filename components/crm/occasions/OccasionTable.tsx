@@ -1,6 +1,6 @@
 "use client";
 
-import { Occasion } from "@prisma/client";
+import { Occasion } from "@/generated/prisma";
 import {
   Table,
   TableBody,

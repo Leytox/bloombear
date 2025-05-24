@@ -1,4 +1,4 @@
-import { Role } from "@prisma/client";
+import { Role } from "@/generated/prisma";
 import { createUser } from "@/lib/user";
 
 async function createAdmin() {

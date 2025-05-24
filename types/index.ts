@@ -1,4 +1,4 @@
-import { Product } from "@prisma/client";
+import { Product } from "@/generated/prisma";
 
 export type CartItem = {
   productId: number;

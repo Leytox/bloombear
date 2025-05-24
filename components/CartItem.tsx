@@ -6,7 +6,7 @@ import { useCartStore } from "@/store/useCartStore";
 import { Trash2Icon } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
-import { Product } from "@prisma/client";
+import { Product } from "@/generated/prisma";
 import ProductQuantity from "./ProductQuantity";
 import { CldImage } from "next-cloudinary";
 

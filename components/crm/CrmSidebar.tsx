@@ -23,7 +23,7 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import { auth } from "@/auth";
-import { Role } from "@prisma/client";
+import { Role } from "@/generated/prisma";
 
 // Main
 const mainItems = [

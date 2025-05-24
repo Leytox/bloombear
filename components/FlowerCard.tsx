@@ -7,7 +7,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Link from "next/link";
-import { Product } from "@prisma/client";
+import { Product } from "@/generated/prisma";
 import { Badge } from "@/components/ui/badge";
 import {
   Tooltip,

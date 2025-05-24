@@ -1,8 +1,8 @@
 "use server";
 
-import prisma from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-import { Occasion } from "@prisma/client";
+import { Occasion } from "@/generated/prisma";
 import { deleteImage } from "./cloudinary";
 export async function createOccasion({
   name,
@@ -46,8 +46,7 @@ export async function updateOccasion({
 }): Promise<Occasion | null> {
   try {
     const oldOccasion = await prisma.occasion.findUnique({ where: { id } });
-    if (oldOccasion?.image)
-      await deleteImage(oldOccasion.image);
+    if (oldOccasion?.image) await deleteImage(oldOccasion.image);
 
     const occasion = await prisma.occasion.update({
       where: { id },

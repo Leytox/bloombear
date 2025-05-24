@@ -1,5 +1,5 @@
 "use server";
-import { Role } from "@prisma/client";
+import { Role } from "@/generated/prisma";
 import { signIn, signOut } from "@/auth";
 import { createUser } from "@/lib/user";
 

@@ -5,7 +5,7 @@ import { z, ZodFormattedError } from "zod";
 import { formatAmountForStripe } from "@/lib/stripe";
 import { CartItem } from "@/types";
 import { createOrder, updateOrderPaymentStatus } from "./order";
-import { PaymentStatus } from "@prisma/client";
+import { PaymentStatus } from "@/generated/prisma";
 // Initialize Stripe
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2025-02-24.acacia",
@@ -30,8 +30,14 @@ export type CheckoutFormData = z.infer<typeof checkoutSchema>;
 export async function createPaymentIntent(
   items: CartItem[],
   amount: number,
-  customerDetails: CheckoutFormData,
-): Promise<{success: boolean, error?: string, details?: ZodFormattedError<CheckoutFormData>, clientSecret?: string | null, orderId?: number}> {
+  customerDetails: CheckoutFormData
+): Promise<{
+  success: boolean;
+  error?: string;
+  details?: ZodFormattedError<CheckoutFormData>;
+  clientSecret?: string | null;
+  orderId?: number;
+}> {
   try {
     // Validate the items array
     if (!items?.length) return { success: false, error: "No items in cart" };
@@ -77,7 +83,7 @@ export async function createPaymentIntent(
     await updateOrderPaymentStatus(
       orderResult.orderId!,
       PaymentStatus.PENDING,
-      paymentIntent.id,
+      paymentIntent.id
     );
 
     return {
@@ -110,7 +116,7 @@ export async function verifyPaymentIntent(paymentIntentId: string) {
         paymentIntent.status === "succeeded"
           ? PaymentStatus.PAID
           : PaymentStatus.FAILED,
-        paymentIntentId,
+        paymentIntentId
       );
     }
 

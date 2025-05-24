@@ -15,7 +15,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Card, CardContent } from "@/components/ui/card";
 import { toast } from "sonner";
 import Link from "next/link";
-import { Product } from "@prisma/client";
+import { Product } from "@/generated/prisma";
 import AddToCartButton from "./AddToCartButton";
 import { Badge } from "./ui/badge";
 import {

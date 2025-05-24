@@ -19,7 +19,7 @@ import { createProduct } from "@/actions/product";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { Textarea } from "@/components/ui/textarea";
-import { Category, Occasion } from "@prisma/client";
+import { Category, Occasion } from "@/generated/prisma";
 import {
   Select,
   SelectContent,

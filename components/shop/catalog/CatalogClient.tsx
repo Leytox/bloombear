@@ -28,7 +28,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import FlowerCard from "@/components/FlowerCard";
-import { Category, Occasion, Product } from "@prisma/client";
+import { Category, Occasion, Product } from "@/generated/prisma";
 import { getFilteredProducts } from "@/actions/product";
 import { Input } from "@/components/ui/input";
 import { useDebounceValue } from "usehooks-ts";

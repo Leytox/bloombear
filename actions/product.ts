@@ -1,7 +1,7 @@
 "use server";
 
-import prisma from "@/lib/prisma";
-import { Category, Occasion, Prisma, Product } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
+import { Category, Occasion, Prisma, Product } from "@/generated/prisma";
 import { revalidatePath } from "next/cache";
 import { deleteImage } from "./cloudinary";
 export type ProductWithOccasions = Product & {
@@ -19,7 +19,7 @@ export type ProductFilterParams = {
 };
 
 export async function getFilteredProducts(
-  filters: ProductFilterParams = {},
+  filters: ProductFilterParams = {}
 ): Promise<Product[] | null> {
   const {
     categoryIds = [],
@@ -118,7 +118,7 @@ export async function getProduct(id: number): Promise<Product | null> {
 }
 
 export async function getSimilarProducts(
-  categoryId: number,
+  categoryId: number
 ): Promise<Product[] | null> {
   return prisma.product.findMany({
     where: {
@@ -205,7 +205,9 @@ export async function createProduct({
     }
 
     revalidatePath("/products");
-    revalidatePath("/catalog");revalidatePath(`/product/${product.id}`);revalidatePath("/");
+    revalidatePath("/catalog");
+    revalidatePath(`/product/${product.id}`);
+    revalidatePath("/");
     return product;
   } catch (error) {
     console.error("Failed to create product:", error);
@@ -214,7 +216,7 @@ export async function createProduct({
 }
 
 export async function getProductDetails(
-  id: number,
+  id: number
 ): Promise<ProductWithOccasions | null> {
   try {
     const product = await prisma.product.findUnique({
@@ -270,9 +272,8 @@ export async function updateProduct({
     });
 
     const oldProduct = await prisma.product.findUnique({ where: { id } });
-    if (oldProduct?.image)
-      await deleteImage(oldProduct.image);
-    
+    if (oldProduct?.image) await deleteImage(oldProduct.image);
+
     const product = await prisma.product.update({
       where: { id },
       data: {
@@ -298,7 +299,8 @@ export async function updateProduct({
 
     revalidatePath("/products");
     revalidatePath("/catalog");
-    revalidatePath(`/product/${id}`);revalidatePath("/");
+    revalidatePath(`/product/${id}`);
+    revalidatePath("/");
 
     return product;
   } catch (error) {

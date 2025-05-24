@@ -1,7 +1,7 @@
 "use server";
 
-import prisma from "@/lib/prisma";
-import { Category } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
+import { Category } from "@/generated/prisma";
 import { revalidatePath } from "next/cache";
 import slugify from "slugify";
 import { deleteImage } from "./cloudinary";
@@ -52,8 +52,7 @@ export async function updateCategory({
 
   try {
     const oldCategory = await prisma.category.findUnique({ where: { id } });
-    if (oldCategory?.image)
-      await deleteImage(oldCategory.image);
+    if (oldCategory?.image) await deleteImage(oldCategory.image);
 
     const category = await prisma.category.update({
       where: { id },

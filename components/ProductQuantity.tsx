@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { MinusIcon, PlusIcon } from "lucide-react";
-import { Product } from "@prisma/client";
+import { Product } from "@/generated/prisma";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { useCartStore } from "@/store/useCartStore";

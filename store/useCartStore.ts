@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { Product } from "@prisma/client";
+import { Product } from "@/generated/prisma";
 import { Cart } from "@/types";
 
 interface CartState {
@@ -30,7 +30,7 @@ export const useCartStore = create<CartState>()(
       addItem: (product: Product, quantity = 1) => {
         const { cart } = get();
         const existingItemIndex = cart.items.findIndex(
-          (item) => item.productId === product.id,
+          (item) => item.productId === product.id
         );
 
         const newItems = [...cart.items];
@@ -53,7 +53,7 @@ export const useCartStore = create<CartState>()(
           totalItems: newItems.reduce((sum, item) => sum + item.quantity, 0),
           totalPrice: newItems.reduce(
             (sum, item) => sum + item.product.price * item.quantity,
-            0,
+            0
           ),
         };
 
@@ -66,7 +66,7 @@ export const useCartStore = create<CartState>()(
       removeItem: (productId: number) => {
         const { cart } = get();
         const newItems = cart.items.filter(
-          (item) => item.productId !== productId,
+          (item) => item.productId !== productId
         );
 
         const newCart = {
@@ -74,7 +74,7 @@ export const useCartStore = create<CartState>()(
           totalItems: newItems.reduce((sum, item) => sum + item.quantity, 0),
           totalPrice: newItems.reduce(
             (sum, item) => sum + item.product.price * item.quantity,
-            0,
+            0
           ),
         };
 
@@ -90,7 +90,7 @@ export const useCartStore = create<CartState>()(
         }
 
         const newItems = cart.items.map((item) =>
-          item.productId === productId ? { ...item, quantity } : item,
+          item.productId === productId ? { ...item, quantity } : item
         );
 
         const newCart = {
@@ -98,7 +98,7 @@ export const useCartStore = create<CartState>()(
           totalItems: newItems.reduce((sum, item) => sum + item.quantity, 0),
           totalPrice: newItems.reduce(
             (sum, item) => sum + item.product.price * item.quantity,
-            0,
+            0
           ),
         };
 
@@ -114,6 +114,6 @@ export const useCartStore = create<CartState>()(
     }),
     {
       name: "cart-storage",
-    },
-  ),
+    }
+  )
 );

@@ -11,7 +11,7 @@ import {
   ArrowDownIcon,
   ArrowUpIcon,
 } from "lucide-react";
-import { Order, Product } from "@prisma/client";
+import { Order, Product } from "@/generated/prisma";
 import { CldImage } from "next-cloudinary";
 import {
   Table,
