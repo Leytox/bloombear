@@ -1,4 +1,4 @@
-import NextAuth, { CredentialsSignin } from "next-auth";
+import NextAuth, { AuthError } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import authConfig from "./auth.config";
@@ -22,15 +22,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           .safeParse(credentials);
 
         if (!parsedCredentials.success)
-          throw new Error("Incorrect data format");
+          throw new Error(parsedCredentials.error.message);
 
         const { login, password } = parsedCredentials.data;
         const user = await getUserByLogin(login);
 
         if (!user) throw new Error("No user found");
         const passwordsMatch = bcrypt.compareSync(password, user.password);
-        if (!passwordsMatch)
-          throw new CredentialsSignin("Password is incorrect");
+        if (!passwordsMatch) throw new AuthError("Password is incorrect");
 
         return {
           id: user.id,

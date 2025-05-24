@@ -1,9 +1,7 @@
 import { getProducts } from "@/actions/product";
 import { getAllOrders } from "@/actions/order";
 import AnalyticsDashboard from "@/components/crm/analytics/AnalyticsDashboard";
-import { Order, OrderItem, Product, Role } from "@/generated/prisma";
-import { auth } from "@/auth";
-import { redirect } from "next/navigation";
+import { Order, OrderItem, Product } from "@/generated/prisma";
 
 type OrderWithItems = Order & {
   items: (OrderItem & {
@@ -12,8 +10,6 @@ type OrderWithItems = Order & {
 };
 
 export default async function AnalyticsPage() {
-  const session = await auth();
-  if (session?.user?.role === Role.STAFF) redirect("/orders");
   const products = await getProducts();
   const orders = (await getAllOrders()) as OrderWithItems[];
 

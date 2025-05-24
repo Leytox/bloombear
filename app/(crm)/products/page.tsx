@@ -12,13 +12,8 @@ import AddProductDialog from "@/components/crm/products/AddProductDialog";
 import ProductTable from "@/components/crm/products/ProductTable";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { redirect } from "next/navigation";
-import { auth } from "@/auth";
-import { Role } from "@/generated/prisma";
 
 export default async function Products() {
-  const session = await auth();
-  if (session?.user?.role === Role.STAFF) redirect("/orders");
   const [products, categories, occasions] = await Promise.all([
     getProducts(),
     getCategories(),

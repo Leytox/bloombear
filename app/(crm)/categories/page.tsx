@@ -10,13 +10,8 @@ import CategoryTable from "@/components/crm/categories/CategoryTable";
 import AddCategoryDialog from "@/components/crm/categories/AddCategoryDialog";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Role } from "@/generated/prisma";
-import { auth } from "@/auth";
-import { redirect } from "next/navigation";
 
 export default async function Categories() {
-  const session = await auth();
-  if (session?.user?.role === Role.STAFF) redirect("/orders");
   const categories = await getCategories();
 
   return (

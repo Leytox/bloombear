@@ -8,7 +8,7 @@ export async function signUp(
   firstName: string,
   lastName: string,
   role: Role,
-  password: string,
+  password: string
 ) {
   try {
     await createUser(login, firstName, lastName, role, password);
@@ -19,17 +19,12 @@ export async function signUp(
 }
 
 export async function signInCredentials(login: string, password: string) {
-  try {
-    await signIn("credentials", {
-      login,
-      password,
-      redirect: false,
-    });
-    return { success: true };
-  } catch (error) {
-    console.error(error);
-    throw new Error(error instanceof Error ? error.message : "Unknown error");
-  }
+  await signIn("credentials", {
+    login,
+    password,
+    redirect: false,
+  });
+  return { success: true };
 }
 
 export async function signOutAll() {
