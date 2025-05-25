@@ -46,7 +46,7 @@ import Link from "next/link";
 import { createPaymentIntent, CheckoutFormData } from "@/actions/payment";
 import StripeProvider from "@/components/StripeProvider";
 import StripeCheckoutForm from "@/components/CheckoutForm";
-import { format } from "date-fns/format";
+import { format } from "date-fns";
 import { createOrder } from "@/actions/order";
 
 const phoneRegex = /^\+?[0-9]{10,15}$/;
@@ -94,7 +94,7 @@ const formSchema = z
     {
       message: "Please provide details about your location",
       path: ["locationDetails"],
-    },
+    }
   );
 
 export default function CheckoutForm() {
@@ -132,7 +132,7 @@ export default function CheckoutForm() {
         : (place === "Berlin" ? 0 : place === "Berlin Outskirts" ? 10 : 20) +
             cart.totalPrice / 4;
     },
-    [cart.totalPrice],
+    [cart.totalPrice]
   );
 
   useEffect(() => {
@@ -194,7 +194,7 @@ export default function CheckoutForm() {
       const result = await createPaymentIntent(
         cart.items,
         totalPrice, // Use calculated total with delivery fee
-        formattedValues,
+        formattedValues
       );
 
       if (!result.success) {
@@ -388,7 +388,7 @@ export default function CheckoutForm() {
                               variant={"outline"}
                               className={cn(
                                 "w-full pl-3 text-left font-normal",
-                                !field.value && "text-muted-foreground",
+                                !field.value && "text-muted-foreground"
                               )}
                             >
                               {field.value ? (
