@@ -21,10 +21,10 @@ const Header = () => {
           <div className="flex gap-2">
             <Link
               href="/"
-              className="flex items-center gap-2 max-md:mx-auto md:mx-0"
+              className="flex items-center gap-2 max-md:mx-auto mx-0"
             >
-              <h1 className="flex items-center gap-1 text-foreground text-4xl font-semibold tracking-tight max-md:text-2xl max-xl:text-3xl">
-                <div className="relative size-10 max-sm:size-8">
+              <h1 className="flex items-center gap-1 text-foreground text-4xl font-semibold tracking-tight max-sm:text-xl max-md:text-2xl max-xl:text-3xl">
+                <div className="relative size-10 max-sm:size-6">
                   <Image
                     className="object-fit"
                     fill
@@ -40,7 +40,7 @@ const Header = () => {
             <Search />
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 max-sm:gap-2">
             <nav className="max-lg:hidden">
               <ul className="flex items-center justify-center gap-6 max-xl:gap-4 font-onest text-md font-semibold text-sm max-xl:text-xs">
                 <li title="Catalog">

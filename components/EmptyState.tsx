@@ -7,8 +7,9 @@ export default function EmptyState() {
         We couldn&apos;t find any results <FrownIcon />
       </h3>
       <p className="text-muted-foreground flex items-center justify-center gap-2">
-        Try changing the filter parameters <FilterIcon /> or change the price
-        range <SlidersHorizontalIcon />
+        Try changing the filter parameters{" "}
+        <FilterIcon className="max-md:hidden" /> or change the price range{" "}
+        <SlidersHorizontalIcon className="max-md:hidden" />
       </p>
     </div>
   );

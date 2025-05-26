@@ -144,8 +144,6 @@ export default function CatalogClient({
     (updates: Partial<FilterState>, resetPage = true) => {
       setFilterState((prev) => ({ ...prev, ...updates }));
 
-      // Only fetch immediately if it's not a price range update
-      // Price range updates will be handled by the useEffect with debounced value
       if (!updates.priceRange) {
         fetchFilteredProducts(resetPage);
       }
@@ -187,12 +185,10 @@ export default function CatalogClient({
         </BreadcrumbList>
       </Breadcrumb>
 
-      {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4 sm:mb-6 md:mb-8">
         <h1 className="text-2xl sm:text-2xl md:text-3xl font-bold">{title}</h1>
 
         <div className="flex items-center gap-2 sm:gap-4 w-full sm:w-auto">
-          {/* Desktop Filter Toggle */}
           <Button
             variant="outline"
             className="hidden lg:flex items-center"
@@ -202,13 +198,11 @@ export default function CatalogClient({
             {showFilters ? "Hide Filters" : "Show Filters"}
           </Button>
 
-          {/* Sort Dropdown */}
           <SortSelector
             value={filterState.sortBy}
             onChange={(sortBy) => handleFilterChange({ sortBy })}
           />
 
-          {/* Mobile Filters */}
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="outline" className="sm:inline-flex lg:hidden">
@@ -245,9 +239,7 @@ export default function CatalogClient({
         </div>
       </div>
 
-      {/* Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
-        {/* Desktop Filters */}
         {showFilters && (
           <div className="hidden lg:block">
             <Card>
@@ -277,7 +269,6 @@ export default function CatalogClient({
           </div>
         )}
 
-        {/* Products */}
         <div className={showFilters ? "lg:col-span-3" : "lg:col-span-4"}>
           {isPending ? (
             <LoadingIndicator />
@@ -289,7 +280,6 @@ export default function CatalogClient({
                 ))}
               </div>
 
-              {/* Pagination */}
               {totalPages > 1 && (
                 <PaginationControl
                   currentPage={currentPage}
@@ -352,7 +342,6 @@ function FilterPanel({
 
   return (
     <div className="space-y-2">
-      {/* Reset button at the top */}
       {hasActiveFilters && (
         <Button
           variant="outline"
@@ -364,32 +353,45 @@ function FilterPanel({
         </Button>
       )}
 
-      {/* Filter sections */}
       <div className="space-y-2">
         <FilterSection title="Categories">
-          {categories.map((category) => (
-            <FilterCheckbox
-              key={category.id}
-              id={`category-${category.id}`}
-              label={category.name}
-              checked={categoryIds.includes(category.id)}
-              onChange={(checked) => handleCategoryToggle(category.id, checked)}
-              disabled={isPending}
-            />
-          ))}
+          {categories.length > 0 ? (
+            categories.map((category) => (
+              <FilterCheckbox
+                key={category.id}
+                id={`category-${category.id}`}
+                label={category.name}
+                checked={categoryIds.includes(category.id)}
+                onChange={(checked) =>
+                  handleCategoryToggle(category.id, checked)
+                }
+                disabled={isPending}
+              />
+            ))
+          ) : (
+            <p className="text-sm text-muted-foreground">
+              No categories found.
+            </p>
+          )}
         </FilterSection>
 
         <FilterSection title="Occasions">
-          {occasions.map((occasion) => (
-            <FilterCheckbox
-              key={occasion.id}
-              id={`occasion-${occasion.id}`}
-              label={occasion.name}
-              checked={occasionIds.includes(occasion.id)}
-              onChange={(checked) => handleOccasionToggle(occasion.id, checked)}
-              disabled={isPending}
-            />
-          ))}
+          {occasions.length > 0 ? (
+            occasions.map((occasion) => (
+              <FilterCheckbox
+                key={occasion.id}
+                id={`occasion-${occasion.id}`}
+                label={occasion.name}
+                checked={occasionIds.includes(occasion.id)}
+                onChange={(checked) =>
+                  handleOccasionToggle(occasion.id, checked)
+                }
+                disabled={isPending}
+              />
+            ))
+          ) : (
+            <p className="text-sm text-muted-foreground">No occasions found.</p>
+          )}
         </FilterSection>
 
         <FilterSection title="Price Range">
