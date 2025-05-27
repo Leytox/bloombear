@@ -20,7 +20,7 @@ export default function CallToAction() {
           <Button
             size="lg"
             variant="secondary"
-            className="h-12 px-6 text-base transition-all duration-300 hover:shadow-lg hover:shadow-primary/20"
+            className="h-12 px-6 text-base transition-all duration-300"
           >
             Contact us <PhoneCall />
           </Button>

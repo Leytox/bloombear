@@ -14,7 +14,7 @@ import Autoplay from "embla-carousel-autoplay";
 export default function Bouquets({ products }: { products: Product[] }) {
   return (
     <section className="py-16 md:py-24 bg-background relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none" />
+      <div className="absolute inset-0 pointer-events-none" />
       <div className="container mx-auto px-4 relative">
         <div className="text-center mb-12">
           <div className="inline-flex items-center justify-center size-16 rounded-full bg-primary/10 mb-6">
@@ -47,7 +47,7 @@ export default function Bouquets({ products }: { products: Product[] }) {
               {products.map((product: Product) => (
                 <CarouselItem
                   key={product.id}
-                  className="basis-full sm:basis-1/2 lg:basis-1/3 pl-4 transition-all duration-300"
+                  className="basis-full sm:basis-1/2 lg:basis-1/3 pl-4 transition-all duration-300 mx-2 max-sm:mx-0"
                 >
                   <div className="h-full">
                     <FlowerCard key={product.id} product={product} />

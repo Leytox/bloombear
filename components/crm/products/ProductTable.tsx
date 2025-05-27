@@ -190,16 +190,16 @@ export default function ProductTable({
                   <TableCell>
                     {product.inStock ? (
                       <Badge
-                        variant="outline"
-                        className="bg-green-50 text-green-700 border-green-200 flex items-center gap-1 w-fit"
+                        variant="default"
+                        className="flex items-center gap-1 w-fit"
                       >
                         <CheckCircleIcon className="h-3.5 w-3.5" />
                         In Stock
                       </Badge>
                     ) : (
                       <Badge
-                        variant="outline"
-                        className="bg-red-50 text-red-700 border-red-200 flex items-center gap-1 w-fit"
+                        variant="destructive"
+                        className="flex items-center gap-1 w-fit"
                       >
                         <AlertCircleIcon className="h-3.5 w-3.5" />
                         Out of Stock

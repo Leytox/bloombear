@@ -23,7 +23,6 @@ export default function Newsletter() {
 
   return (
     <section className="py-16 md:py-24 bg-background relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none" />
       <div className="container mx-auto px-4 relative">
         <div className="max-w-2xl mx-auto text-center">
           <div className="inline-flex items-center justify-center size-16 rounded-full bg-primary/10 mb-6">
@@ -47,13 +46,13 @@ export default function Newsletter() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="flex-1 h-12 text-base rounded-r-none transition-all duration-300 focus:ring-2 focus:ring-primary/20 max-md:rounded-r-md"
+              className="flex-1 h-12 text-base rounded-r-none transition-all duration-300 max-md:rounded-r-md"
             />
             <Button
               type="submit"
               size="lg"
               disabled={isSubmitting}
-              className="h-12 px-6 text-base rounded-l-none transition-all duration-300 hover:shadow-lg hover:shadow-primary/20 max-md:rounded-l-md"
+              className="h-12 px-6 text-base rounded-l-none transition-all duration-300 max-md:rounded-l-md"
             >
               <PenIcon className="mr-2 size-5" />
               {isSubmitting ? "Subscribing..." : "Subscribe"}

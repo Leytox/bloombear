@@ -21,6 +21,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
 type DashboardData = {
   metrics: {
     totalRevenue: number | undefined;
@@ -158,13 +159,11 @@ export default function DashboardContent({ data }: { data: DashboardData }) {
                     <span className="font-medium">
                       €{product.price.toLocaleString()}
                     </span>
-                    <span
-                      className={`text-sm ${
-                        product.inStock ? "text-green-500" : "text-red-500"
-                      }`}
+                    <Badge
+                      variant={product.inStock ? "default" : "destructive"}
                     >
                       {product.inStock ? "In Stock" : "Out of Stock"}
-                    </span>
+                    </Badge>
                   </div>
                 </div>
               </Card>

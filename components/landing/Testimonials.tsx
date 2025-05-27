@@ -11,7 +11,6 @@ import {
 export default function Testimonials() {
   return (
     <section className="py-16 md:py-24 bg-background relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none" />
       <div className="container mx-auto px-4 relative">
         <div className="text-center mb-12">
           <div className="inline-flex items-center justify-center size-16 rounded-full bg-primary/10 mb-6">
@@ -32,7 +31,7 @@ export default function Testimonials() {
           {testimonials.map((testimonial) => (
             <Card
               key={testimonial.id}
-              className="h-full flex flex-col transition-all duration-300 hover:shadow-lg hover:-translate-y-1 border-2 border-transparent hover:border-primary/20"
+              className="h-full flex flex-col transition-all duration-300 hover:-translate-y-1 border-2 border-transparent hover:border-primary/20"
             >
               <CardHeader className="pb-2">
                 <div className="flex items-center">

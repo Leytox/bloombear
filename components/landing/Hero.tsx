@@ -98,7 +98,7 @@ export default function Hero() {
                         <Link href="/catalog">
                           <Button
                             size="lg"
-                            className="text-base md:text-lg px-8 md:px-10 bg-white text-black hover:bg-white/90 transition-all duration-300 hover:shadow-lg hover:shadow-white/20"
+                            className="text-base md:text-lg px-8 md:px-10 bg-white text-black transition-all duration-300"
                           >
                             Explore Collection{" "}
                             <ArrowRightIcon className="ml-2 size-5" />
@@ -108,7 +108,7 @@ export default function Hero() {
                           <Button
                             size="lg"
                             variant="outline"
-                            className="text-base md:text-lg px-8 md:px-10 border-white text-white hover:bg-white/10 transition-all duration-300 hover:shadow-lg hover:shadow-white/10"
+                            className="text-base md:text-lg px-8 md:px-10 border-white text-white transition-all duration-300"
                           >
                             Custom Order <HeartIcon className="ml-2 size-5" />
                           </Button>
@@ -122,8 +122,8 @@ export default function Hero() {
           )}
         </CarouselContent>
         <div className="absolute bottom-8 left-0 right-0 flex justify-center gap-4">
-          <CarouselPrevious className="static translate-y-0 left-0 bg-white/20 hover:bg-white/30 border-none transition-all duration-300 hover:shadow-lg hover:shadow-white/20" />
-          <CarouselNext className="static translate-y-0 right-0 bg-white/20 hover:bg-white/30 border-none transition-all duration-300 hover:shadow-lg hover:shadow-white/20" />
+          <CarouselPrevious className="static translate-y-0 left-0 bg-white/20  border-none transition-all duration-300" />
+          <CarouselNext className="static translate-y-0 right-0 bg-white/20  border-none transition-all duration-300" />
         </div>
       </Carousel>
     </section>

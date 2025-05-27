@@ -108,6 +108,9 @@ export default function EmployeesTable({ employees }: { employees: User[] }) {
                         />
                       </DialogTrigger>
                       <DialogContent>
+                        <DialogHeader>
+                          <DialogTitle>Change image</DialogTitle>
+                        </DialogHeader>
                         <ImageUpload
                           value={employee.image || ""}
                           onChange={(value) =>

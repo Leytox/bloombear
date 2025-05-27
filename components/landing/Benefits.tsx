@@ -21,10 +21,10 @@ export default function Benefits() {
           {deliveryBenefits.map((benefit) => (
             <Card
               key={benefit.title}
-              className="text-center transition-all duration-300 hover:shadow-lg hover:-translate-y-1 border-2 hover:border-primary/20"
+              className="text-center transition-all duration-300 hover:-translate-y-1 border-2"
             >
               <CardHeader>
-                <div className="mx-auto size-16 rounded-full bg-primary/10 flex items-center justify-center mb-4 transition-colors duration-300 group-hover:bg-primary/20">
+                <div className="mx-auto size-16 rounded-full bg-primary/10 flex items-center justify-center mb-4 transition-colors duration-300">
                   <benefit.icon className="size-8 text-primary" />
                 </div>
                 <CardTitle className="text-xl font-semibold mb-2">
