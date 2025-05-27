@@ -1,4 +1,4 @@
-import { getAllComments } from "@/actions/comments";
+import { getEmployees } from "@/actions/employees";
 import {
   Card,
   CardContent,
@@ -8,30 +8,33 @@ import {
 } from "@/components/ui/card";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import CommentsTable from "@/components/crm/comments/CommentsTable";
+import EmployeesTable from "@/components/crm/employees/EmployeesTable";
 
-export default async function Comments() {
-  const comments = await getAllComments();
+export default async function Employees() {
+  const employees = await getEmployees();
 
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Comments</h1>
-          <p className="text-muted-foreground">Manage comments</p>
+          <h1 className="text-3xl font-bold tracking-tight">Employees</h1>
+          <p className="text-muted-foreground">
+            Manage employees of your flower shop
+          </p>
         </div>
       </div>
+
       <Card>
         <CardHeader>
-          <CardTitle>All Categories</CardTitle>
+          <CardTitle>All Employees</CardTitle>
           <CardDescription>
-            {comments?.length} {comments?.length === 1 ? "comment" : "comments"}{" "}
-            total
+            {employees?.length}{" "}
+            {employees?.length === 1 ? "employee" : "employees"} total
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Suspense fallback={<CommentsTableSkeleton />}>
-            <CommentsTable comments={comments || []} />
+          <Suspense fallback={<EmployeesTableSkeleton />}>
+            <EmployeesTable employees={employees || []} />
           </Suspense>
         </CardContent>
       </Card>
@@ -39,7 +42,7 @@ export default async function Comments() {
   );
 }
 
-function CommentsTableSkeleton() {
+function EmployeesTableSkeleton() {
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">

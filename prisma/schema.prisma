@@ -108,6 +108,7 @@ model User {
   password  String
   login     String    @unique
   image     String?
+  isFired   Boolean   @default(false)
   accounts  Account[]
   sessions  Session[]
 

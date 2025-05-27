@@ -6,6 +6,7 @@ import {
   MessageCircleIcon,
   ScanBarcodeIcon,
   ShoppingBasketIcon,
+  UserIcon,
   UserPlusIcon,
 } from "lucide-react";
 
@@ -55,6 +56,11 @@ const databaseItems = [
     title: "Products",
     url: "/products",
     icon: ShoppingBasketIcon,
+  },
+  {
+    title: "Employees",
+    url: "/employees",
+    icon: UserIcon,
   },
   {
     title: "Register employee",
@@ -127,7 +133,7 @@ export async function CrmSidebar() {
         {session?.user?.role !== Role.STAFF && (
           <>
             <SidebarGroup>
-              <SidebarGroupLabel>Main</SidebarGroupLabel>
+              <SidebarGroupLabel>Information</SidebarGroupLabel>
               <SidebarGroupContent>
                 <SidebarMenu>
                   {analyticsItems.map((item) => (

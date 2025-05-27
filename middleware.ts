@@ -21,6 +21,7 @@ const ADMIN_ROUTES = [
   "/dashboard",
   "/occasions",
   "/orders",
+  "/employees",
 ];
 
 export const { auth } = NextAuth(authConfig);
