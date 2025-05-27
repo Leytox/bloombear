@@ -24,6 +24,9 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import Image from "next/image";
+import { getComments } from "@/actions/comments";
+import CommentCard from "@/components/shop/product/CommentCard";
+import NewComment from "@/components/shop/product/NewComment";
 
 export default async function ProductPage({
   params,
@@ -36,6 +39,7 @@ export default async function ProductPage({
   const product = await getProduct(id);
   if (!product) notFound();
   const similarProducts = await getSimilarProducts(product.categoryId);
+  const comments = await getComments(id);
   const filteredSimilarProducts = similarProducts
     ?.filter((p) => p.id !== product.id)
     .slice(0, 4);
@@ -212,6 +216,15 @@ export default async function ProductPage({
           </div>
         </section>
       )}
+      <div className="mt-16 md:mt-24">
+        <h2 className="text-2xl md:text-3xl font-bold mb-8">Comments</h2>
+        <NewComment productId={product.id} />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-10">
+          {comments?.map((comment) => (
+            <CommentCard key={comment.id} comment={comment} />
+          ))}
+        </div>
+      </div>
     </main>
   );
 }

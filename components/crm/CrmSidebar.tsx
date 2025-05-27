@@ -3,6 +3,7 @@ import {
   ChartAreaIcon,
   ChartColumnStackedIcon,
   LayoutDashboardIcon,
+  MessageCircleIcon,
   ScanBarcodeIcon,
   ShoppingBasketIcon,
   UserPlusIcon,
@@ -31,6 +32,11 @@ const mainItems = [
     title: "Orders",
     url: "/orders",
     icon: ScanBarcodeIcon,
+  },
+  {
+    title: "Comments",
+    url: "/comments",
+    icon: MessageCircleIcon,
   },
 ];
 

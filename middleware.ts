@@ -11,6 +11,7 @@ const PROTECTED_ROUTES = [
   "/occasions",
   "/orders",
   "/products",
+  "/comments",
   "/registration",
 ];
 
